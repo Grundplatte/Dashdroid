@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,15 +49,12 @@ public class MainMenuGrid extends BaseAdapter{
     @Override
     public long getItemId(int position) {
         // TODO: implement
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View grid;
-        View holder;
-
-        Log.d("TEST", "Position: " + position);
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext

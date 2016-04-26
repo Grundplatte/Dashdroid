@@ -15,6 +15,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RadioActivity" android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity android:name=".WeatherActivity" android:parentActivityName=".MainActivity">
+
+        </activity>
     </application>
 
 </manifest>

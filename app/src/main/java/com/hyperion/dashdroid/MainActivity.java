@@ -1,15 +1,15 @@
 package com.hyperion.dashdroid;
 
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.view.ViewGroup;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.GridLayout;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.ic_rss_feed_black_48dp,
             R.drawable.ic_today_black_48dp};
     int[] mTileWidth = {1, 1, 2, 1, 1};
+    Class[] mTileLink = {RadioActivity.class, WeatherActivity.class, RadioActivity.class, RadioActivity.class};
 
 
     @Override
@@ -37,5 +38,24 @@ public class MainActivity extends AppCompatActivity {
         MainMenuGrid adapter = new MainMenuGrid(MainActivity.this, mTileText, mIconId);
         mGrid = (GridView) findViewById(R.id.grid);
         mGrid.setAdapter(adapter);
+        mGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(getString(R.string.app_name), "Clicked: " + id);
+                // Launch Activity
+                Intent intent = new Intent(MainActivity.this, mTileLink[position]);
+                startActivity(intent);
+            }
+        });
+
+        mGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(getString(R.string.app_name), "Long click: " + id);
+                Toast toast = Toast.makeText(MainActivity.this, "Not implemented yet!", Toast.LENGTH_SHORT);
+                toast.show();
+                return true;
+            }
+        });
     }
 }
