@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Dashdroid</string>
+    <string name="dashboard_news">News</string>
+    <string name="dashboard_tv">Tv</string>
+    <string name="dashboard_radio">Radio</string>
+    <string name="dashboard_weather">Weather</string>
 </resources>
