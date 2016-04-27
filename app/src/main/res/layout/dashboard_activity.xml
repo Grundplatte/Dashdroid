@@ -26,7 +26,7 @@
                 android:layout_weight="1"
                 android:paddingTop="30dp"
                 android:drawableTop="@mipmap/news"
-                android:background="@drawable/dashboard_button_1"
+                android:background="@drawable/selector_button_1"
                 android:textSize="25dip"
                 android:textColor="@android:color/white"
                 android:text="@string/dashboard_news" />
