@@ -4,7 +4,9 @@
     android:layout_height="fill_parent"
     android:padding="5dp"
     android:id="@+id/tileLayout"
-    android:gravity="center">
+    android:gravity="center"
+    android:clickable="true"
+    android:background="@drawable/menu_button_style">
 
     <ImageView
         android:layout_width="wrap_content"
