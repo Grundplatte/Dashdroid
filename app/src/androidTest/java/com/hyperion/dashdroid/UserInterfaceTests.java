@@ -1,6 +1,10 @@
 package com.hyperion.dashdroid;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.AndroidTestCase;
+import android.view.View;
+import android.widget.GridLayout;
+import android.widget.ListView;
 
 import com.robotium.solo.Solo;
 
@@ -23,10 +27,15 @@ public class UserInterfaceTests extends ActivityInstrumentationTestCase2<MainAct
     public void tearDown() throws Exception {
     }
 
-    public void testMainMenuButtons()
+    public void testMainMenuButtons() throws Exception
     {
-        mySolo.clickInList(0,2);
-        mySolo.waitForActivity(RadioActivity.class);
-    }
+        GridLayout gridLayout = (GridLayout)mySolo.getView(R.id.gridLayout);
+        int elements = gridLayout.getChildCount();
 
+        for(int i = 0; i < elements; i++){
+            mySolo.clickOnView(gridLayout.getChildAt(i));
+            mySolo.sleep(1000);
+            mySolo.goBack();
+        }
+    }
 }
