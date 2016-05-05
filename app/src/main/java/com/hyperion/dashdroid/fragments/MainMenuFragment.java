@@ -1,9 +1,13 @@
 package com.hyperion.dashdroid.fragments;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +17,23 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyperion.dashdroid.MainActivity;
 import com.hyperion.dashdroid.R;
 
 /**
  * Created by Rainer on 05.05.2016.
  */
-public class MainMenuFragment extends Fragment{
+public final class MainMenuFragment extends Fragment{
+
+    private static MainMenuFragment instance = null;
+
+    public static synchronized MainMenuFragment getInstance()
+    {
+        if(instance == null) {
+            instance = new MainMenuFragment();
+        }
+        return instance;
+    }
 
     // FIXME: Just for testing
     private int[] mTileText = {R.string.menu_radio, R.string.menu_weather, R.string.menu_tv, R.string.menu_rss, R.string.menu_news};
@@ -29,6 +44,7 @@ public class MainMenuFragment extends Fragment{
             R.drawable.ic_today_black_48dp};
     private int[] mTileWidth = {1, 1, 2, 1, 1};
     private Class[] mTileLink = {RadioFragment.class, WeatherFragment.class, TVFragment.class, RSSFragment.class, NewsFragment.class};
+
 
     @Nullable
     @Override
@@ -71,6 +87,14 @@ public class MainMenuFragment extends Fragment{
             imageView.getLayoutParams().width = mTileWidth/2;
             view.setTag(i);
 
+            RelativeLayout relativeLayoutFront = (RelativeLayout)view.findViewById(R.id.tileLayoutFront);
+            relativeLayoutFront.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onClickTile(v);
+                }
+            });
+
             if(i == 0) {
                 gridLayout.addView(view, layoutParams);
             }
@@ -78,8 +102,29 @@ public class MainMenuFragment extends Fragment{
                 gridLayout.addView(view);
         }
         return gridView;
+    }
 
+    public void onClickTile(View v){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
+        int tag  = (int)((View)v.getParent()).getTag();
+
+        NavigationView navi = (NavigationView)getActivity().findViewById(R.id.nav_view);
+        navi.getMenu().getItem(tag+1).setChecked(true);
+
+        //TODO make it more dynamic
+        if (tag == 0) {
+            fragmentTransaction.replace(R.id.content_frame, RadioFragment.getInstance()).commit();
+        } else if (tag == 1) {
+            fragmentTransaction.replace(R.id.content_frame, WeatherFragment.getInstance()).commit();
+        } else if (tag == 2) {
+            fragmentTransaction.replace(R.id.content_frame, TVFragment.getInstance()).commit();
+        } else if (tag == 3) {
+            fragmentTransaction.replace(R.id.content_frame, RSSFragment.getInstance()).commit();
+        } else if (tag == 4) {
+            fragmentTransaction.replace(R.id.content_frame, NewsFragment.getInstance()).commit();
+        }
     }
 
 }

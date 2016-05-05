@@ -14,12 +14,20 @@ import com.hyperion.dashdroid.R;
  * Created by Markus on 26.04.2016.
  */
 public class WeatherFragment extends Fragment {
+
+    private static WeatherFragment instance = null;
+
+    public static synchronized WeatherFragment getInstance()
+    {
+        if(instance == null) {
+            instance = new WeatherFragment();
+        }
+        return instance;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("TAG", "bbb");
         return inflater.inflate(R.layout.fragment_radio, container, false);
-
-
     }
 }

@@ -1,5 +1,6 @@
 package com.hyperion.dashdroid;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.hyperion.dashdroid.fragments.MainMenuFragment;
 import com.hyperion.dashdroid.fragments.NewsFragment;
 import com.hyperion.dashdroid.fragments.RSSFragment;
 import com.hyperion.dashdroid.fragments.RadioFragment;
@@ -23,16 +25,6 @@ import com.hyperion.dashdroid.fragments.TVFragment;
 import com.hyperion.dashdroid.fragments.WeatherFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-
-    // FIXME: Just for testing
-    private int[] mTileText = {R.string.menu_radio, R.string.menu_weather, R.string.menu_tv, R.string.menu_rss, R.string.menu_news};
-    private int[] mIconId = {R.drawable.ic_radio_black_48dp,
-            R.drawable.ic_wb_sunny_black_48dp,
-            R.drawable.ic_tv_black_48dp,
-            R.drawable.ic_rss_feed_black_48dp,
-            R.drawable.ic_today_black_48dp};
-    private int[] mTileWidth = {1, 1, 2, 1, 1};
-    private Class[] mTileLink = {RadioFragment.class, WeatherFragment.class, TVFragment.class, RSSFragment.class, NewsFragment.class};
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,8 +53,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        fragmentTransaction.replace(R.id.content_frame, MainMenuFragment.getInstance()).commit();
+
 
     }
+
+    @Override
+    public void onBackPressed() {
+        View v = findViewById(R.id.gridLayout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if(v == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.content_frame, MainMenuFragment.getInstance()).commit();
+
+            NavigationView navi = (NavigationView)findViewById(R.id.nav_view);
+            navi.getMenu().getItem(0).setChecked(true);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
     public void onClickSettings(MenuItem item){
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         startActivity(intent);
@@ -70,11 +86,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void onClickAbout(MenuItem item){
         Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-        startActivity(intent);
-    }
-
-    public void onClickTile(View v){
-        Intent intent = new Intent(MainActivity.this, mTileLink[(int)((View)v.getParent()).getTag()]);
         startActivity(intent);
     }
 
@@ -101,20 +112,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (id == R.id.nav_camera) {
-            Log.d("TAG", "aaa");
-            fragmentTransaction.replace(R.id.content_frame, new WeatherFragment()).commit();
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_home) {
+            fragmentTransaction.replace(R.id.content_frame, MainMenuFragment.getInstance()).commit();
+        }else if (id == R.id.nav_radio) {
+            fragmentTransaction.replace(R.id.content_frame, RadioFragment.getInstance()).commit();
+        } else if (id == R.id.nav_weather) {
+            fragmentTransaction.replace(R.id.content_frame, WeatherFragment.getInstance()).commit();
+        } else if (id == R.id.nav_tv) {
+            fragmentTransaction.replace(R.id.content_frame, TVFragment.getInstance()).commit();
+        } else if (id == R.id.nav_rss) {
+            fragmentTransaction.replace(R.id.content_frame, RSSFragment.getInstance()).commit();
+        } else if (id == R.id.nav_news) {
+            fragmentTransaction.replace(R.id.content_frame, NewsFragment.getInstance()).commit();
+        } else if (id == R.id.nav_settings) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_about) {
 
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
