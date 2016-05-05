@@ -9,6 +9,7 @@
     android:layout_height="match_parent"
     android:columnCount="2"
     android:id="@+id/gridLayout"
+    android:background="#9E9E9E"
     android:isScrollContainer="false">
 </GridLayout>
 
