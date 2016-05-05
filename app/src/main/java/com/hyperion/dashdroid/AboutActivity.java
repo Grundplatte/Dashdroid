@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 
+import com.hyperion.dashdroid.R;
+
 /**
  * Created by Rainer on 28.04.2016.
  */

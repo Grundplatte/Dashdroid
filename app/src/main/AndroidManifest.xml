@@ -16,15 +16,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RadioActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".fragments.RadioFragment" android:parentActivityName=".MainActivity"/>
 
-        <activity android:name=".WeatherActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".fragments.WeatherFragment" android:parentActivityName=".MainActivity"/>
 
-        <activity android:name=".TVActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".fragments.TVFragment" android:parentActivityName=".MainActivity"/>
 
-        <activity android:name=".RSSActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".fragments.RSSFragment" android:parentActivityName=".MainActivity"/>
 
-        <activity android:name=".NewsActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".fragments.NewsFragment" android:parentActivityName=".MainActivity"/>
 
         <activity android:name=".AboutActivity" android:parentActivityName=".MainActivity" android:theme="@style/AppTheme.PopupTheme"/>
 
