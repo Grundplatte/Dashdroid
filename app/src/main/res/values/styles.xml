@@ -24,4 +24,7 @@
     <color name="dark_green">#00a94e</color>
     <color name="dark_green_1">#009846</color>
 
+    <color name="list_divider">#324a18</color>
+    <color name="list_background">#19250c</color>
+
 </resources>

@@ -3,6 +3,10 @@ package com.hyperion.dashdroid.uitest;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.hyperion.dashdroid.DashboardActivity;
+import com.hyperion.dashdroid.news.NewsModuleActivity;
+import com.hyperion.dashdroid.radio.RadioModuleActivity;
+import com.hyperion.dashdroid.tv.TvModuleActivity;
+import com.hyperion.dashdroid.weather.WeatherModuleActivity;
 import com.robotium.solo.Solo;
 
 /**
@@ -30,9 +34,22 @@ public class DashboardActivityTest extends ActivityInstrumentationTestCase2<Dash
 	public void testButtons() {
 
 		solo.clickOnButton("News");
+		assertTrue(solo.waitForActivity(NewsModuleActivity.class));
+
+		solo.goBack();
+
 		solo.clickOnButton("Tv");
+		assertTrue(solo.waitForActivity(TvModuleActivity.class));
+
+		solo.goBack();
+
 		solo.clickOnButton("Radio");
+		assertTrue(solo.waitForActivity(RadioModuleActivity.class));
+
+		solo.goBack();
+
 		solo.clickOnButton("Weather");
+		assertTrue(solo.waitForActivity(WeatherModuleActivity.class));
 
 	}
 }

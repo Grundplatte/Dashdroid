@@ -4,4 +4,20 @@
     <string name="dashboard_tv">Tv</string>
     <string name="dashboard_radio">Radio</string>
     <string name="dashboard_weather">Weather</string>
+
+    <string name="sliding_menu_open">Slider Menu Opened</string>
+    <string name="sliding_menu_close">Slider Menu Closed</string>
+
+    <!-- News module - Sliding Menu Items -->
+    <string name="news_sliding_menu_item_1">Home</string>
+
+    <!-- Radio module -->
+    <string name="radio_sliding_menu_item_1">Home</string>
+
+    <!-- Tv module -->
+    <string name="tv_sliding_menu_item_1">Home</string>
+
+    <!-- Weather module -->
+    <string name="weather_sliding_menu_item_1">Home</string>
+
 </resources>
