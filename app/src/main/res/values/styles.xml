@@ -3,29 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrim</item>
-        <item name="colorPrimaryDark">@color/colorPrimDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
-    <color name="light_green">#7db93d</color>
-    <color name="light_green_1">#70a636</color>
-
-    <color name="tb_color_pressed_1">#649430</color>
-    <color name="m_color_pressed_1">#57812a</color>
-
-    <color name="tb_color_pressed_2">#4cc283</color>
-    <color name="m_color_pressed_2">#32ba71</color>
-
-    <color name="stroke_color">#324a18</color>
-    <color name="colorPrim">#19250c</color>
-    <color name="colorPrimDark">#0c1206</color>
-
-    <color name="dark_green">#00a94e</color>
-    <color name="dark_green_1">#009846</color>
-
-    <color name="list_divider">#324a18</color>
-    <color name="list_background">#19250c</color>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
