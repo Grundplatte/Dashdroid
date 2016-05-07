@@ -18,7 +18,7 @@ public class WeatherModuleActivity extends AbstractModuleActivity {
 
 		getSupportActionBar().setTitle(R.string.dashboard_weather);
 
-		getSupportActionBar().setTitle(R.string.dashboard_tv);
+		getSupportActionBar().setTitle(R.string.dashboard_weather);
 
 		BaseFragment homeFragment = new WeatherHomeFragment();
 		homeFragment.setTitle(getResources().getString(R.string.weather_sliding_menu_item_1));

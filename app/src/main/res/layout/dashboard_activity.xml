@@ -7,73 +7,8 @@
     android:orientation="vertical"
     tools:context="com.hyperion.dashdroid.DashboardActivity">
 
-    <TableLayout
-        android:id="@+id/tableLayout1"
-        android:background="@color/stroke_color"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
-
-            <Button
-                android:id="@+id/newsButtonId"
-                android:layout_width="0dip"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:paddingTop="30dp"
-                android:drawableTop="@mipmap/news"
-                android:background="@drawable/selector_button_1"
-                android:textSize="25dip"
-                android:textColor="@android:color/white"
-                android:text="@string/dashboard_news" />
-
-            <Button
-                android:id="@+id/tvButtonId"
-                android:layout_width="0dip"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:paddingTop="30dp"
-                android:drawableTop="@mipmap/tv"
-                android:background="@drawable/selector_button_2"
-                android:textSize="25dip"
-                android:textColor="@android:color/white"
-                android:text="@string/dashboard_tv" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1" >
-
-            <Button
-                android:id="@+id/radioButtonId"
-                android:layout_width="0dip"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:paddingTop="30dp"
-                android:drawableTop="@mipmap/radio"
-                android:background="@drawable/selector_button_2"
-                android:textSize="25dip"
-                android:textColor="@android:color/white"
-                android:text="@string/dashboard_radio" />
-
-            <Button
-                android:id="@+id/weatherButtonId"
-                android:layout_width="0dip"
-                android:layout_height="fill_parent"
-                android:layout_weight="1"
-                android:paddingTop="30dp"
-                android:drawableTop="@mipmap/weather"
-                android:background="@drawable/selector_button_1"
-                android:textSize="25dip"
-                android:textColor="@android:color/white"
-                android:text="@string/dashboard_weather" />
-        </TableRow>
-    </TableLayout>
-
+        android:layout_height="match_parent"
+        android:id="@+id/mainFrameLayout"></FrameLayout>
 </RelativeLayout>

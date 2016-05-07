@@ -27,4 +27,7 @@
     <color name="list_divider">#324a18</color>
     <color name="list_background">#19250c</color>
 
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 </resources>
