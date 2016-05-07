@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.hyperion.dashdroid.fragments.MainMenuFragment;
+import com.hyperion.dashdroid.fragments.MainMenuWidgetsFragment;
 import com.hyperion.dashdroid.fragments.NewsFragment;
 import com.hyperion.dashdroid.fragments.RSSFragment;
 import com.hyperion.dashdroid.fragments.RadioFragment;
@@ -128,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_about) {
 
+        } else if (id == R.id.nav_home_widgets) {
+            fragmentTransaction.replace(R.id.content_frame, MainMenuWidgetsFragment.getInstance()).commit();
         }
 
 
