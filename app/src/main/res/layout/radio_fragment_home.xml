@@ -4,11 +4,13 @@
 
     <TextView
         android:id="@+id/txtLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
         android:textSize="30dp"
         android:text="Radio home fragment content"
-        android:textAlignment="center"/>
+        android:textAlignment="center" />
+
+    <include layout="@layout/radio_fragment_player" />
 
 </RelativeLayout>
