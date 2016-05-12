@@ -1,6 +1,8 @@
 package com.hyperion.dashdroid.radio;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +21,13 @@ public class RadioHomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View radioView = inflater.inflate(R.layout.radio_fragment_home, container, false);
 
+        RecyclerView recyclerView = (RecyclerView)radioView.findViewById(R.id.radioList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-        Thread thread = new Thread(){
-            @Override
-            public void run() {
-                ArrayList<RadioChannel> radioChannels;
-                radioChannels = DirbleProvider.getInstance().search("raute");
+        // TODO change
+        new DirbleAsyncTask().execute(recyclerView);
 
-            }
-        };
-        thread.start();
         return radioView;
     }
 }

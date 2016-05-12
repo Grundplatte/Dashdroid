@@ -17,6 +17,19 @@ public class RadioChannel {
     private ArrayList<RadioStream> radioStreams;
     private ArrayList<RadioChannelCategory> radioChannelCategories;
 
+    public  RadioChannel(int ID){
+        this.ID = ID;
+        this.name = null;
+        this.country = null;
+        this.description = null;
+        this.imageUrl = null;
+        this.thumbUrl = null;
+        this.slug = null;
+        this.website = null;
+        this.radioStreams = null;
+        this.radioChannelCategories = null;
+    }
+
     public RadioChannel(int ID, String name, String country, String description, String imageUrl, String thumbUrl, String slug, String website, ArrayList<RadioStream> radioStreams, ArrayList<RadioChannelCategory> radioChannelCategories) {
         this.ID = ID;
         this.name = name;
@@ -64,5 +77,10 @@ public class RadioChannel {
 
     public ArrayList<RadioStream> getRadioStreams() {
         return radioStreams;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this.getID() == ((RadioChannel)o).getID();
     }
 }

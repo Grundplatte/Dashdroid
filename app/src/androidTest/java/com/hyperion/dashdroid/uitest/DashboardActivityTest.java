@@ -4,10 +4,14 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.hyperion.dashdroid.DashboardActivity;
 import com.hyperion.dashdroid.news.NewsModuleActivity;
+import com.hyperion.dashdroid.radio.DirbleProvider;
+import com.hyperion.dashdroid.radio.RadioChannel;
 import com.hyperion.dashdroid.radio.RadioModuleActivity;
 import com.hyperion.dashdroid.tv.TvModuleActivity;
 import com.hyperion.dashdroid.weather.WeatherModuleActivity;
 import com.robotium.solo.Solo;
+
+import java.util.ArrayList;
 
 /**
  * Created by infinity on 27-Apr-16.
@@ -50,6 +54,15 @@ public class DashboardActivityTest extends ActivityInstrumentationTestCase2<Dash
 
 		solo.clickOnButton("Weather");
 		assertTrue(solo.waitForActivity(WeatherModuleActivity.class));
+
+	}
+
+	public void testJSONParsing(){
+
+		RadioChannel radioChannel = new RadioChannel(20564);
+		ArrayList<RadioChannel> radioChannels;
+		radioChannels = DirbleProvider.getInstance().search("raute");
+		assertTrue(radioChannels.contains(radioChannel));
 
 	}
 }

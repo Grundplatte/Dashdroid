@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Rainer on 11.05.2016.
@@ -23,7 +21,7 @@ public class DirbleProvider {
 
     private final String API_KEY = "token=17f3be7fbca8347d9b835f63a8";
     private final String SEARCH_URL = "http://api.dirble.com/v2/search/";
-    private final String CATEGORIES_URL = "http://api.dirble.com/v2/category/tree";
+    private final String CATEGORIES_URL = "http://api.dirble.com/v2/categories/tree";
     private final String CATEGORY_STATIONS = "http://api.dirble.com/v2/category/<ID>/stations";
 
     private static DirbleProvider instance = null;
@@ -36,48 +34,88 @@ public class DirbleProvider {
     }
 
     private DirbleProvider() {
-
     }
 
     public ArrayList<RadioChannel> search(String query) {
-        ArrayList<RadioChannel> radioChannels = new ArrayList<>();
-
         try {
-            URL search_url = new URL(SEARCH_URL + query + "&" + API_KEY);
-            URLConnection connection = search_url.openConnection();
-            radioChannels = readJSONStream(connection.getInputStream());
+            URL request = new URL(SEARCH_URL + query + "?" + API_KEY);
+            URLConnection connection = request.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
+
+            try {
+                return readChannelArray(reader);
+            }
+            finally {
+                reader.close();
+            }
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        return radioChannels;
+        return null;
     }
 
-    public ArrayList<RadioChannel> getCategories() {
-        ArrayList<RadioChannel> radioChannels = new ArrayList<>();
-
-        return radioChannels;
-    }
-
-    public ArrayList<RadioChannel> getStationsForCategory(String category) {
-        ArrayList<RadioChannel> radioChannels = new ArrayList<>();
-
-        return radioChannels;
-    }
-
-    private ArrayList<RadioChannel> readJSONStream(InputStream in) throws IOException {
-        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+    public ArrayList<RadioChannelCategory> getCategoryTree() {
 
         try {
-            return readChannelArray(reader);
-        }
-        finally {
+            URL request = new URL(CATEGORIES_URL + "?" + API_KEY);
+            URLConnection connection = request.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
+
+            try {
+                return readCategoryArray(reader);
+            }
+            finally {
                 reader.close();
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
+    }
+
+    public ArrayList<RadioChannel> getChannelsForCategory(int categoryID) {
+        ArrayList<RadioChannel> radioChannels = new ArrayList<>();
+
+        try {
+            String request_string = CATEGORY_STATIONS + "?" + API_KEY;
+            request_string = request_string.replace("<ID>", Integer.toString(categoryID));
+            URL request = new URL(request_string);
+            URLConnection connection = request.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
+
+            try {
+                return readChannelArray(reader);
+            }
+            finally {
+                reader.close();
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private ArrayList<RadioChannelCategory> readCategoryArray(JsonReader reader) throws IOException{
+        ArrayList<RadioChannelCategory> categoryArray = new ArrayList<>();
+
+        reader.beginArray();
+        while (reader.hasNext()){
+            categoryArray.add(readRadioCategory(reader));
+        }
+        reader.endArray();
+        return categoryArray;
     }
 
     private ArrayList<RadioChannel> readChannelArray(JsonReader reader) throws IOException{
@@ -115,15 +153,20 @@ public class DirbleProvider {
             else if(fieldName.equals("country")){
                 country = reader.nextString();
             }
-            else if(fieldName.equals("description")){
+            else if(fieldName.equals("description") && reader.peek() != JsonToken.NULL){
                 description = reader.nextString();
             }
             else if(fieldName.equals("image")){
                 reader.beginObject();
-                reader.beginObject();
+                boolean stacked = false;
+
                 while(reader.hasNext()) {
                     fieldName = reader.nextName();
-                    if (fieldName.equals("url") && reader.peek() != JsonToken.NULL) {
+                    if(fieldName.equals("image") && !stacked) {
+                        reader.beginObject();
+                        stacked = true;
+                    }
+                    else if (fieldName.equals("url") && reader.peek() != JsonToken.NULL) {
                         imageUrl = reader.nextString();
                     }
                     else if(fieldName.equals("thumb")){
@@ -137,8 +180,13 @@ public class DirbleProvider {
                         }
                         reader.endObject();
                     }
+                    else {
+                        reader.skipValue();
+                    }
                 }
-                reader.endObject();
+                if(stacked) {
+                    reader.endObject();
+                }
                 reader.endObject();
             }
             else if(fieldName.equals("slug")){
@@ -206,6 +254,7 @@ public class DirbleProvider {
         String description = null;
         String slug = null;
         int ancestry = -1;
+        ArrayList<RadioChannelCategory> subCategories = new ArrayList<>();
 
         reader.beginObject();
         while (reader.hasNext()){
@@ -222,14 +271,21 @@ public class DirbleProvider {
             else if(fieldName.equals("slug")){
                 slug = reader.nextString();
             }
-            else if(fieldName.equals("ancestry")){
+            else if(fieldName.equals("ancestry") && reader.peek() != JsonToken.NULL){
                 ancestry = reader.nextInt();
+            }
+            else if(fieldName.equals("children")){
+                reader.beginArray();
+                while (reader.hasNext()){
+                   subCategories.add(readRadioCategory(reader));
+                }
+                reader.endArray();
             }
             else
                 reader.skipValue();
         }
         reader.endObject();
 
-        return new RadioChannelCategory(ID, title, description, slug, ancestry);
+        return new RadioChannelCategory(ID, title, description, slug, ancestry, subCategories);
     }
 }
