@@ -12,6 +12,7 @@ public class RadioChannelCategory {
     private String description;
     private String slug;
     private int ancestry;
+
     private ArrayList<RadioChannelCategory> subCategories;
 
     public RadioChannelCategory(int ID, String title, String description, String slug, int ancestry, ArrayList<RadioChannelCategory> subCategories) {
@@ -41,5 +42,9 @@ public class RadioChannelCategory {
 
     public int getAncestry() {
         return ancestry;
+    }
+
+    public ArrayList<RadioChannelCategory> getSubCategories() {
+        return subCategories;
     }
 }

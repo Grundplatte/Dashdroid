@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder>{
 
-    private ArrayList<RadioChannelCategory> radioChannelCategories;
+    private ArrayList<RadioChannel> radioChannels;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -27,8 +27,8 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         }
     }
 
-    public ChannelAdapter(ArrayList<RadioChannelCategory> radioChannelCategories) {
-        this.radioChannelCategories = radioChannelCategories;
+    public ChannelAdapter(ArrayList<RadioChannel> radioChannels) {
+        this.radioChannels = radioChannels;
     }
 
     @Override
@@ -39,12 +39,12 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.cardText.setText(radioChannelCategories.get(position).getTitle());
+        holder.cardText.setText(radioChannels.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        return radioChannelCategories.size();
+        return radioChannels.size();
     }
 
 

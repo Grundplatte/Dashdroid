@@ -82,8 +82,6 @@ public class DirbleProvider {
     }
 
     public ArrayList<RadioChannel> getChannelsForCategory(int categoryID) {
-        ArrayList<RadioChannel> radioChannels = new ArrayList<>();
-
         try {
             String request_string = CATEGORY_STATIONS + "?" + API_KEY;
             request_string = request_string.replace("<ID>", Integer.toString(categoryID));
