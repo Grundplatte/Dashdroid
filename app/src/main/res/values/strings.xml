@@ -10,6 +10,11 @@
     <string name="sliding_menu_open">Slider Menu Opened</string>
     <string name="sliding_menu_close">Slider Menu Closed</string>
 
+    <!-- List items -->
+    <string name="title">Title goes here!</string>
+    <string name="date">Date goes here!</string>
+    <string name="desc">Description goes here!</string>
+
     <!-- News module - Sliding Menu Items -->
     <string name="news_sliding_menu_item_1">Home</string>
 
