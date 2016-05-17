@@ -41,15 +41,40 @@ public class SlidingMenuListAdapter extends BaseAdapter {
 	}
 
 	@Override
+	public boolean isEnabled(int position) {
+
+		if(slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.CATEGORY) {
+
+			return false;
+
+		}else {
+
+			return true;
+
+		}
+	}
+
+	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		if(convertView == null) {
 			LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			convertView = mInflater.inflate(R.layout.drawer_list_item, null);
+
+			if(slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.ITEM) {
+				convertView = mInflater.inflate(R.layout.drawer_list_item, null);
+
+				TextView txtTitle = (TextView) convertView.findViewById(R.id.list_item_title);
+				txtTitle.setText(slidingMenuItems.get(position).getTitle());
+
+			}else {
+				convertView = mInflater.inflate(R.layout.drawer_category_item, null);
+
+				TextView txtTitle = (TextView) convertView.findViewById(R.id.list_category_title);
+				txtTitle.setText(slidingMenuItems.get(position).getTitle());
+			}
 		}
 
-		TextView txtTitle = (TextView) convertView.findViewById(R.id.list_item_title);
-		txtTitle.setText(slidingMenuItems.get(position).getTitle());
+
 		return convertView;
 	}
 

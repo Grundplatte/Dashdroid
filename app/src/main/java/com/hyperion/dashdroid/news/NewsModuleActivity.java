@@ -1,12 +1,13 @@
 package com.hyperion.dashdroid.news;
 
+import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
-import com.hyperion.dashdroid.base.slidingmenu.BaseFragment;
+import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 
 /**
  * Created by infinity on 29-Apr-16.
@@ -18,10 +19,10 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 
 		getSupportActionBar().setTitle(R.string.dashboard_news);
 
-		BaseFragment homeFragment = new NewsHomeFragment();
-		homeFragment.setTitle(getResources().getString(R.string.news_sliding_menu_item_1));
+		Fragment homeFragment = new NewsHomeFragment();
 
-		fragments.add(homeFragment);
+		slidingMenuItems.add(new SlidingMenuItem("News", SlidingMenuItem.ItemType.CATEGORY, null));
+		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment));
 	}
 
 	@Override

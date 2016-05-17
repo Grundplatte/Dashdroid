@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.hyperion.dashdroid.R;
-import com.hyperion.dashdroid.base.slidingmenu.BaseFragment;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuListAdapter;
 
@@ -31,26 +30,20 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 	protected final int MENU_REFRESH_BUTTON_ID = 2;
 
 	protected Menu menu;
-	protected ArrayList<BaseFragment> fragments;
 	private DrawerLayout drawerLayout;
 	private ListView drawerList;
 	private ActionBarDrawerToggle drawerToggle;
-	private ArrayList<SlidingMenuItem> slidingMenuItems;
+	protected ArrayList<SlidingMenuItem> slidingMenuItems;
 	private SlidingMenuListAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		fragments = new ArrayList<BaseFragment>();
 		slidingMenuItems = new ArrayList<SlidingMenuItem>();
 
 		setContentView(R.layout.base_module_activity);
 		addSpecificContent();
-
-		for(int i = 0; i < fragments.size(); i++) {
-			slidingMenuItems.add(new SlidingMenuItem(fragments.get(i).getTitle()));
-		}
 
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerList = (ListView) findViewById(R.id.list_slidermenu);
@@ -95,7 +88,14 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 		if(savedInstanceState == null) {
 
-			displayView(0);
+			for(int i = 0; i < slidingMenuItems.size(); i++) {
+
+				if(slidingMenuItems.get(i).getType() == SlidingMenuItem.ItemType.ITEM) {
+					displayView(i);
+					i = slidingMenuItems.size();
+				}
+
+			}
 
 		}
 	}
@@ -123,13 +123,14 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 	private void displayView(int position) {
 
-		if(fragments != null && fragments.size() > position && fragments.get(position) != null) {
+		if(slidingMenuItems != null && slidingMenuItems.size() > position &&
+				slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.ITEM && slidingMenuItems.get(position).getFragment() != null) {
 
 			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction().replace(R.id.frame_container, fragments.get(position)).commit();
+			fragmentManager.beginTransaction().replace(R.id.frame_container, slidingMenuItems.get(position).getFragment()).commit();
 			drawerList.setItemChecked(position, true);
 			drawerList.setSelection(position);
-			getSupportActionBar().setSubtitle(fragments.get(position).getTitle());
+			getSupportActionBar().setSubtitle(slidingMenuItems.get(position).getTitle());
 			drawerLayout.closeDrawer(drawerList);
 
 		} else {

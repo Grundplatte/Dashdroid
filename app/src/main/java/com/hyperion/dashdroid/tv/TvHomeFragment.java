@@ -1,17 +1,17 @@
 package com.hyperion.dashdroid.tv;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hyperion.dashdroid.R;
-import com.hyperion.dashdroid.base.slidingmenu.BaseFragment;
 
 /**
  * Created by infinity on 06-May-16.
  */
-public class TvHomeFragment extends BaseFragment {
+public class TvHomeFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

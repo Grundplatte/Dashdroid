@@ -1,22 +1,19 @@
 package com.hyperion.dashdroid.radio;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.hyperion.dashdroid.R;
-import com.hyperion.dashdroid.base.slidingmenu.BaseFragment;
-
-import java.util.ArrayList;
 
 /**
  * Created by Rainer on 11.05.2016.
  */
-public class RadioHomeFragment extends BaseFragment {
+public class RadioHomeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

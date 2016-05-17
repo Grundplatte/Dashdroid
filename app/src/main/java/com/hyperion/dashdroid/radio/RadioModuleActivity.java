@@ -1,13 +1,13 @@
 package com.hyperion.dashdroid.radio;
 
-import android.support.v7.widget.RecyclerView;
+import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
-import com.hyperion.dashdroid.base.slidingmenu.BaseFragment;
+import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 
 /**
  * Created by infinity on 05-May-16.
@@ -29,10 +29,9 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 		getSupportActionBar().setTitle(R.string.dashboard_radio);
         searchView = new RadioWhiteSearchView(this);
 
-		BaseFragment homeFragment = new RadioHomeFragment();
-		homeFragment.setTitle(getResources().getString(R.string.radio_sliding_menu_item_1));
+		Fragment homeFragment = new RadioHomeFragment();
 
-		fragments.add(homeFragment);
+		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment));
 	}
 
 	@Override

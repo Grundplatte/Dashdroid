@@ -1,12 +1,13 @@
 package com.hyperion.dashdroid.weather;
 
+import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
-import com.hyperion.dashdroid.base.slidingmenu.BaseFragment;
+import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 
 /**
  * Created by infinity on 05-May-16.
@@ -18,12 +19,9 @@ public class WeatherModuleActivity extends AbstractModuleActivity {
 
 		getSupportActionBar().setTitle(R.string.dashboard_weather);
 
-		getSupportActionBar().setTitle(R.string.dashboard_weather);
+		Fragment homeFragment = new WeatherHomeFragment();
 
-		BaseFragment homeFragment = new WeatherHomeFragment();
-		homeFragment.setTitle(getResources().getString(R.string.weather_sliding_menu_item_1));
-
-		fragments.add(homeFragment);
+		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment));
 	}
 
 	@Override
