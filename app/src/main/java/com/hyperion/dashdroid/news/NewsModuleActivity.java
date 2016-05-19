@@ -36,8 +36,6 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 
 	@Override
 	public void refresh() {
-
 		Log.d(getClass().getSimpleName(), "refresh() method called...");
-
 	}
 }

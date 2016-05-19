@@ -8,9 +8,7 @@ import android.app.Fragment;
 public class SlidingMenuItem {
 
 	public enum ItemType {
-
 		CATEGORY, ITEM
-
 	}
 
 	private String title;

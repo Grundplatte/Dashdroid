@@ -44,13 +44,9 @@ public class SlidingMenuListAdapter extends BaseAdapter {
 	public boolean isEnabled(int position) {
 
 		if(slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.CATEGORY) {
-
 			return false;
-
 		}else {
-
 			return true;
-
 		}
 	}
 

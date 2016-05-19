@@ -87,14 +87,11 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 		getSupportActionBar().setHomeButtonEnabled(true);
 
 		if(savedInstanceState == null) {
-
 			for(int i = 0; i < slidingMenuItems.size(); i++) {
-
 				if(slidingMenuItems.get(i).getType() == SlidingMenuItem.ItemType.ITEM) {
 					displayView(i);
 					i = slidingMenuItems.size();
 				}
-
 			}
 
 		}
