@@ -1,13 +1,15 @@
 package com.hyperion.dashdroid.news;
 
-import android.app.Fragment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
+import com.hyperion.dashdroid.base.BaseFragment;
+import com.hyperion.dashdroid.base.FragmentTagEnum;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
+import com.hyperion.dashdroid.news.rss.RSSFragment;
+import com.hyperion.dashdroid.news.rss.RssFeedUrlEnum;
 
 /**
  * Created by infinity on 29-Apr-16.
@@ -19,10 +21,29 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 
 		getSupportActionBar().setTitle(R.string.dashboard_news);
 
-		Fragment homeFragment = new NewsHomeFragment();
+		RSSFragment homeFragment = new RSSFragment();
+		homeFragment.setRssFeedUrl(RssFeedUrlEnum.NEWS_HOME);
 
-		slidingMenuItems.add(new SlidingMenuItem("News", SlidingMenuItem.ItemType.CATEGORY, null));
-		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment));
+		slidingMenuItems.add(new SlidingMenuItem("News", SlidingMenuItem.ItemType.CATEGORY, null, null));
+		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment, FragmentTagEnum.RSS_NEWS_HOME.getTag()));
+
+		RSSFragment sportsInternational = new RSSFragment();
+		RSSFragment sportsFootball = new RSSFragment();
+		RSSFragment sportsBasketball = new RSSFragment();
+		RSSFragment sportsTennis = new RSSFragment();
+		RSSFragment sportsGolf = new RSSFragment();
+		sportsInternational.setRssFeedUrl(RssFeedUrlEnum.SPORTS_INTERNATIONAL);
+		sportsFootball.setRssFeedUrl(RssFeedUrlEnum.SPORTS_FOOTBALL);
+		sportsBasketball.setRssFeedUrl(RssFeedUrlEnum.SPORTS_BASKETBALL);
+		sportsTennis.setRssFeedUrl(RssFeedUrlEnum.SPORTS_TENNIS);
+		sportsGolf.setRssFeedUrl(RssFeedUrlEnum.SPORTS_GOLF);
+
+		slidingMenuItems.add(new SlidingMenuItem("Sports", SlidingMenuItem.ItemType.CATEGORY, null, null));
+		slidingMenuItems.add(new SlidingMenuItem("International", SlidingMenuItem.ItemType.ITEM, sportsInternational, FragmentTagEnum.RSS_SPORTS_INTERNATIONAL.getTag()));
+		slidingMenuItems.add(new SlidingMenuItem("Football", SlidingMenuItem.ItemType.ITEM, sportsFootball, FragmentTagEnum.RSS_SPORTS_FOOTBALL.getTag()));
+		slidingMenuItems.add(new SlidingMenuItem("Basketball", SlidingMenuItem.ItemType.ITEM, sportsBasketball, FragmentTagEnum.RSS_SPORTS_BASKETBALL.getTag()));
+		slidingMenuItems.add(new SlidingMenuItem("Tennis", SlidingMenuItem.ItemType.ITEM, sportsTennis, FragmentTagEnum.RSS_SPORTS_TENNIS.getTag()));
+		slidingMenuItems.add(new SlidingMenuItem("Golf", SlidingMenuItem.ItemType.ITEM, sportsGolf, FragmentTagEnum.RSS_SPORTS_GOLF.getTag()));
 	}
 
 	@Override
@@ -36,6 +57,11 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 
 	@Override
 	public void refresh() {
-		Log.d(getClass().getSimpleName(), "refresh() method called...");
+
+		if(currentSelectedItem.getFragment() != null && currentSelectedItem.getFragment() instanceof BaseFragment) {
+
+			((BaseFragment)currentSelectedItem.getFragment()).refresh();
+
+		}
 	}
 }

@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
+import com.hyperion.dashdroid.base.FragmentTagEnum;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 
 /**
@@ -21,7 +22,7 @@ public class TvModuleActivity extends AbstractModuleActivity {
 
 		Fragment homeFragment = new TvHomeFragment();
 
-		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment));
+		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment, FragmentTagEnum.TV_HOME.getTag()));
 	}
 
 	@Override

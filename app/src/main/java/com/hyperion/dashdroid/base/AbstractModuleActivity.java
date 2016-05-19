@@ -1,5 +1,6 @@
 package com.hyperion.dashdroid.base;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 	private ListView drawerList;
 	private ActionBarDrawerToggle drawerToggle;
 	protected ArrayList<SlidingMenuItem> slidingMenuItems;
+	protected SlidingMenuItem currentSelectedItem;
 	private SlidingMenuListAdapter adapter;
 
 	@Override
@@ -124,11 +126,24 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 				slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.ITEM && slidingMenuItems.get(position).getFragment() != null) {
 
 			FragmentManager fragmentManager = getFragmentManager();
-			fragmentManager.beginTransaction().replace(R.id.frame_container, slidingMenuItems.get(position).getFragment()).commit();
-			drawerList.setItemChecked(position, true);
-			drawerList.setSelection(position);
-			getSupportActionBar().setSubtitle(slidingMenuItems.get(position).getTitle());
-			drawerLayout.closeDrawer(drawerList);
+
+			Fragment oldFragment = fragmentManager.findFragmentByTag(slidingMenuItems.get(position).getFragmentTag());
+
+			if(oldFragment != null && oldFragment.isVisible()) {
+
+				refresh();
+				drawerLayout.closeDrawer(drawerList);
+
+			}else {
+
+				fragmentManager.beginTransaction().replace(R.id.frame_container, slidingMenuItems.get(position).getFragment(), slidingMenuItems.get(position).getFragmentTag()).commit();
+				drawerList.setItemChecked(position, true);
+				drawerList.setSelection(position);
+				getSupportActionBar().setSubtitle(slidingMenuItems.get(position).getTitle());
+				drawerLayout.closeDrawer(drawerList);
+
+				currentSelectedItem = slidingMenuItems.get(position);
+			}
 
 		} else {
 

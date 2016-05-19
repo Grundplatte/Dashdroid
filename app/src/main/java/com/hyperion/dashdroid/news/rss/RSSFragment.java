@@ -1,7 +1,6 @@
 package com.hyperion.dashdroid.news.rss;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
@@ -17,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.hyperion.dashdroid.R;
+import com.hyperion.dashdroid.base.BaseFragment;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,162 +28,166 @@ import java.io.ObjectOutputStream;
 /**
  * Created by Valdrin on 5/18/2016.
  */
-public class RSSFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class RSSFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
-    private ProgressBar progressBar;
-    private ListView listView;
-    private View view;
-    private String fileName;
-    private RSSFeed feed;
-    private String RSSFEEDURL = "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml";
-    private RSSAdapter adapter;
+	private ProgressBar progressBar;
+	private ListView listView;
+	private String fileName;
+	private RSSFeed feed;
+	private RssFeedUrlEnum rssFeedUrl;
+	private RSSAdapter adapter;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (view == null){
-            view = inflater.inflate(R.layout.feed_list, container, false);
-            progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-            listView = (ListView) view.findViewById(R.id.listView);
-            listView.setOnItemClickListener(this);
-            startService();
-        } else {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            parent.removeView(view);
-        }
-        return view;
-    }
+	@Nullable
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-    private void startService() {
+		View view = inflater.inflate(R.layout.feed_list, container, false);
+		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+		listView = (ListView) view.findViewById(R.id.listView);
+		listView.setOnItemClickListener(this);
+		refresh();
 
-        fileName = "Dashdroid.td";
+		return view;
+	}
 
-        File feedFile = getActivity().getBaseContext().getFileStreamPath(fileName);
-        ConnectivityManager conMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	}
 
-        if (conMgr.getActiveNetworkInfo() == null) {
-            if (!feedFile.exists()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage(
-                        "Unable to reach server, \nPlease check your connectivity.")
-                        .setTitle("TD RSS Reader")
-                        .setCancelable(false)
-                        .setPositiveButton("Exit",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                        getActivity().finish();
-                                    }
-                                });
+	// Method to write the feed to the File
+	private void writeFeed(RSSFeed data) {
 
-                AlertDialog alert = builder.create();
-                alert.show();
-            } else {
+		FileOutputStream fOut = null;
+		ObjectOutputStream osw = null;
 
-                Toast toast = Toast.makeText(getActivity(),
-                        "No connectivity! Reading last update...",
-                        Toast.LENGTH_LONG);
-                toast.show();
-                feed = readFeed(fileName);
-            }
-        } else {
-            new AsyncLoadXMLFeed().execute();
-        }
+		try {
+			fOut = getActivity().openFileOutput(fileName, getActivity().MODE_PRIVATE);
+			osw = new ObjectOutputStream(fOut);
+			osw.writeObject(data);
+			osw.flush();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fOut.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    }
+	// Method to read the feed from the File
+	private RSSFeed readFeed(String fName) {
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-    }
+		FileInputStream fIn = null;
+		ObjectInputStream isr = null;
 
-    private class AsyncLoadXMLFeed extends AsyncTask<Void, Void, Void> {
+		RSSFeed _feed = null;
+		File feedFile = getActivity().getBaseContext().getFileStreamPath(fileName);
+		if(!feedFile.exists())
+			return null;
 
-        @Override
-        protected Void doInBackground(Void... params) {
+		try {
+			fIn = getActivity().openFileInput(fName);
+			isr = new ObjectInputStream(fIn);
 
-            DOMParser myParser = new DOMParser();
-            feed = myParser.parseXml(RSSFEEDURL);
-            if (feed != null && feed.getItemCount() > 0) {
-                writeFeed(feed);
-            }
-            return null;
-        }
+			_feed = (RSSFeed) isr.readObject();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fIn.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
 
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            RSSAdapter adapter = new RSSAdapter(RSSFragment.this, feed);
-            listView.setAdapter(adapter);
-            progressBar.setVisibility(View.GONE);
-        }
+		return _feed;
 
-    }
+	}
 
-    // Method to write the feed to the File
-    private void writeFeed(RSSFeed data) {
+	public RssFeedUrlEnum getRssFeedUrl() {
+		return rssFeedUrl;
+	}
 
-        FileOutputStream fOut = null;
-        ObjectOutputStream osw = null;
+	public void setRssFeedUrl(RssFeedUrlEnum rssFeedUrl) {
+		this.rssFeedUrl = rssFeedUrl;
+	}
 
-        try {
-            fOut = getActivity().openFileOutput(fileName, getActivity().MODE_PRIVATE);
-            osw = new ObjectOutputStream(fOut);
-            osw.writeObject(data);
-            osw.flush();
-        }
+	private class AsyncLoadXMLFeed extends AsyncTask<Void, Void, Void> {
 
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
 
-        finally {
-            try {
-                fOut.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+			progressBar.setVisibility(View.VISIBLE);
+		}
 
-    // Method to read the feed from the File
-    private RSSFeed readFeed(String fName) {
+		@Override
+		protected Void doInBackground(Void... params) {
 
-        FileInputStream fIn = null;
-        ObjectInputStream isr = null;
+			DOMParser myParser = new DOMParser();
+			feed = myParser.parseXml(rssFeedUrl.getUrl());
+			if(feed != null && feed.getItemCount() > 0) {
+				writeFeed(feed);
+			}
+			return null;
+		}
 
-        RSSFeed _feed = null;
-        File feedFile = getActivity().getBaseContext().getFileStreamPath(fileName);
-        if (!feedFile.exists())
-            return null;
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			RSSAdapter adapter = new RSSAdapter(RSSFragment.this, feed);
+			listView.setAdapter(adapter);
+			progressBar.setVisibility(View.GONE);
+		}
 
-        try {
-            fIn = getActivity().openFileInput(fName);
-            isr = new ObjectInputStream(fIn);
+	}
 
-            _feed = (RSSFeed) isr.readObject();
-        }
+	@Override
+	public void refresh() {
 
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+		fileName = "Dashdroid.td";
 
-        finally {
-            try {
-                fIn.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+		File feedFile = getActivity().getBaseContext().getFileStreamPath(fileName);
+		ConnectivityManager conMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return _feed;
+		if(conMgr.getActiveNetworkInfo() == null) {
+			if(!feedFile.exists()) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				builder.setMessage(
+						"Unable to reach server, \nPlease check your connectivity.")
+						.setTitle("TD RSS Reader")
+						.setCancelable(false)
+						.setPositiveButton("Exit",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+														int id) {
+										getActivity().finish();
+									}
+								});
 
-    }
+				AlertDialog alert = builder.create();
+				alert.show();
+			} else {
 
+				Toast toast = Toast.makeText(getActivity(),
+						"No connectivity! Reading last update...",
+						Toast.LENGTH_LONG);
+				toast.show();
+				feed = readFeed(fileName);
+			}
+		} else {
+
+			new AsyncLoadXMLFeed().execute();
+
+		}
+	}
 }

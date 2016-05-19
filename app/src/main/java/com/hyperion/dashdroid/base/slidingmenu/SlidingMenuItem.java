@@ -14,11 +14,13 @@ public class SlidingMenuItem {
 	private String title;
 	private ItemType type;
 	private Fragment fragment;
+	private String fragmentTag;
 
-	public SlidingMenuItem(String title, ItemType type, Fragment fragment) {
+	public SlidingMenuItem(String title, ItemType type, Fragment fragment, String fragmentTag) {
 		this.title = title;
 		this.type = type;
 		this.fragment = fragment;
+		this.fragmentTag = fragmentTag;
 	}
 
 	public String getTitle() {
@@ -39,5 +41,9 @@ public class SlidingMenuItem {
 
 	public Fragment getFragment() {
 		return fragment;
+	}
+
+	public String getFragmentTag() {
+		return fragmentTag;
 	}
 }
