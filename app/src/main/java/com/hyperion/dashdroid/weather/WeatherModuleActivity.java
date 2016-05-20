@@ -26,7 +26,7 @@ public class WeatherModuleActivity extends AbstractModuleActivity {
 	}
 
 	@Override
-	public void addOtherOptionMenuItems(Menu menu) {
+	public void addOptionMenuItems(Menu menu) {
 
 		// TODO - Check if in every module necessary.
 		menu.add(0, 0, 0, "").setIcon(R.drawable.search).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);

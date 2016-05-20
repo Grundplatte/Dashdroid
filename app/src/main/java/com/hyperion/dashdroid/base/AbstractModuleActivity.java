@@ -156,8 +156,7 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		this.menu = menu;
-		this.menu.add(0, MENU_REFRESH_BUTTON_ID, MENU_REFRESH_BUTTON_ID, "").setIcon(R.drawable.refresh).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		addOtherOptionMenuItems(this.menu);
+		addOptionMenuItems(this.menu);
 
 		return true;
 	}
@@ -189,6 +188,11 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	protected void refresh() {
+		// Override if necessary
+		Log.d(getClass().getSimpleName(), "refresh() method called...");
+	}
+
 	protected void search() {
 		// Override if necessary
 		Log.d(getClass().getSimpleName(), "search() method called...");
@@ -205,7 +209,5 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 	public abstract void addSpecificContent();
 
-	public abstract void addOtherOptionMenuItems(Menu menu);
-
-	public abstract void refresh();
+	public abstract void addOptionMenuItems(Menu menu);
 }

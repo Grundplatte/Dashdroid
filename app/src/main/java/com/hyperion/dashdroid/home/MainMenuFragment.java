@@ -40,12 +40,12 @@ public final class MainMenuFragment extends Fragment{
     }
 
     // FIXME: Just for testing
-    private int[] mTileText = {R.string.dashboard_radio, R.string.dashboard_weather, R.string.dashboard_tv, R.string.dashboard_news};
+    private int[] mTileText = {R.string.dashboard_radio, /*R.string.dashboard_weather, R.string.dashboard_tv,*/ R.string.dashboard_news};
     private int[] mIconId = {R.drawable.ic_radio_black_48dp,
             R.drawable.ic_wb_sunny_black_48dp,
             R.drawable.ic_tv_black_48dp,
             R.drawable.ic_today_black_48dp};
-    private Class[] mTileLink = {RadioModuleActivity.class, WeatherModuleActivity.class, TvModuleActivity.class, NewsModuleActivity.class};
+    private Class[] mTileLink = {RadioModuleActivity.class, /*WeatherModuleActivity.class, TvModuleActivity.class,*/ NewsModuleActivity.class};
 
 
     @Nullable
@@ -96,11 +96,11 @@ public final class MainMenuFragment extends Fragment{
                 }
             });
 
-            if(i == 0) {
+            //if(i == 0) {
                 gridLayout.addView(view, layoutParamsDouble);
-            }
+            /*}
             else
-                gridLayout.addView(view);
+                gridLayout.addView(view);*/
         }
         return gridView;
     }

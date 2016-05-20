@@ -7,6 +7,7 @@ import android.view.MenuItem;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
+import com.hyperion.dashdroid.base.BaseSearchView;
 import com.hyperion.dashdroid.base.FragmentTagEnum;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 
@@ -18,17 +19,17 @@ public class RadioModuleActivity extends AbstractModuleActivity {
     public final int ID_MENU_SEARCH = 1;
     public final int ID_MENU_SETTINGS = 2;
 
-    public RadioWhiteSearchView getSearchView() {
+    public BaseSearchView getSearchView() {
         return searchView;
     }
 
-    private RadioWhiteSearchView searchView;
+    private BaseSearchView searchView;
 
 	@Override
 	public void addSpecificContent() {
 
 		getSupportActionBar().setTitle(R.string.dashboard_radio);
-        searchView = new RadioWhiteSearchView(this);
+        searchView = new BaseSearchView(this);
 
 		Fragment homeFragment = new RadioHomeFragment();
 
@@ -36,19 +37,11 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 	}
 
 	@Override
-	public void addOtherOptionMenuItems(Menu menu) {
+	public void addOptionMenuItems(Menu menu) {
 
-        // TODO - Check if in every module necessary.
         menu.add(Menu.NONE, ID_MENU_SEARCH, Menu.NONE, "").setActionView(searchView).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        menu.add(Menu.NONE, ID_MENU_SETTINGS, Menu.NONE, "").setIcon(R.drawable.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        //menu.add(Menu.NONE, ID_MENU_SETTINGS, Menu.NONE, "").setIcon(R.drawable.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
     }
-
-	@Override
-	public void refresh() {
-
-		Log.d(getClass().getSimpleName(), "refresh() method called...");
-
-	}
 
 	@Override
 	public void search() {
