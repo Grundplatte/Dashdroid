@@ -27,4 +27,18 @@
     <!-- Weather module -->
     <string name="weather_sliding_menu_item_1">Home</string>
 
+    <!-- Text Detail -->
+    <string name="text_det">A few times in Game 1 of the Western Conference Finals,
+        the Warriors would make spurts of six or eight points, but never achieve sufficient
+        escape velocity to get out of OKC’s orbit. This is rare, and they let the Thunder wander
+        back into the game, which they eventually won. Not so much tonight. The Warriors took Game 2
+        118-91, but really, Steph Curry slammed the door shut in less than two minutes in the third quarter.
+
+        With 7:09 left in the quarter, Golden State led the Thunder by seven when Curry arched in a three-pointer.
+        At 5:11, Curry wrong-footed Kevin Durant and Steven Adams on a pick-and-roll, then tossed in another three
+        to swell the Warriors’ lead to 20. In the intervening minutes, Curry hit four free throws, sent in a long two
+        on a transition play, and dribbled around Serge Ibaka to get another three. 15 points in 1:58 isn’t his most
+        impressive scoring burst of these playoffs, but man, his third quarter informally ended the game 12 minutes early.
+        Here’s his whole quarter, minus the free throws.</string>
+
 </resources>

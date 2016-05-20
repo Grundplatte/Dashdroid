@@ -15,9 +15,7 @@ public class TvHomeFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		View rootView = inflater.inflate(R.layout.tv_fragment_home, container, false);
-
 		return rootView;
 	}
 

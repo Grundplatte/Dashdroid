@@ -24,6 +24,7 @@ public class NewsHomeFragment extends Fragment {
 		FragmentManager manager = getFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
 		transaction.replace(R.id.fragment_home, fragment);
+		transaction.addToBackStack(null);
 		transaction.commit();
 		return rootView;
 	}

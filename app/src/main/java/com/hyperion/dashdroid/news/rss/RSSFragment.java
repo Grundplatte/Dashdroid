@@ -3,10 +3,12 @@ package com.hyperion.dashdroid.news.rss;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseFragment;
+import com.hyperion.dashdroid.news.DetailNews;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,6 +61,13 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Log.e("Position: ", position + "");
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("feed", feed);
+		Intent intent = new Intent(getActivity(), DetailNews.class);
+		intent.putExtras(bundle);
+		intent.putExtra("pos", position);
+		startActivity(intent);
 	}
 
 	// Method to write the feed to the File
@@ -107,9 +117,7 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 				e.printStackTrace();
 			}
 		}
-
 		return _feed;
-
 	}
 
 	public RssFeedUrlEnum getRssFeedUrl() {
@@ -125,13 +133,11 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-
 			progressBar.setVisibility(View.VISIBLE);
 		}
 
 		@Override
 		protected Void doInBackground(Void... params) {
-
 			DOMParser myParser = new DOMParser();
 			feed = myParser.parseXml(rssFeedUrl.getUrl());
 			if(feed != null && feed.getItemCount() > 0) {
@@ -147,7 +153,6 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 			listView.setAdapter(adapter);
 			progressBar.setVisibility(View.GONE);
 		}
-
 	}
 
 	@Override
