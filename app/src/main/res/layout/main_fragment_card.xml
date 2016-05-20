@@ -11,7 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             card_view:cardUseCompatPadding="true"
-            card_view:cardCornerRadius="4dp">
+            card_view:cardCornerRadius="4dp"
+            android:backgroundTint="@color/light_green">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -19,10 +20,8 @@
 
                 <ImageView
                     android:id="@+id/person_photo"
-                    android:background="@color/colorMenuButtonNormal"
-                    android:layout_width="match_parent"
-                    android:backgroundTint="@color/light_green"
-                    android:layout_height="200dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerCrop"/>
 

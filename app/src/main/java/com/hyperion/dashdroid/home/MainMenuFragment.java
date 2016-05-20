@@ -40,12 +40,11 @@ public final class MainMenuFragment extends Fragment{
     }
 
     // FIXME: Just for testing
-    private int[] mTileText = {R.string.dashboard_radio, /*R.string.dashboard_weather, R.string.dashboard_tv,*/ R.string.dashboard_news};
-    private int[] mIconId = {R.drawable.ic_radio_black_48dp,
-            R.drawable.ic_wb_sunny_black_48dp,
-            R.drawable.ic_tv_black_48dp,
-            R.drawable.ic_today_black_48dp};
-    private Class[] mTileLink = {RadioModuleActivity.class, /*WeatherModuleActivity.class, TvModuleActivity.class,*/ NewsModuleActivity.class};
+    private int[] mTileText = {/*R.string.dashboard_weather, R.string.dashboard_tv,*/ R.string.dashboard_news, R.string.dashboard_radio};
+    private int[] mIconId = {R.drawable.ic_today_black_48dp, R.drawable.ic_radio_black_48dp
+            /*R.drawable.ic_wb_sunny_black_48dp,
+            R.drawable.ic_tv_black_48dp,*/};
+    private Class[] mTileLink = {/*WeatherModuleActivity.class, TvModuleActivity.class,*/ NewsModuleActivity.class, RadioModuleActivity.class};
 
 
     @Nullable
@@ -62,7 +61,7 @@ public final class MainMenuFragment extends Fragment{
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         display.getSize(displaySize);
         int mTileWidth = displaySize.x/2;
-        int mTileHeight = (int) ((float)mTileWidth * 1.5f);
+        int mTileHeight = (int) ((float)mTileWidth * 2f);
 
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         for(int i = 0; i < mTileText.length; i++) {
@@ -83,7 +82,7 @@ public final class MainMenuFragment extends Fragment{
             textView.setTextColor(0xFF000000);
 
             ImageView imageView = (ImageView) view.findViewById(R.id.person_photo);
-            imageView.setImageResource(R.drawable.temp);
+            imageView.setImageResource(mIconId[i]);   /*R.drawable.temp*/
 
             // encode tile id into view tag
             view.setTag(i);
