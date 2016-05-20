@@ -36,7 +36,8 @@
         android:id="@+id/playButton"
         android:background="@drawable/ic_play_circle_filled_black_48dp"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:clickable="true"/>
 
 
 </RelativeLayout>

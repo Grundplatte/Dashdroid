@@ -49,13 +49,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         if(rootCategory == -1) {
             holder.cardText.setText(radioChannelCategories.get(position).getTitle());
-            holder.itemView.setTag(position);
         }
-        else
-        {
+        else {
             holder.cardText.setText(radioChannelCategories.get(rootCategory).getSubCategories().get(position).getTitle());
-            holder.itemView.setTag(position);
         }
+        holder.itemView.setTag(position);
     }
 
     @Override
