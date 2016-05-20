@@ -41,11 +41,27 @@ public class SlidingMenuListAdapter extends BaseAdapter {
 	}
 
 	@Override
+	public int getItemViewType(int position) {
+
+		if(slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.CATEGORY) {
+			return 0;
+		} else {
+			return 1;
+		}
+
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return SlidingMenuItem.ItemType.values().length;
+	}
+
+	@Override
 	public boolean isEnabled(int position) {
 
 		if(slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.CATEGORY) {
 			return false;
-		}else {
+		} else {
 			return true;
 		}
 	}
@@ -53,25 +69,71 @@ public class SlidingMenuListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		if(convertView == null) {
-			LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		int viewType = this.getItemViewType(position);
 
-			if(slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.ITEM) {
-				convertView = mInflater.inflate(R.layout.drawer_list_item, null);
+		switch(viewType) {
 
-				TextView txtTitle = (TextView) convertView.findViewById(R.id.list_item_title);
-				txtTitle.setText(slidingMenuItems.get(position).getTitle());
+			case 0:
 
-			}else {
-				convertView = mInflater.inflate(R.layout.drawer_category_item, null);
+				View view = convertView;
+				CategoryViewHolder categoryViewHolder;
 
-				TextView txtTitle = (TextView) convertView.findViewById(R.id.list_category_title);
-				txtTitle.setText(slidingMenuItems.get(position).getTitle());
-			}
+				if(view == null) {
+
+					LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+					view = mInflater.inflate(R.layout.drawer_category_item, null);
+
+					categoryViewHolder = new CategoryViewHolder();
+					categoryViewHolder.textView = (TextView) view.findViewById(R.id.list_category_title);
+					view.setTag(categoryViewHolder);
+
+				} else {
+
+					categoryViewHolder = (CategoryViewHolder) view.getTag();
+
+				}
+
+				categoryViewHolder.textView.setText(slidingMenuItems.get(position).getTitle());
+
+				return view;
+
+			case 1:
+
+				View view2 = convertView;
+				ItemViewHolder itemViewHolder;
+
+				if(view2 == null) {
+
+					LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+					view2 = mInflater.inflate(R.layout.drawer_list_item, null);
+
+					itemViewHolder = new ItemViewHolder();
+					itemViewHolder.textView = (TextView) view2.findViewById(R.id.list_item_title);
+					view2.setTag(itemViewHolder);
+
+				} else {
+
+					itemViewHolder = (ItemViewHolder) view2.getTag();
+
+				}
+
+				itemViewHolder.textView.setText(slidingMenuItems.get(position).getTitle());
+
+				return view2;
+
 		}
 
-
 		return convertView;
+	}
+
+	private class CategoryViewHolder {
+		TextView textView;
+	}
+
+	private class ItemViewHolder {
+		TextView textView;
 	}
 
 }
