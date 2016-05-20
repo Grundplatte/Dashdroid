@@ -2,8 +2,9 @@ package com.hyperion.dashdroid.news;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.news.image.ImageLoader;
@@ -17,22 +18,26 @@ public class DetailNews extends Activity {
     private RSSFeed feed;
     private int position;
     private ImageLoader imageLoader;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailnews);
         imageLoader = new ImageLoader(this);
+        webView = (WebView) findViewById(R.id.web_view_detail);
 
         feed = (RSSFeed) getIntent().getExtras().get("feed");
         position = getIntent().getExtras().getInt("pos");
 
-        ImageView img_detail = (ImageView) findViewById(R.id.image_detail);
-        TextView title_detail = (TextView) findViewById(R.id.title_detail);
-        TextView description_detail = (TextView) findViewById(R.id.description_detail);
-
-        imageLoader.DisplayImage(feed.getItem(position).getImage(), img_detail);
-        title_detail.setText(feed.getItem(position).getTitle());
-        description_detail.setText(feed.getItem(position).getDescription());
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setBuiltInZoomControls(true);
+        webView.setWebViewClient(new WebViewClient());
+        String lnk = feed.getItem(position).getLink();
+        webView.loadUrl(lnk);
     }
 }

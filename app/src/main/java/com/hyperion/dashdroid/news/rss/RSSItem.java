@@ -8,15 +8,11 @@ import java.io.Serializable;
 
 public class RSSItem implements Serializable {
 
-    private static final long serialVersionUID = 1L;
     private String title = null;
     private String description = null;
+    private String link = null;
     private String date = null;
     private String image = null;
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getTitle() {
         return title;
@@ -32,6 +28,14 @@ public class RSSItem implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public String getDate() {

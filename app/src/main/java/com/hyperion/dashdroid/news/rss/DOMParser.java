@@ -53,6 +53,10 @@ public class DOMParser {
                         item.setDescription(theString);
                     }
 
+                    else if ("link".equals(nodeName)){
+                        item.setLink(theString);
+                    }
+
                     else if ("pubDate".equals(nodeName)) {
                         item.setDate(theString);
                     }
