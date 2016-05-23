@@ -11,7 +11,7 @@ import com.hyperion.dashdroid.R;
 
 import java.io.IOException;
 
-public class RadioPlayer implements View.OnClickListener{
+public class RadioPlayer implements View.OnClickListener {
     private final String BUFFERING = "BUFFERING";
 
     private static RadioPlayer instance;
@@ -21,6 +21,8 @@ public class RadioPlayer implements View.OnClickListener{
     private ImageButton playStopButton;
     private TextView radioNameView;
     private TextView radioStatus;
+
+    private boolean preparing;
 
     public void setRadioView(View radioView) {
         radioNameView = (TextView)radioView.findViewById(R.id.radioChannel);
@@ -37,20 +39,25 @@ public class RadioPlayer implements View.OnClickListener{
     }
 
     public RadioPlayer() {
-        mediaPlayer = new MediaPlayer();
         playStopButton = null;
         radioStatus = null;
         radioNameView = null;
         lastChannel = null;
+        preparing = false;
+        mediaPlayer = new MediaPlayer();
     }
 
     public void playRadioChannel(RadioChannel channel) {
 
-        if (mediaPlayer.isPlaying()) {
+        if(preparing)
+            return;
+
+        if(mediaPlayer.isPlaying()) {
             // reset
             mediaPlayer.stop();
             mediaPlayer.reset();
         }
+
         if (channel.getRadioStreams().size() == 0) {
             Toast.makeText(RadioModuleActivity.getInstance(), "No streams found for selected Channel!", Toast.LENGTH_SHORT).show();
         } else {
@@ -64,35 +71,52 @@ public class RadioPlayer implements View.OnClickListener{
             }
 
             try {
-                Log.e(getClass().getSimpleName(), "playRadioChannel: " + channel.getRadioStreams().get(0).toString());
+                Log.e(getClass().getSimpleName(), "playRadioChannel: " + channel.getRadioStreams().get(0).getStatus());
                 mediaPlayer.setDataSource(channel.getRadioStreams().get(0).getStream());
                 lastChannel = channel;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            mediaPlayer.prepareAsync();
+            preparing = true;
+            mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+                @Override
+                public void onBufferingUpdate(MediaPlayer mp, int percent) {
+                    Log.d(getClass().getSimpleName(), "onBufferingUpdate: " + percent);
+                }
+            });
+            mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    Log.d(getClass().getSimpleName(), "onError: " + what);
+                    return false;
+                }
+            });
             mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mediaPlayer) {
-                    mediaPlayer.start();
-                    radioStatus.setText("");
+                    preparing = false;
+                        mediaPlayer.start();
+                        radioStatus.setText("");
                 }
             });
+            mediaPlayer.prepareAsync();
         }
     }
 
     public void stopRadio() {
-        if (mediaPlayer.isPlaying()) {
+        if (mediaPlayer.isPlaying() || preparing) {
             if(playStopButton == null || radioNameView == null) {
                 Log.e(getClass().getSimpleName(), "playRadioChannel: radioView not set! Cant access buttons/text.");
             }
             else {
                 playStopButton.setBackgroundResource(R.drawable.ic_play_circle_filled_black_48dp);
+                radioStatus.setText("Stopped");
             }
 
             // reset
             mediaPlayer.stop();
             mediaPlayer.reset();
+            preparing = false;
         }
     }
 
@@ -102,7 +126,7 @@ public class RadioPlayer implements View.OnClickListener{
         if(lastChannel == null){
 
         }
-        else if(mediaPlayer.isPlaying()){
+        else if(mediaPlayer.isPlaying() || preparing){
             stopRadio();
         }
         else {

@@ -1,13 +1,16 @@
 package com.hyperion.dashdroid.radio;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
+import com.hyperion.dashdroid.base.BaseFragment;
 import com.hyperion.dashdroid.base.BaseSearchView;
 import com.hyperion.dashdroid.base.FragmentTagEnum;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
@@ -44,7 +47,7 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 
 		Fragment homeFragment = new RadioHomeFragment();
 
-		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment, FragmentTagEnum.RADIO_HOME.getTag()));
+		slidingMenuItems.add(new SlidingMenuItem("Genres", SlidingMenuItem.ItemType.ITEM, homeFragment, FragmentTagEnum.RADIO_HOME.getTag()));
 	}
 
 	@Override
@@ -59,5 +62,33 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 
 		Log.d(getClass().getSimpleName(), "refresh() method called...");
 
+	}
+
+	@Override
+	public void onBackPressed() {
+
+		RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.radioList);
+		Integer tag;
+		if((tag = (Integer)relativeLayout.getTag()) != null && tag != -1)
+		{
+			DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(relativeLayout);
+			dirbleAsyncTask.setJobType(DirbleAsyncTask.JobType.GET_CATEGORY_TREE);
+			dirbleAsyncTask.execute();
+
+		}
+		else
+		{
+			super.onBackPressed();
+		}
+
+	}
+
+	@Override
+	protected void refresh() {
+		if(currentSelectedItem.getFragment() != null && currentSelectedItem.getFragment() instanceof BaseFragment) {
+
+			((BaseFragment)currentSelectedItem.getFragment()).refresh();
+
+		}
 	}
 }

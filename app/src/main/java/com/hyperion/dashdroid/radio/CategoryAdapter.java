@@ -36,6 +36,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public CategoryAdapter(RelativeLayout parent, ArrayList<RadioChannelCategory> radioChannelCategories) {
         this.radioChannelCategories = radioChannelCategories;
         this.rootCategory = -1;
+        parent.setTag(rootCategory);
         this.parent = parent;
     }
 
@@ -80,5 +81,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             dirbleAsyncTask.setJobType(DirbleAsyncTask.JobType.GET_CHANNELS_FOR_CATEGORY);
             dirbleAsyncTask.execute(radioChannelCategories.get(rootCategory).getSubCategories().get((int)v.getTag()).getID());
         }
+        parent.setTag(rootCategory);
     }
 }
