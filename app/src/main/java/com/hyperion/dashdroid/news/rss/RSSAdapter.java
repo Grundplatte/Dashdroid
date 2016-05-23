@@ -66,4 +66,8 @@ public class RSSAdapter extends BaseAdapter {
         return listItem;
     }
 
+    public void setFeed(RSSFeed feed) {
+        this.feed = feed;
+    }
+
 }

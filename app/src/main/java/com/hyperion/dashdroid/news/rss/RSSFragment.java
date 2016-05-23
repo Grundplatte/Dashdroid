@@ -159,7 +159,7 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			RSSAdapter adapter = new RSSAdapter(RSSFragment.this, feed);
+			adapter = new RSSAdapter(RSSFragment.this, feed);
 			listView.setAdapter(adapter);
 			progressBar.setVisibility(View.GONE);
 		}
@@ -202,5 +202,13 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 			new AsyncLoadXMLFeed().execute();
 
 		}
+	}
+
+	public RSSFeed getFeed() {
+		return feed;
+	}
+
+	public RSSAdapter getAdapter() {
+		return adapter;
 	}
 }

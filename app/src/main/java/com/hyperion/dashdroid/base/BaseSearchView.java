@@ -38,30 +38,32 @@ public class BaseSearchView extends SearchView implements SearchView.OnQueryText
 	@Override
 	public boolean onQueryTextSubmit(String query) {
 
-		if(view != null) {
+		AsyncTask task = null;
+		Constructor<?> constructor = null;
 
-			AsyncTask task = null;
-			Constructor<?> constructor = null;
+		try {
 
-			try {
+			constructor = asyncTaskClass.getConstructor(View.class);
+			task = (AsyncTask) constructor.newInstance(view);
 
-				constructor = asyncTaskClass.getConstructor(View.class);
-				task = (AsyncTask) constructor.newInstance(view);
-
-			} catch(NoSuchMethodException e) {
-				e.printStackTrace();
-			} catch(IllegalAccessException e) {
-				e.printStackTrace();
-			} catch(InstantiationException e) {
-				e.printStackTrace();
-			} catch(InvocationTargetException e) {
-				e.printStackTrace();
-			}
-
-			task.execute(query);
+		} catch(NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch(IllegalAccessException e) {
+			e.printStackTrace();
+		} catch(InstantiationException e) {
+			e.printStackTrace();
+		} catch(InvocationTargetException e) {
+			e.printStackTrace();
 		}
 
+		task.execute(query);
+
 		return true;
+	}
+
+	@Override
+	public void setOnCloseListener(OnCloseListener listener) {
+		super.setOnCloseListener(listener);
 	}
 
 	@Override

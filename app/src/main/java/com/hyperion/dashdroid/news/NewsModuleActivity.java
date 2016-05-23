@@ -93,7 +93,7 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 		slidingMenuItems.add(new SlidingMenuItem("Jobs", SlidingMenuItem.ItemType.ITEM, otherJobs, FragmentTagEnum.RSS_OTHER_JOBS.getTag()));
 		slidingMenuItems.add(new SlidingMenuItem("Real Estate", SlidingMenuItem.ItemType.ITEM, otherRealEstate, FragmentTagEnum.RSS_OTHER_REAL_ESTATE.getTag()));
 
-		//searchView = new BaseSearchView(this, );
+		searchView = new BaseSearchView(this, NewsSearchTask.class);
 	}
 
 	@Override
@@ -102,6 +102,7 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 		menu.add(0, MENU_REFRESH_BUTTON_ID, MENU_REFRESH_BUTTON_ID, "").setIcon(R.drawable.refresh).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		//menu.add(0, MENU_SEARCH_BUTTON_ID, MENU_SEARCH_BUTTON_ID, "").setIcon(R.drawable.search).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(Menu.NONE, MENU_SEARCH_BUTTON_ID, Menu.NONE, "").setActionView(searchView).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
 		//menu.add(0, MENU_SETTINGS_BUTTON_ID, MENU_SETTINGS_BUTTON_ID, "").setIcon(R.drawable.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 	}
@@ -114,5 +115,9 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 			((BaseFragment)currentSelectedItem.getFragment()).refresh();
 
 		}
+	}
+
+	public static SlidingMenuItem getCurrentSelectedItem() {
+		return currentSelectedItem;
 	}
 }
