@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,11 +41,18 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 	private RSSFeed feed;
 	private RssFeedUrlEnum rssFeedUrl;
 	private RSSAdapter adapter;
+	private File feedFile;
+	private ConnectivityManager conMgr;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRetainInstance(true);
+
+		fileName = "Dashdroid.td";
+
+		feedFile = getActivity().getBaseContext().getFileStreamPath(fileName);
+		conMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
 
 	@Nullable
@@ -52,10 +61,11 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 
 		View view = inflater.inflate(R.layout.feed_list, container, false);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+		progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.m_color_pressed_1), PorterDuff.Mode.MULTIPLY);
 		listView = (ListView) view.findViewById(R.id.listView);
 		listView.setOnItemClickListener(this);
+		listView.setTextFilterEnabled(true);
 		refresh();
-
 		return view;
 	}
 
@@ -158,11 +168,6 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 	@Override
 	public void refresh() {
 
-		fileName = "Dashdroid.td";
-
-		File feedFile = getActivity().getBaseContext().getFileStreamPath(fileName);
-		ConnectivityManager conMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-
 		if(conMgr.getActiveNetworkInfo() == null) {
 			if(!feedFile.exists()) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -188,6 +193,9 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 						Toast.LENGTH_LONG);
 				toast.show();
 				feed = readFeed(fileName);
+				RSSAdapter rssAdapter = new RSSAdapter(this, feed);
+				listView.setAdapter(rssAdapter);
+				progressBar.setVisibility(View.GONE);
 			}
 		} else {
 
