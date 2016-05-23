@@ -2,23 +2,28 @@ package com.hyperion.dashdroid.base;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
+import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
 import com.hyperion.dashdroid.R;
-import com.hyperion.dashdroid.radio.DirbleAsyncTask;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Created by Rainer on 13.05.2016.
  */
 public class BaseSearchView extends SearchView implements SearchView.OnQueryTextListener {
 
-	private RecyclerView recyclerView;
+	private View view;
+	private Class<?> asyncTaskClass;
 
-	public BaseSearchView(Context context) {
+	public BaseSearchView(Context context, Class<?> asyncTaskClass) {
 		super(context);
-		this.recyclerView = null;
+		this.view = null;
+		this.asyncTaskClass = asyncTaskClass;
 
 		setBackgroundColor(Color.WHITE);
 
@@ -30,21 +35,41 @@ public class BaseSearchView extends SearchView implements SearchView.OnQueryText
 		setOnQueryTextListener(this);
 	}
 
-	public void setRecyclerView(RecyclerView recyclerView) {
-		this.recyclerView = recyclerView;
-	}
-
 	@Override
 	public boolean onQueryTextSubmit(String query) {
 
-		if(recyclerView != null) {
-			new DirbleAsyncTask(recyclerView).execute(DirbleAsyncTask.JobType.SEARCH, query);
+		if(view != null) {
+
+			AsyncTask task = null;
+			Constructor<?> constructor = null;
+
+			try {
+
+				constructor = asyncTaskClass.getConstructor(View.class);
+				task = (AsyncTask) constructor.newInstance(view);
+
+			} catch(NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch(IllegalAccessException e) {
+				e.printStackTrace();
+			} catch(InstantiationException e) {
+				e.printStackTrace();
+			} catch(InvocationTargetException e) {
+				e.printStackTrace();
+			}
+
+			task.execute(query);
 		}
+
 		return true;
 	}
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
 		return true;
+	}
+
+	public void setView(View view) {
+		this.view = view;
 	}
 }

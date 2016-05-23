@@ -34,9 +34,11 @@ public class RadioHomeFragment extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
 
         // TODO change
-        new DirbleAsyncTask(recyclerView).execute(DirbleAsyncTask.JobType.GET_CATEGORY_TREE);
+        DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(recyclerView);
+        dirbleAsyncTask.setJobType(DirbleAsyncTask.JobType.GET_CATEGORY_TREE);
+        dirbleAsyncTask.execute();
 
-        ((RadioModuleActivity)getActivity()).getSearchView().setRecyclerView(recyclerView);
+        ((RadioModuleActivity)getActivity()).getSearchView().setView(recyclerView);
 
         return radioView;
     }

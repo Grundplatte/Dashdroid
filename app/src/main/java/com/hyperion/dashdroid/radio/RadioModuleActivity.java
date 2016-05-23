@@ -29,7 +29,7 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 	public void addSpecificContent() {
 
 		getSupportActionBar().setTitle(R.string.dashboard_radio);
-        searchView = new BaseSearchView(this);
+        searchView = new BaseSearchView(this, DirbleAsyncTask.class);
 
 		Fragment homeFragment = new RadioHomeFragment();
 

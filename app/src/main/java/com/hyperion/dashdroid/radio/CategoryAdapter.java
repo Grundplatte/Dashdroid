@@ -75,8 +75,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             notifyDataSetChanged();
         }
         else{
-            new DirbleAsyncTask(parent).execute(DirbleAsyncTask.JobType.GET_CHANNELS_FOR_CATEGORY,
-                    radioChannelCategories.get(rootCategory).getSubCategories().get((int)v.getTag()).getID());
+            DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(parent);
+            dirbleAsyncTask.setJobType(DirbleAsyncTask.JobType.GET_CHANNELS_FOR_CATEGORY);
+            dirbleAsyncTask.execute(radioChannelCategories.get(rootCategory).getSubCategories().get((int)v.getTag()).getID());
         }
     }
 }

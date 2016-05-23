@@ -93,7 +93,7 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 		slidingMenuItems.add(new SlidingMenuItem("Jobs", SlidingMenuItem.ItemType.ITEM, otherJobs, FragmentTagEnum.RSS_OTHER_JOBS.getTag()));
 		slidingMenuItems.add(new SlidingMenuItem("Real Estate", SlidingMenuItem.ItemType.ITEM, otherRealEstate, FragmentTagEnum.RSS_OTHER_REAL_ESTATE.getTag()));
 
-		searchView = new BaseSearchView(this);
+		//searchView = new BaseSearchView(this, );
 	}
 
 	@Override
