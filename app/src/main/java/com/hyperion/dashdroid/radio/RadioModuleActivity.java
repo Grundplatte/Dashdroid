@@ -1,6 +1,7 @@
 package com.hyperion.dashdroid.radio;
 
 import android.app.Fragment;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,10 +17,20 @@ import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
  */
 public class RadioModuleActivity extends AbstractModuleActivity {
 
+	private static RadioModuleActivity instance;
+	public static RadioModuleActivity getInstance() {
+		return instance;
+	}
     public final int ID_MENU_SEARCH = 1;
     public final int ID_MENU_SETTINGS = 2;
 
-    public BaseSearchView getSearchView() {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		instance = this;
+	}
+
+	public BaseSearchView getSearchView() {
         return searchView;
     }
 

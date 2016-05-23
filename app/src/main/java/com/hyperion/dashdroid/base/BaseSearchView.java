@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
 import com.hyperion.dashdroid.R;
@@ -14,11 +15,11 @@ import com.hyperion.dashdroid.radio.DirbleAsyncTask;
  */
 public class BaseSearchView extends SearchView implements SearchView.OnQueryTextListener {
 
-	private RecyclerView recyclerView;
+	private RelativeLayout relativeLayout;
 
 	public BaseSearchView(Context context) {
 		super(context);
-		this.recyclerView = null;
+		this.relativeLayout = null;
 
 		setBackgroundColor(Color.WHITE);
 
@@ -30,15 +31,15 @@ public class BaseSearchView extends SearchView implements SearchView.OnQueryText
 		setOnQueryTextListener(this);
 	}
 
-	public void setRecyclerView(RecyclerView recyclerView) {
-		this.recyclerView = recyclerView;
+	public void setRelativeLayout(RelativeLayout relativeLayout) {
+		this.relativeLayout = relativeLayout;
 	}
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
 
-		if(recyclerView != null) {
-			new DirbleAsyncTask(recyclerView).execute(DirbleAsyncTask.JobType.SEARCH, query);
+		if(relativeLayout != null) {
+			new DirbleAsyncTask(relativeLayout).execute(DirbleAsyncTask.JobType.SEARCH, query);
 		}
 		return true;
 	}

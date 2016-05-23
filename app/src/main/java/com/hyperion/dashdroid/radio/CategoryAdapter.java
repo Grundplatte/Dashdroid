@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
@@ -18,7 +19,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     private ArrayList<RadioChannelCategory> radioChannelCategories;
     private int rootCategory;
-    private RecyclerView parent;
+    private RelativeLayout parent;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -32,7 +33,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
 
     }
-    public CategoryAdapter(RecyclerView parent, ArrayList<RadioChannelCategory> radioChannelCategories) {
+    public CategoryAdapter(RelativeLayout parent, ArrayList<RadioChannelCategory> radioChannelCategories) {
         this.radioChannelCategories = radioChannelCategories;
         this.rootCategory = -1;
         this.parent = parent;

@@ -14,7 +14,7 @@
         android:id="@+id/radioChannel"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/playButton"
+        android:layout_toLeftOf="@+id/playStopButton"
         android:text="Radio Channel"
         android:textSize="20dp"
         android:textAlignment="center" />
@@ -23,17 +23,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/songInfo"
+        android:id="@+id/radioStatus"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/playButton"
-        android:text="Interpret - Song"
-        android:textSize="20dp" />
+        android:layout_toLeftOf="@+id/playStopButton"
+        android:text=""
+        android:textSize="20dp"
+        />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/playButton"
+        android:id="@+id/playStopButton"
         android:background="@drawable/ic_play_circle_filled_black_48dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
