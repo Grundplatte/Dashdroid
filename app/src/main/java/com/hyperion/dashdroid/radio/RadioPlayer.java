@@ -120,6 +120,11 @@ public class RadioPlayer implements View.OnClickListener {
         }
     }
 
+    public void reset(){
+        stopRadio();
+        lastChannel = null;
+    }
+
     @Override
     public void onClick(View v) {
         Log.d(getClass().getSimpleName(), "onClick: button");

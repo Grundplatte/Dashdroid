@@ -78,6 +78,7 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 		}
 		else
 		{
+			RadioPlayer.getInstance().reset();
 			super.onBackPressed();
 		}
 
