@@ -29,9 +29,11 @@ public class RadioHomeFragment extends Fragment {
         RadioPlayer.getInstance().setRadioView(radioPlayerView);
 
         // TODO change
-        new DirbleAsyncTask(relativeLayout).execute(DirbleAsyncTask.JobType.GET_CATEGORY_TREE);
+        DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(relativeLayout);
+        dirbleAsyncTask.setJobType(DirbleAsyncTask.JobType.GET_CATEGORY_TREE);
+        dirbleAsyncTask.execute();
 
-        ((RadioModuleActivity)getActivity()).getSearchView().setRelativeLayout(relativeLayout);
+        ((RadioModuleActivity)getActivity()).getSearchView().setView(relativeLayout);
 
         return radioView;
     }

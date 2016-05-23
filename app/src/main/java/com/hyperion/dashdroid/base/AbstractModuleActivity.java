@@ -35,7 +35,7 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 	private ListView drawerList;
 	private ActionBarDrawerToggle drawerToggle;
 	protected ArrayList<SlidingMenuItem> slidingMenuItems;
-	protected SlidingMenuItem currentSelectedItem;
+	protected static SlidingMenuItem currentSelectedItem;
 	private SlidingMenuListAdapter adapter;
 
 	@Override

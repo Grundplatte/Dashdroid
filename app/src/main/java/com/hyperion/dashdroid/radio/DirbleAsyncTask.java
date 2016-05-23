@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.renderscript.ScriptGroup;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -23,10 +24,11 @@ public class DirbleAsyncTask extends AsyncTask<Object,Integer, Object>{
 
     public enum JobType{SEARCH, GET_CATEGORY_TREE, GET_CHANNELS_FOR_CATEGORY};
 
-    public DirbleAsyncTask(RelativeLayout relativeLayout) {
-        this.relativeLayout = relativeLayout;
+    public DirbleAsyncTask(View view) {
+        this.relativeLayout = (RelativeLayout) view;
         recyclerView = (RecyclerView)relativeLayout.findViewById(R.id.radioListView);
         progressBar = (ProgressBar)relativeLayout.findViewById(R.id.progressBar);
+        this.jobType = JobType.SEARCH;              // by default JobType -> SEARCH
     }
 
     @Override
@@ -37,16 +39,17 @@ public class DirbleAsyncTask extends AsyncTask<Object,Integer, Object>{
 
     @Override
     protected Object doInBackground(Object... params) {
-        jobType = (JobType)params[0];
+        //jobType = (JobType)params[0];
+
         switch (jobType){
-            case SEARCH:
-                return DirbleProvider.getInstance().search((String) params[1]);
+//            case SEARCH:
+//                return DirbleProvider.getInstance().search((String) params[1]);
             case GET_CATEGORY_TREE:
                 return DirbleProvider.getInstance().getCategoryTree();
             case GET_CHANNELS_FOR_CATEGORY:
-                return DirbleProvider.getInstance().getChannelsForCategory((int)params[1]);
+                return DirbleProvider.getInstance().getChannelsForCategory((int)params[0]);
             default:
-                return null;
+                return DirbleProvider.getInstance().search((String) params[0]);
         }
     }
 
@@ -65,5 +68,9 @@ public class DirbleAsyncTask extends AsyncTask<Object,Integer, Object>{
             default:
         }
         progressBar.setVisibility(View.GONE);
+    }
+
+    public void setJobType(JobType jobType) {
+        this.jobType = jobType;
     }
 }
