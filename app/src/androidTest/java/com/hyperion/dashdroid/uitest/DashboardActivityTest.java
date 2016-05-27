@@ -1,6 +1,8 @@
 package com.hyperion.dashdroid.uitest;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
+import android.widget.TextView;
 
 import com.hyperion.dashdroid.DashboardActivity;
 import com.hyperion.dashdroid.news.NewsModuleActivity;
@@ -37,23 +39,40 @@ public class DashboardActivityTest extends ActivityInstrumentationTestCase2<Dash
 
 	public void testButtons() {
 
-		solo.clickOnButton("News");
-		assertTrue(solo.waitForActivity(NewsModuleActivity.class));
+		for(View v : solo.getCurrentViews()) {
 
-		solo.goBack();
+			if(v instanceof TextView) {
 
-		solo.clickOnButton("Tv");
-		assertTrue(solo.waitForActivity(TvModuleActivity.class));
 
-		solo.goBack();
+				if(((TextView) v).getText().equals("News")) {
 
-		solo.clickOnButton("Radio");
-		assertTrue(solo.waitForActivity(RadioModuleActivity.class));
+					solo.clickOnView(v);
+					assertTrue(solo.waitForActivity(NewsModuleActivity.class));
+					solo.goBack();
 
-		solo.goBack();
+				} else if(((TextView) v).getText().equals("Radio")) {
 
-		solo.clickOnButton("Weather");
-		assertTrue(solo.waitForActivity(WeatherModuleActivity.class));
+					solo.clickOnView(v);
+					assertTrue(solo.waitForActivity(RadioModuleActivity.class));
+					solo.goBack();
+
+				} else if(((TextView) v).getText().equals("Tv")) {
+
+					solo.clickOnView(v);
+					assertTrue(solo.waitForActivity(TvModuleActivity.class));
+					solo.goBack();
+
+				} else if(((TextView) v).getText().equals("Weather")) {
+
+					solo.clickOnView(v);
+					assertTrue(solo.waitForActivity(WeatherModuleActivity.class));
+					solo.goBack();
+
+				}
+
+			}
+
+		}
 
 	}
 
