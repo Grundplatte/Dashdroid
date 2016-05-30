@@ -1,4 +1,4 @@
-package com.hyperion.dashdroid.radio;
+package com.hyperion.dashdroid.radio.data;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class RadioChannel {
     private String slug;
     private String website;
     private ArrayList<RadioStream> radioStreams;
-    private ArrayList<RadioChannelCategory> radioChannelCategories;
+    private ArrayList<RadioCategory> radioChannelCategories;
 
     public  RadioChannel(int ID){
         this.ID = ID;
@@ -30,7 +30,7 @@ public class RadioChannel {
         this.radioChannelCategories = null;
     }
 
-    public RadioChannel(int ID, String name, String country, String description, String imageUrl, String thumbUrl, String slug, String website, ArrayList<RadioStream> radioStreams, ArrayList<RadioChannelCategory> radioChannelCategories) {
+    public RadioChannel(int ID, String name, String country, String description, String imageUrl, String thumbUrl, String slug, String website, ArrayList<RadioStream> radioStreams, ArrayList<RadioCategory> radioChannelCategories) {
         this.ID = ID;
         this.name = name;
         this.country = country;

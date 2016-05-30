@@ -1,7 +1,11 @@
-package com.hyperion.dashdroid.radio;
+package com.hyperion.dashdroid.radio.dirble;
 
 import android.util.JsonReader;
 import android.util.JsonToken;
+
+import com.hyperion.dashdroid.radio.data.RadioChannel;
+import com.hyperion.dashdroid.radio.data.RadioCategory;
+import com.hyperion.dashdroid.radio.data.RadioStream;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,8 +18,6 @@ import java.util.ArrayList;
 /**
  * Created by Rainer on 11.05.2016.
  */
-
-// TODO: move all of the following or some parts to a service?
 
 public class DirbleProvider {
 
@@ -58,7 +60,8 @@ public class DirbleProvider {
         return null;
     }
 
-    public ArrayList<RadioChannelCategory> getCategoryTree() {
+    // rewrite so that it tries to read the saved tree first
+    public ArrayList<RadioCategory> getCategoryTree() {
 
         try {
             URL request = new URL(CATEGORIES_URL + "?" + API_KEY);
@@ -105,8 +108,8 @@ public class DirbleProvider {
         return null;
     }
 
-    private ArrayList<RadioChannelCategory> readCategoryArray(JsonReader reader) throws IOException{
-        ArrayList<RadioChannelCategory> categoryArray = new ArrayList<>();
+    private ArrayList<RadioCategory> readCategoryArray(JsonReader reader) throws IOException{
+        ArrayList<RadioCategory> categoryArray = new ArrayList<>();
 
         reader.beginArray();
         while (reader.hasNext()){
@@ -137,7 +140,7 @@ public class DirbleProvider {
         String slug = null;
         String website = null;
         ArrayList<RadioStream> radioStreams = new ArrayList<>();
-        ArrayList<RadioChannelCategory> radioChannelCategories = new ArrayList<>();
+        ArrayList<RadioCategory> radioChannelCategories = new ArrayList<>();
 
         reader.beginObject();
         while (reader.hasNext()){
@@ -245,14 +248,14 @@ public class DirbleProvider {
         return new RadioStream(stream, bitrate, contentType, status);
     }
 
-    private RadioChannelCategory readRadioCategory(JsonReader reader) throws IOException{
+    private RadioCategory readRadioCategory(JsonReader reader) throws IOException{
 
         int ID = -1;
         String title = null;
         String description = null;
         String slug = null;
         int ancestry = -1;
-        ArrayList<RadioChannelCategory> subCategories = new ArrayList<>();
+        ArrayList<RadioCategory> subCategories = new ArrayList<>();
 
         reader.beginObject();
         while (reader.hasNext()){
@@ -284,6 +287,6 @@ public class DirbleProvider {
         }
         reader.endObject();
 
-        return new RadioChannelCategory(ID, title, description, slug, ancestry, subCategories);
+        return new RadioCategory(ID, title, description, slug, ancestry, subCategories);
     }
 }

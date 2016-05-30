@@ -1,14 +1,15 @@
 package com.hyperion.dashdroid.radio;
 
 import android.os.AsyncTask;
-import android.renderscript.ScriptGroup;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.hyperion.dashdroid.R;
+import com.hyperion.dashdroid.radio.data.RadioChannel;
+import com.hyperion.dashdroid.radio.data.RadioCategory;
+import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,6 @@ import java.util.ArrayList;
  */
 public class DirbleAsyncTask extends AsyncTask<Object,Integer, Object>{
 
-    private RelativeLayout relativeLayout;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
     private JobType jobType;
@@ -25,16 +25,16 @@ public class DirbleAsyncTask extends AsyncTask<Object,Integer, Object>{
     public enum JobType{SEARCH, GET_CATEGORY_TREE, GET_CHANNELS_FOR_CATEGORY};
 
     public DirbleAsyncTask(View view) {
-        this.relativeLayout = (RelativeLayout) view;
-        recyclerView = (RecyclerView)relativeLayout.findViewById(R.id.radioListView);
-        progressBar = (ProgressBar)relativeLayout.findViewById(R.id.progressBar);
+        this.recyclerView = (RecyclerView) view;
+        this.progressBar = null;
         this.jobType = JobType.SEARCH;              // by default JobType -> SEARCH
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        progressBar.setVisibility(View.VISIBLE);
+        if(progressBar != null)
+            progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -62,15 +62,20 @@ public class DirbleAsyncTask extends AsyncTask<Object,Integer, Object>{
                 recyclerView.setAdapter(channelAdapter);
                 break;
             case GET_CATEGORY_TREE:
-                CategoryAdapter categoryAdapter = new CategoryAdapter(relativeLayout, (ArrayList<RadioChannelCategory>) o);
+                CategoryAdapter categoryAdapter = new CategoryAdapter(recyclerView, (ArrayList<RadioCategory>) o);
                 recyclerView.setAdapter(categoryAdapter);
                 break;
             default:
         }
-        progressBar.setVisibility(View.GONE);
+        if(progressBar != null)
+            progressBar.setVisibility(View.GONE);
     }
 
     public void setJobType(JobType jobType) {
         this.jobType = jobType;
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
     }
 }

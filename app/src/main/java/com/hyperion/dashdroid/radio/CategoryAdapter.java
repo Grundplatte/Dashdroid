@@ -9,23 +9,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
+import com.hyperion.dashdroid.radio.data.RadioCategory;
 
 import java.util.ArrayList;
 
-/**
- * Created by Rainer on 12.05.2016.
- */
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> implements RecyclerView.OnClickListener{
 
-    private ArrayList<RadioChannelCategory> radioChannelCategories;
+    private RecyclerView parentView;
+    private ArrayList<RadioCategory> radioChannelCategories;
     private int rootCategory;
-    private RelativeLayout parent;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView cardText;
-        public View itemView;
 
+        public View itemView;
         public ViewHolder(View itemView) {
             super(itemView);
             cardText = (TextView) itemView.findViewById(R.id.radioCardText);
@@ -33,11 +31,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
 
     }
-    public CategoryAdapter(RelativeLayout parent, ArrayList<RadioChannelCategory> radioChannelCategories) {
+
+    public int getRootCategory() {
+        return rootCategory;
+    }
+
+    public CategoryAdapter(RecyclerView parentView, ArrayList<RadioCategory> radioChannelCategories) {
+        this.parentView = parentView;
         this.radioChannelCategories = radioChannelCategories;
         this.rootCategory = -1;
-        parent.setTag(rootCategory);
-        this.parent = parent;
     }
 
     @Override
@@ -69,6 +71,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
     }
 
+    // TODO: maybe we should start a new fragment
     @Override
     public void onClick(View v) {
         Log.d(getClass().getSimpleName(),"root: " + rootCategory +  " onClick: " + v.getTag());
@@ -77,10 +80,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             notifyDataSetChanged();
         }
         else{
-            DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(parent);
+            DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(parentView);
             dirbleAsyncTask.setJobType(DirbleAsyncTask.JobType.GET_CHANNELS_FOR_CATEGORY);
             dirbleAsyncTask.execute(radioChannelCategories.get(rootCategory).getSubCategories().get((int)v.getTag()).getID());
         }
-        parent.setTag(rootCategory);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        Log.e(getClass().getSimpleName(), "onAttachedToRecyclerView: ");
+        super.onAttachedToRecyclerView(recyclerView);
     }
 }

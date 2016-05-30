@@ -1,4 +1,4 @@
-package com.hyperion.dashdroid.radio;
+package com.hyperion.dashdroid.radio.data;
 
 import java.net.URI;
 

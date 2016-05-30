@@ -1,5 +1,7 @@
 package com.hyperion.dashdroid.radio;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyperion.dashdroid.R;
+import com.hyperion.dashdroid.radio.data.RadioChannel;
 
 import java.io.IOException;
 
@@ -17,6 +20,7 @@ public class RadioPlayer implements View.OnClickListener {
     private static RadioPlayer instance;
     private MediaPlayer mediaPlayer;
     private RadioChannel lastChannel;
+    private AudioManager audioManager;
 
     private ImageButton playStopButton;
     private TextView radioNameView;
@@ -45,6 +49,8 @@ public class RadioPlayer implements View.OnClickListener {
         lastChannel = null;
         preparing = false;
         mediaPlayer = new MediaPlayer();
+        audioManager = (AudioManager)RadioModuleActivity.getInstance().getSystemService(Context.AUDIO_SERVICE);
+
     }
 
     public void playRadioChannel(RadioChannel channel) {

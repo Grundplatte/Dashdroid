@@ -1,11 +1,11 @@
-package com.hyperion.dashdroid.radio;
+package com.hyperion.dashdroid.radio.data;
 
 import java.util.ArrayList;
 
 /**
  * Created by Rainer on 11.05.2016.
  */
-public class RadioChannelCategory {
+public class RadioCategory {
 
     private int ID;
     private String title;
@@ -13,9 +13,9 @@ public class RadioChannelCategory {
     private String slug;
     private int ancestry;
 
-    private ArrayList<RadioChannelCategory> subCategories;
+    private ArrayList<RadioCategory> subCategories;
 
-    public RadioChannelCategory(int ID, String title, String description, String slug, int ancestry, ArrayList<RadioChannelCategory> subCategories) {
+    public RadioCategory(int ID, String title, String description, String slug, int ancestry, ArrayList<RadioCategory> subCategories) {
         this.ID = ID;
         this.title = title;
         this.description = description;
@@ -44,7 +44,7 @@ public class RadioChannelCategory {
         return ancestry;
     }
 
-    public ArrayList<RadioChannelCategory> getSubCategories() {
+    public ArrayList<RadioCategory> getSubCategories() {
         return subCategories;
     }
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
+import com.hyperion.dashdroid.radio.data.RadioChannel;
 
 import java.util.ArrayList;
 

@@ -3,9 +3,11 @@ package com.hyperion.dashdroid.radio;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.hyperion.dashdroid.R;
@@ -66,13 +68,28 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 
 	@Override
 	public void onBackPressed() {
+		RecyclerView recyclerView = (RecyclerView)findViewById(R.id.radioListView);
+		if(recyclerView == null) {
+			RadioPlayer.getInstance().reset();
+			super.onBackPressed();
+			return;
+		}
 
-		RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.radioList);
-		Integer tag;
-		if((tag = (Integer)relativeLayout.getTag()) != null && tag != -1)
-		{
-			DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(relativeLayout);
+		RecyclerView.Adapter adapter = recyclerView.getAdapter();
+		if(adapter == null){
+			RadioPlayer.getInstance().reset();
+			super.onBackPressed();
+			return;
+		}
+
+		if((adapter instanceof CategoryAdapter && ((CategoryAdapter) adapter).getRootCategory() != -1) || adapter instanceof ChannelAdapter) {
+			DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(recyclerView);
 			dirbleAsyncTask.setJobType(DirbleAsyncTask.JobType.GET_CATEGORY_TREE);
+
+			ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+			if (progressBar != null)
+				dirbleAsyncTask.setProgressBar(progressBar);
+
 			dirbleAsyncTask.execute();
 
 		}
