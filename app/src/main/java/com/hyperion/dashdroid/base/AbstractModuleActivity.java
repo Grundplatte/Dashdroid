@@ -31,8 +31,8 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 	protected final int MENU_REFRESH_BUTTON_ID = 2;
 
 	protected Menu menu;
-	private DrawerLayout drawerLayout;
-	private ListView drawerList;
+	protected DrawerLayout drawerLayout;
+	protected ListView drawerList;
 	private ActionBarDrawerToggle drawerToggle;
 	protected ArrayList<SlidingMenuItem> slidingMenuItems;
 	protected static SlidingMenuItem currentSelectedItem;
@@ -120,7 +120,7 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	private void displayView(int position) {
+	protected void displayView(int position) {
 
 		if(slidingMenuItems != null && slidingMenuItems.size() > position &&
 				slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.ITEM && slidingMenuItems.get(position).getFragment() != null) {

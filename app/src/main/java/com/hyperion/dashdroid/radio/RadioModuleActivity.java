@@ -47,7 +47,7 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 		getSupportActionBar().setTitle(R.string.dashboard_radio);
         searchView = new BaseSearchView(this, DirbleAsyncTask.class);
 
-		Fragment homeFragment = new RadioHomeFragment();
+		Fragment homeFragment = new RadioCategoryFragment();
 
 		slidingMenuItems.add(new SlidingMenuItem("Genres", SlidingMenuItem.ItemType.ITEM, homeFragment, FragmentTagEnum.RADIO_HOME.getTag()));
 	}
@@ -106,6 +106,49 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 		if(currentSelectedItem.getFragment() != null && currentSelectedItem.getFragment() instanceof BaseFragment) {
 
 			((BaseFragment)currentSelectedItem.getFragment()).refresh();
+
+		}
+	}
+
+	/**
+	 * Overrides the standard fragment switching, s.t. the inner fragment is switched
+	 * @param position
+     */
+	@Override
+	protected void displayView(int position) {
+
+		if(slidingMenuItems != null && slidingMenuItems.size() > position &&
+				slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.ITEM && slidingMenuItems.get(position).getFragment() != null) {
+
+			FragmentManager fragmentManager = getFragmentManager();
+
+			// check if parent fragment exists
+			RelativeLayout player = (RelativeLayout)findViewById(R.id.playerLayout);
+			if(player == null) {
+				fragmentManager.beginTransaction().replace(R.id.frame_container, new RadioMainFragment()).commit();
+			}
+
+			Fragment oldFragment = fragmentManager.findFragmentByTag(slidingMenuItems.get(position).getFragmentTag());
+
+			if(oldFragment != null && oldFragment.isVisible()) {
+
+				refresh();
+				drawerLayout.closeDrawer(drawerList);
+
+			}else {
+
+				fragmentManager.beginTransaction().replace(R.id.radioList_container, slidingMenuItems.get(position).getFragment(), slidingMenuItems.get(position).getFragmentTag()).commit();
+				drawerList.setItemChecked(position, true);
+				drawerList.setSelection(position);
+				getSupportActionBar().setSubtitle(slidingMenuItems.get(position).getTitle());
+				drawerLayout.closeDrawer(drawerList);
+
+				currentSelectedItem = slidingMenuItems.get(position);
+			}
+
+		} else {
+
+			Log.e(getClass().getSimpleName(), "Error in creating fragment");
 
 		}
 	}
