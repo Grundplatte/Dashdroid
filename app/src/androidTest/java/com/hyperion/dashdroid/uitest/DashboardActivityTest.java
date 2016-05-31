@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import com.hyperion.dashdroid.DashboardActivity;
 import com.hyperion.dashdroid.news.NewsModuleActivity;
-import com.hyperion.dashdroid.radio.DirbleProvider;
-import com.hyperion.dashdroid.radio.RadioChannel;
+import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
+import com.hyperion.dashdroid.radio.data.RadioChannel;
 import com.hyperion.dashdroid.radio.RadioModuleActivity;
 import com.hyperion.dashdroid.tv.TvModuleActivity;
 import com.hyperion.dashdroid.weather.WeatherModuleActivity;
