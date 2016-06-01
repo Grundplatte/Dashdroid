@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
@@ -13,9 +12,9 @@ import com.hyperion.dashdroid.radio.data.RadioCategory;
 
 import java.util.ArrayList;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> implements RecyclerView.OnClickListener{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
 
-    private RecyclerView parentView;
+    private CategoryItemClickedListener listener;
     private ArrayList<RadioCategory> radioChannelCategories;
     private int rootCategory;
 
@@ -36,16 +35,27 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return rootCategory;
     }
 
-    public CategoryAdapter(RecyclerView parentView, ArrayList<RadioCategory> radioChannelCategories) {
-        this.parentView = parentView;
+    public CategoryAdapter(ArrayList<RadioCategory> radioChannelCategories, CategoryItemClickedListener listener) {
         this.radioChannelCategories = radioChannelCategories;
         this.rootCategory = -1;
+        this.listener = listener;
     }
 
     @Override
     public CategoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View card = LayoutInflater.from(parent.getContext()).inflate(R.layout.radio_fragment_card, parent, false);
-        card.setOnClickListener(this);
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(rootCategory == -1){
+                    rootCategory = (int)v.getTag();
+                    notifyDataSetChanged();
+                }
+                else {
+                    listener.onItemClicked(radioChannelCategories.get(rootCategory).getSubCategories().get((int)v.getTag()));
+                }
+            }
+        });
         return new ViewHolder(card);
     }
 
@@ -65,30 +75,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         if(rootCategory == -1) {
             return radioChannelCategories.size();
         }
-        else
-        {
-            return radioChannelCategories.get(rootCategory).getSubCategories().size();
-        }
+        return radioChannelCategories.get(rootCategory).getSubCategories().size();
     }
 
-    // TODO: maybe we should start a new fragment
-    @Override
-    public void onClick(View v) {
-        Log.d(getClass().getSimpleName(),"root: " + rootCategory +  " onClick: " + v.getTag());
-        if(rootCategory == -1){
-            rootCategory = (int)v.getTag();
-            notifyDataSetChanged();
-        }
-        else{
-            DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(parentView);
-            dirbleAsyncTask.setJobType(DirbleAsyncTask.JobType.GET_CHANNELS_FOR_CATEGORY);
-            dirbleAsyncTask.execute(radioChannelCategories.get(rootCategory).getSubCategories().get((int)v.getTag()).getID());
-        }
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        Log.e(getClass().getSimpleName(), "onAttachedToRecyclerView: ");
-        super.onAttachedToRecyclerView(recyclerView);
+    interface CategoryItemClickedListener {
+        void onItemClicked(RadioCategory category);
     }
 }

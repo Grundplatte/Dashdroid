@@ -1,8 +1,5 @@
 package com.hyperion.dashdroid.radio;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,20 +14,23 @@ import android.widget.RelativeLayout;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseFragment;
-import com.hyperion.dashdroid.radio.data.RadioCategory;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
 import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 
 import java.util.ArrayList;
 
-public class RadioCategoryFragment extends BaseFragment implements CategoryAdapter.CategoryItemClickedListener{
+public class RadioCategoryChannelsFragment extends BaseFragment implements ChannelAdapter.OnChannelItemClickListener{
 
     private View radioListViewContainer;
     private RecyclerView radioList;
     private ProgressBar progressBar;
+    private int categoryid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        categoryid = bundle.getInt("rootCategory");
+
         radioListViewContainer = inflater.inflate(R.layout.radio_fragment_list, container, false);
         radioList = (RecyclerView) radioListViewContainer.findViewById(R.id.radioListView);
 
@@ -49,51 +49,38 @@ public class RadioCategoryFragment extends BaseFragment implements CategoryAdapt
     public void refresh() {
         RelativeLayout relativeLayout = (RelativeLayout)radioListViewContainer.findViewById(R.id.radioList);
 
-        CategoryAsyncTask dirbleAsyncTask = new CategoryAsyncTask();
-        dirbleAsyncTask.execute();
+        CategoryChannelAsyncTask dirbleAsyncTask = new CategoryChannelAsyncTask();
+        dirbleAsyncTask.execute(categoryid);
 
         ((RadioModuleActivity)getActivity()).getSearchView().setView(relativeLayout);
     }
 
     @Override
-    public void onItemClicked(RadioCategory category) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Fragment radioCategoryChannelsFragment = new RadioCategoryChannelsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("rootCategory", category.getID());
-
-        radioCategoryChannelsFragment.setArguments(bundle);
-
-        //transaction.hide(RadioCategoryFragment.this);
-        transaction.replace(R.id.radioList_container, radioCategoryChannelsFragment);
-        transaction.addToBackStack("categoryFragment");
-        transaction.commit();
+    public void onItemClick(RadioChannel channel) {
+        RadioPlayer.getInstance().playRadioChannel(channel);
     }
 
-    public class CategoryAsyncTask extends AsyncTask<Object,Integer, Object> {
+    public class CategoryChannelAsyncTask extends AsyncTask<Object,Integer, Object> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             if(progressBar != null)
                 progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected Object doInBackground(Object... params) {
-            return DirbleProvider.getInstance().getCategoryTree();
+            return DirbleProvider.getInstance().getChannelsForCategory((int)params[0]);
         }
 
         @Override
         protected void onPostExecute(Object o) {
+            ChannelAdapter channelAdapter = new ChannelAdapter((ArrayList<RadioChannel>) o, RadioCategoryChannelsFragment.this);
+            radioList.setAdapter(channelAdapter);
+
             if(progressBar != null)
                 progressBar.setVisibility(View.GONE);
-
-            CategoryAdapter categoryAdapter = new CategoryAdapter((ArrayList<RadioCategory>) o, RadioCategoryFragment.this);
-            radioList.setAdapter(categoryAdapter);
-
         }
     }
 }

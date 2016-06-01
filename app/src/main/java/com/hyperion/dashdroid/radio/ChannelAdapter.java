@@ -1,5 +1,6 @@
 package com.hyperion.dashdroid.radio;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  */
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> implements View.OnClickListener{
 
+    private OnChannelItemClickListener listener;
     private ArrayList<RadioChannel> radioChannels;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -30,14 +32,24 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         }
 
     }
-    public ChannelAdapter(ArrayList<RadioChannel> radioChannels) {
+    public ChannelAdapter(ArrayList<RadioChannel> radioChannels, OnChannelItemClickListener listener) {
+        this.radioChannels = radioChannels;
+        this.listener = listener;
+    }
+
+    public void setItems(ArrayList<RadioChannel> radioChannels) {
         this.radioChannels = radioChannels;
     }
 
     @Override
     public ChannelAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View card = LayoutInflater.from(parent.getContext()).inflate(R.layout.radio_fragment_card, parent, false);
-        card.setOnClickListener(this);
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(radioChannels.get((int)v.getTag()));
+            }
+        });
         return new ViewHolder(card);
     }
 
@@ -55,5 +67,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     @Override
     public void onClick(View view) {
         RadioPlayer.getInstance().playRadioChannel(radioChannels.get((int)view.getTag()));
+    }
+
+    interface OnChannelItemClickListener {
+        void onItemClick(RadioChannel channel);
     }
 }

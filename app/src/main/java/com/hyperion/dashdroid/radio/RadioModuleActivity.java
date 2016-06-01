@@ -3,11 +3,9 @@ package com.hyperion.dashdroid.radio;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.hyperion.dashdroid.R;
@@ -45,7 +43,7 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 	public void addSpecificContent() {
 
 		getSupportActionBar().setTitle(R.string.dashboard_radio);
-        searchView = new BaseSearchView(this, DirbleAsyncTask.class);
+        searchView = new RadioSearchView(this, ChannelSearchAsyncTask.class);
 
 		Fragment homeFragment = new RadioCategoryFragment();
 
@@ -62,43 +60,17 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 	@Override
 	public void search() {
 
-		Log.d(getClass().getSimpleName(), "refresh() method called...");
+		Log.d(getClass().getSimpleName(), "search() method called...");
 
 	}
 
+
 	@Override
 	public void onBackPressed() {
-		RecyclerView recyclerView = (RecyclerView)findViewById(R.id.radioListView);
-		if(recyclerView == null) {
-			RadioPlayer.getInstance().reset();
-			super.onBackPressed();
-			return;
-		}
-
-		RecyclerView.Adapter adapter = recyclerView.getAdapter();
-		if(adapter == null){
-			RadioPlayer.getInstance().reset();
-			super.onBackPressed();
-			return;
-		}
-
-		if((adapter instanceof CategoryAdapter && ((CategoryAdapter) adapter).getRootCategory() != -1) || adapter instanceof ChannelAdapter) {
-			DirbleAsyncTask dirbleAsyncTask = new DirbleAsyncTask(recyclerView);
-			dirbleAsyncTask.setJobType(DirbleAsyncTask.JobType.GET_CATEGORY_TREE);
-
-			ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
-			if (progressBar != null)
-				dirbleAsyncTask.setProgressBar(progressBar);
-
-			dirbleAsyncTask.execute();
-
-		}
+		if(getFragmentManager().getBackStackEntryCount() > 0)
+			getFragmentManager().popBackStack();
 		else
-		{
-			RadioPlayer.getInstance().reset();
 			super.onBackPressed();
-		}
-
 	}
 
 	@Override
@@ -116,6 +88,11 @@ public class RadioModuleActivity extends AbstractModuleActivity {
      */
 	@Override
 	protected void displayView(int position) {
+
+		// TODO: maybe not the best solution
+		if(getFragmentManager().getBackStackEntryCount() > 0)
+			getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
 
 		if(slidingMenuItems != null && slidingMenuItems.size() > position &&
 				slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.ITEM && slidingMenuItems.get(position).getFragment() != null) {
