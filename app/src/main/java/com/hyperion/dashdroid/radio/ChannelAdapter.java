@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by Rainer on 12.05.2016.
  */
-public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> implements View.OnClickListener{
+public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder>{
 
     private OnChannelItemClickListener listener;
     private ArrayList<RadioChannel> radioChannels;
@@ -62,11 +62,6 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     @Override
     public int getItemCount() {
         return radioChannels.size();
-    }
-
-    @Override
-    public void onClick(View view) {
-        RadioPlayer.getInstance().playRadioChannel(radioChannels.get((int)view.getTag()));
     }
 
     interface OnChannelItemClickListener {

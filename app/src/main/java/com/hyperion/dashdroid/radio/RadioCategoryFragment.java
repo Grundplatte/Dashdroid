@@ -51,8 +51,6 @@ public class RadioCategoryFragment extends BaseFragment implements CategoryAdapt
 
         CategoryAsyncTask dirbleAsyncTask = new CategoryAsyncTask();
         dirbleAsyncTask.execute();
-
-        ((RadioModuleActivity)getActivity()).getSearchView().setView(relativeLayout);
     }
 
     @Override

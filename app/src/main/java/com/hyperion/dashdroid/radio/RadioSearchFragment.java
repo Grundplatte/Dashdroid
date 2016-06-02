@@ -47,6 +47,7 @@ public class RadioSearchFragment extends BaseFragment implements ChannelAdapter.
 
     @Override
     public void onItemClick(RadioChannel channel) {
-        RadioPlayer.getInstance().playRadioChannel(channel);
+        RadioMainFragment radioMainFragment = (RadioMainFragment) getFragmentManager().findFragmentByTag(RadioMainFragment.TAG);
+        radioMainFragment.getRadioPlayer().playRadioChannel(channel);
     }
 }

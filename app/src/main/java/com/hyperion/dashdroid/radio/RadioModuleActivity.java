@@ -100,9 +100,9 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 			FragmentManager fragmentManager = getFragmentManager();
 
 			// check if parent fragment exists
-			RelativeLayout player = (RelativeLayout)findViewById(R.id.playerLayout);
-			if(player == null) {
-				fragmentManager.beginTransaction().replace(R.id.frame_container, new RadioMainFragment()).commit();
+			Fragment mainFragment = fragmentManager.findFragmentByTag(RadioMainFragment.TAG);
+			if(mainFragment == null) {
+				fragmentManager.beginTransaction().replace(R.id.frame_container, new RadioMainFragment(), RadioMainFragment.TAG).commit();
 			}
 
 			Fragment oldFragment = fragmentManager.findFragmentByTag(slidingMenuItems.get(position).getFragmentTag());
@@ -124,9 +124,14 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 			}
 
 		} else {
-
 			Log.e(getClass().getSimpleName(), "Error in creating fragment");
-
 		}
+	}
+
+	@Override
+	protected void onStop() {
+		RadioMainFragment radioMainFragment = (RadioMainFragment) getFragmentManager().findFragmentByTag(RadioMainFragment.TAG);
+		radioMainFragment.getRadioPlayer().stopRadio();
+		super.onStop();
 	}
 }

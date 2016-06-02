@@ -51,13 +51,12 @@ public class RadioCategoryChannelsFragment extends BaseFragment implements Chann
 
         CategoryChannelAsyncTask dirbleAsyncTask = new CategoryChannelAsyncTask();
         dirbleAsyncTask.execute(categoryid);
-
-        ((RadioModuleActivity)getActivity()).getSearchView().setView(relativeLayout);
     }
 
     @Override
     public void onItemClick(RadioChannel channel) {
-        RadioPlayer.getInstance().playRadioChannel(channel);
+        RadioMainFragment radioMainFragment = (RadioMainFragment) getFragmentManager().findFragmentByTag(RadioMainFragment.TAG);
+        radioMainFragment.getRadioPlayer().playRadioChannel(channel);
     }
 
     public class CategoryChannelAsyncTask extends AsyncTask<Object,Integer, Object> {
