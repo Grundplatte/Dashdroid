@@ -50,7 +50,7 @@ public class RSSAdapter extends BaseAdapter {
         View listItem = convertView;
         int pos = position;
         if (listItem == null) {
-            listItem = layoutInflater.inflate(R.layout.list_item, null);
+            listItem = layoutInflater.inflate(R.layout.news_fragment_list_item, null);
         }
 
         // Initialize the views in the layout

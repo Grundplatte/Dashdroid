@@ -9,7 +9,7 @@ import com.hyperion.dashdroid.news.NewsModuleActivity;
 import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
 import com.hyperion.dashdroid.radio.RadioModuleActivity;
-import com.hyperion.dashdroid.tv.TvModuleActivity;
+import com.hyperion.dashdroid.books.BooksModuleActivity;
 import com.hyperion.dashdroid.weather.WeatherModuleActivity;
 import com.robotium.solo.Solo;
 
@@ -56,10 +56,10 @@ public class DashboardActivityTest extends ActivityInstrumentationTestCase2<Dash
 					assertTrue(solo.waitForActivity(RadioModuleActivity.class));
 					solo.goBack();
 
-				} else if(((TextView) v).getText().equals("Tv")) {
+				} else if(((TextView) v).getText().equals("Books")) {
 
 					solo.clickOnView(v);
-					assertTrue(solo.waitForActivity(TvModuleActivity.class));
+					assertTrue(solo.waitForActivity(BooksModuleActivity.class));
 					solo.goBack();
 
 				} else if(((TextView) v).getText().equals("Weather")) {

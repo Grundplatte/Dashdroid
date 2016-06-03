@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Dashdroid</string>
     <string name="dashboard_news">News</string>
-    <string name="dashboard_tv">Tv</string>
+    <string name="dashboard_books">Books</string>
     <string name="dashboard_radio">Radio</string>
     <string name="dashboard_weather">Weather</string>
     <string name="dashboard_rss">RSS</string>
@@ -14,6 +14,7 @@
     <string name="title">Title goes here!</string>
     <string name="date">Date goes here!</string>
     <string name="desc">Description goes here!</string>
+    <string name="author">Author goes here!</string>
 
     <!-- News module - Sliding Menu Items -->
     <string name="news_sliding_menu_item_1">Home</string>
@@ -21,8 +22,8 @@
     <!-- Radio module -->
     <string name="radio_sliding_menu_item_1">Home</string>
 
-    <!-- Tv module -->
-    <string name="tv_sliding_menu_item_1">Home</string>
+    <!-- Books module -->
+    <string name="books_sliding_menu_item_1">Home</string>
 
     <!-- Weather module -->
     <string name="weather_sliding_menu_item_1">Home</string>

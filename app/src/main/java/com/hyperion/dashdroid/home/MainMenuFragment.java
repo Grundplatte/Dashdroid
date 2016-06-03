@@ -16,10 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
+import com.hyperion.dashdroid.books.BooksModuleActivity;
 import com.hyperion.dashdroid.news.NewsModuleActivity;
 import com.hyperion.dashdroid.radio.RadioModuleActivity;
-import com.hyperion.dashdroid.tv.TvModuleActivity;
-import com.hyperion.dashdroid.weather.WeatherModuleActivity;
 
 /**
  * Created by Rainer on 05.05.2016.
@@ -40,11 +39,11 @@ public final class MainMenuFragment extends Fragment{
     }
 
     // FIXME: Just for testing
-    private int[] mTileText = {/*R.string.dashboard_weather, R.string.dashboard_tv,*/ R.string.dashboard_news, R.string.dashboard_radio};
-    private int[] mIconId = {R.drawable.ic_today_black_48dp, R.drawable.ic_radio_black_48dp
-            /*R.drawable.ic_wb_sunny_black_48dp,
-            R.drawable.ic_tv_black_48dp,*/};
-    private Class[] mTileLink = {/*WeatherModuleActivity.class, TvModuleActivity.class,*/ NewsModuleActivity.class, RadioModuleActivity.class};
+    private int[] mTileText = {/*R.string.dashboard_weather,*/ R.string.dashboard_news, R.string.dashboard_radio, R.string.dashboard_books};
+    private int[] mIconId = {R.drawable.ic_today_black_48dp, R.drawable.ic_radio_black_48dp,
+            /*R.drawable.ic_wb_sunny_black_48dp,*/
+            R.drawable.ic_books_black_48dp,};
+    private Class[] mTileLink = {/*WeatherModuleActivity.class*/ NewsModuleActivity.class, RadioModuleActivity.class, BooksModuleActivity.class,};
 
 
     @Nullable

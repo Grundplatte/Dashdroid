@@ -1,4 +1,4 @@
-package com.hyperion.dashdroid.tv;
+package com.hyperion.dashdroid.books;
 
 import android.app.Fragment;
 import android.util.Log;
@@ -13,15 +13,13 @@ import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 /**
  * Created by infinity on 05-May-16.
  */
-public class TvModuleActivity extends AbstractModuleActivity {
+public class BooksModuleActivity extends AbstractModuleActivity {
 
 	@Override
 	public void addSpecificContent() {
 
-		getSupportActionBar().setTitle(R.string.dashboard_tv);
-
-		Fragment homeFragment = new TvHomeFragment();
-
+		getSupportActionBar().setTitle(R.string.dashboard_books);
+		Fragment homeFragment = new BooksHomeFragment();
 		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment, FragmentTagEnum.TV_HOME.getTag()));
 	}
 
