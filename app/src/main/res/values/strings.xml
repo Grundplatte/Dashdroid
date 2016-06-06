@@ -6,6 +6,17 @@
     <string name="dashboard_weather">Weather</string>
     <string name="dashboard_rss">RSS</string>
     <string name="action_settings">Settings</string>
+    <string name="settings_config_file">com.hyperion.dashdroid.SETTINGS_CONFIG_FILE</string>
+    <string-array name="settings_config_available_modules">
+
+        <item>News</item>
+        <item>Radio</item>
+        <item>Books</item>
+
+    </string-array>
+    <string name="settings_enable">Enable / Disable</string>
+    <string name="settings_size">Size small / large</string>
+    <string name="settings_modules">Modules</string>
 
     <string name="sliding_menu_open">Slider Menu Opened</string>
     <string name="sliding_menu_close">Slider Menu Closed</string>

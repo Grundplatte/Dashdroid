@@ -62,7 +62,7 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 		View view = inflater.inflate(R.layout.news_fragment_feed_list, container, false);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 		progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.m_color_pressed_1), PorterDuff.Mode.MULTIPLY);
-		listView = (ListView) view.findViewById(R.id.listView);
+		listView = (ListView) view.findViewById(R.id.modulesListView);
 		listView.setOnItemClickListener(this);
 		listView.setTextFilterEnabled(true);
 		refresh();

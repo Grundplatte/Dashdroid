@@ -26,6 +26,7 @@
         <activity android:name=".books.BooksModuleActivity" />
         <activity android:name=".weather.WeatherModuleActivity" />
         <activity android:name=".news.DetailNews"/>
+        <activity android:name=".settings.SettingsActivity"/>
 
     </application>
 
