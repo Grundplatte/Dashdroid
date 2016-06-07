@@ -1,6 +1,5 @@
 package com.hyperion.dashdroid.books;
 
-import android.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +8,7 @@ import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
 import com.hyperion.dashdroid.base.FragmentTagEnum;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
+import com.hyperion.dashdroid.books.recommendations.BooksFragment;
 
 /**
  * Created by infinity on 05-May-16.
@@ -19,8 +19,8 @@ public class BooksModuleActivity extends AbstractModuleActivity {
 	public void addSpecificContent() {
 
 		getSupportActionBar().setTitle(R.string.dashboard_books);
-		Fragment homeFragment = new BooksHomeFragment();
-		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, homeFragment, FragmentTagEnum.TV_HOME.getTag()));
+		BooksFragment booksFragment = new BooksFragment();
+		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, booksFragment, FragmentTagEnum.BOOKS_HOME.getTag()));
 	}
 
 	@Override
