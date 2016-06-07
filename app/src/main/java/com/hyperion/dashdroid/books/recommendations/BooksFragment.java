@@ -1,13 +1,19 @@
 package com.hyperion.dashdroid.books.recommendations;
 
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseFragment;
 
 /**
@@ -15,18 +21,31 @@ import com.hyperion.dashdroid.base.BaseFragment;
  */
 public class BooksFragment extends BaseFragment implements AdapterView.OnItemClickListener {
 
-    private String book;
+    private String isbn = "0821804707";
+    private String isbn13 = " 9781118240670";
+    private ProgressBar progressBar;
+    private ListView listView;
+    private Bookshelf bookshelf;
+    private BooksAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        book = "https://www.googleapis.com/books/v1/volumes?";
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.books_fragment_list, container, false);
+        progressBar = (ProgressBar) view.findViewById(R.id.books_progressBar);
+        progressBar.getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(getActivity(), R.color.m_color_pressed_1),
+                        PorterDuff.Mode.MULTIPLY);
+        listView = (ListView) view.findViewById(R.id.books_listView);
+        listView.setOnItemClickListener(this);
+        listView.setTextFilterEnabled(true);
+        new GetBook().execute();
+        return view;
     }
 
     @Override
@@ -36,14 +55,33 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        Log.e("Position: ", position + "");
+        //TODO: implement the BooksDetailActivity
     }
 
-    private class GetBookInfo extends AsyncTask<String, Void, String>{
+   public class GetBook extends AsyncTask<Void, Void, Void>{
 
         @Override
-        protected String doInBackground(String... params) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            BooksRequest booksRequest = new BooksRequest();
+            bookshelf = booksRequest.request(isbn);
             return null;
         }
+
+        @Override
+        protected void onPostExecute(Void s) {
+            super.onPostExecute(s);
+            adapter = new BooksAdapter(BooksFragment.this, bookshelf);
+            Log.e("Bookshelf", "" + bookshelf.getItemCount());
+            listView.setAdapter(adapter);
+            progressBar.setVisibility(View.GONE);
+        }
     }
+
 }
