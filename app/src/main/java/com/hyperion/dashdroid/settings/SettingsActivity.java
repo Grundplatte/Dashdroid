@@ -10,7 +10,6 @@ import android.widget.ListView;
 import com.hyperion.dashdroid.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -19,39 +18,37 @@ import java.util.List;
 public class SettingsActivity extends AppCompatActivity {
 
 	private SharedPreferences configData;
-	private List<String> modules;
 	private ListView listView;
 	private SettingsAdapter listAdapter;
+	private SettingsConfigItemsEnum[] settingsConfigItems;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.settings);
-
 		setTitle(getResources().getString(R.string.action_settings));
 
-		readConfigData();
+		settingsConfigItems = SettingsConfigItemsEnum.values();
 
-		for(String s : modules) {
-			Log.d(getClass().getSimpleName(), "s = " + s);
-		}
+		readConfigData();
 	}
 
 	private void readConfigData() {
 
 		configData = getSharedPreferences(getString(R.string.settings_config_file), Context.MODE_PRIVATE);
 
-		String[] availableModules = getResources().getStringArray(R.array.settings_config_available_modules);
-
 		List<SettingsItem> listItems = new ArrayList<>();
-		for(String moduleStr : availableModules) {
+
+		for(int i = 0; i < settingsConfigItems.length; i++) {
 
 			SettingsItem item = new SettingsItem();
-			item.setTitle(moduleStr);
-			item.setEnabled(false);
-			item.setDisplaySize(1);
+			item.setConfigEnum(settingsConfigItems[i]);
+			item.setTitle(settingsConfigItems[i].getTitle());
+			item.setEnabled(configData.getBoolean(settingsConfigItems[i].getSharedPrefEnabled(), false));
+			item.setDisplaySize(configData.getInt(settingsConfigItems[i].getSharedPrefDisplaySize(), 1));
 
 			listItems.add(item);
+
 		}
 
 		listAdapter = new SettingsAdapter(this, listItems);
@@ -59,10 +56,28 @@ public class SettingsActivity extends AppCompatActivity {
 		listView = (ListView) findViewById(R.id.modulesListView);
 		listView.setAdapter(listAdapter);
 
+	}
 
-		modules = new ArrayList<>();
-		modules.addAll(Arrays.asList(availableModules));
+	private void writeConfigData() {
+
+		SharedPreferences.Editor editor = configData.edit();
+
+		for(int i = 0; i < listAdapter.getCount(); i++) {
+
+			SettingsItem item = (SettingsItem) listAdapter.getItem(i);
+
+			editor.putBoolean(item.getConfigEnum().getSharedPrefEnabled(), item.isEnabled());
+			editor.putInt(item.getConfigEnum().getSharedPrefDisplaySize(), item.getDisplaySize());
+		}
+
+		editor.commit();
 
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		writeConfigData();
+	}
 }

@@ -5,9 +5,18 @@ package com.hyperion.dashdroid.settings;
  */
 public class SettingsItem {
 
+	private SettingsConfigItemsEnum configEnum;
 	private String title;
 	private boolean enabled;
 	private int displaySize;
+
+	public SettingsConfigItemsEnum getConfigEnum() {
+		return configEnum;
+	}
+
+	public void setConfigEnum(SettingsConfigItemsEnum configEnum) {
+		this.configEnum = configEnum;
+	}
 
 	public String getTitle() {
 		return title;
