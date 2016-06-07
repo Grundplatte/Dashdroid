@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -47,7 +48,7 @@ public class SettingsAdapter extends BaseAdapter {
 
 		// Inflate the item layout and set the views
 		View listItem = convertView;
-		int pos = position;
+		final int pos = position;
 
 		if(listItem == null) {
 			listItem = layoutInflater.inflate(R.layout.settings_fragment_list_item, null);
@@ -62,6 +63,22 @@ public class SettingsAdapter extends BaseAdapter {
 		txtTitle.setText(items.get(pos).getTitle());
 		enabledSwitch.setChecked(items.get(pos).isEnabled());
 		sizeSwitch.setChecked(items.get(pos).getDisplaySize() == 0 ? false : true);
+
+		enabledSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+				items.get(pos).setEnabled(isChecked);
+			}
+		});
+
+		sizeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+				items.get(pos).setDisplaySize(isChecked ? 1 : 0);
+			}
+		});
 
 		return listItem;
 
