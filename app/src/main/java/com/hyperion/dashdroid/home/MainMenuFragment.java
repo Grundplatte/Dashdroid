@@ -1,6 +1,8 @@
 package com.hyperion.dashdroid.home;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,9 +18,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
-import com.hyperion.dashdroid.books.BooksModuleActivity;
-import com.hyperion.dashdroid.news.NewsModuleActivity;
-import com.hyperion.dashdroid.radio.RadioModuleActivity;
+import com.hyperion.dashdroid.settings.SettingsConfigItemsEnum;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Rainer on 05.05.2016.
@@ -29,12 +34,9 @@ import com.hyperion.dashdroid.radio.RadioModuleActivity;
 public final class MainMenuFragment extends Fragment {
 
 	private static MainMenuFragment instance = null;
-	// FIXME: Just for testing
-	private int[] mTileText = {/*R.string.dashboard_weather,*/ R.string.dashboard_news, R.string.dashboard_radio, R.string.dashboard_books};
-	private int[] mIconId = {R.drawable.ic_today_black_48dp, R.drawable.ic_radio_black_48dp,
-			/*R.drawable.ic_wb_sunny_black_48dp,*/
-			R.drawable.ic_books_black_48dp,};
-	private Class[] mTileLink = {/*WeatherModuleActivity.class*/ NewsModuleActivity.class, RadioModuleActivity.class, BooksModuleActivity.class,};
+	private List<SettingsConfigItemsEnum> moduleItems;
+	private View gridView;
+	private SharedPreferences configData;
 
 	public static synchronized MainMenuFragment getInstance() {
 		if(instance == null) {
@@ -43,42 +45,41 @@ public final class MainMenuFragment extends Fragment {
 		return instance;
 	}
 
-	@Nullable
 	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		View gridView = inflater.inflate(R.layout.main_fragment, container, false);
+	public void onResume() {
+		super.onResume();
+
+		readConfigData();
 
 		GridLayout gridLayout = (GridLayout) gridView.findViewById(R.id.gridLayout);
 		gridLayout.removeAllViews();
 		gridLayout.setColumnCount(2);
-		gridLayout.setRowCount((int) Math.ceil(mTileText.length / 2));
+		gridLayout.setRowCount(moduleItems.size());
 
 		Point displaySize = new Point();
 		Display display = getActivity().getWindowManager().getDefaultDisplay();
 		display.getSize(displaySize);
-		int mTileWidth = displaySize.x / 2;
-		int mTileHeight = (int) ((float) mTileWidth * 2f);
 
 		LayoutInflater layoutInflater = getActivity().getLayoutInflater();
-		for(int i = 0; i < mTileText.length; i++) {
+
+		for(int i = 0; i < moduleItems.size(); i++) {
+			SettingsConfigItemsEnum item = moduleItems.get(i);
+
 			View view = layoutInflater.inflate(R.layout.main_fragment_card, null);
 			RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.tileLayout);
-			relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(mTileWidth, mTileHeight));
-
-			GridLayout.LayoutParams layoutParamsDouble = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1),
-					GridLayout.spec(GridLayout.UNDEFINED, 2));
-			GridLayout.LayoutParams layoutParamsSingle = new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1),
-					GridLayout.spec(GridLayout.UNDEFINED, 1));
+			relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
+			relativeLayout.getLayoutParams().width = configData.getInt(item.getSharedPrefDisplaySize(), 1) == 0 ? displaySize.x / 2 : displaySize.x;
+			relativeLayout.getLayoutParams().height = displaySize.x / 2;
 
 			TextView textView = (TextView) view.findViewById(R.id.person_name);
-			textView.setText(mTileText[i]);
+			textView.setText(item.getTitle());
 
 			// FIXME: Text size should be appropriate to text length and tile width/height
-			textView.setTextSize(mTileHeight / 25);
+			textView.setTextSize(relativeLayout.getLayoutParams().width / 25);
 			textView.setTextColor(0xFF000000);
 
 			ImageView imageView = (ImageView) view.findViewById(R.id.person_photo);
-			imageView.setImageResource(mIconId[i]);   /*R.drawable.temp*/
+			imageView.setImageResource(item.getIcon());
 
 			// encode tile id into view tag
 			view.setTag(i);
@@ -91,19 +92,47 @@ public final class MainMenuFragment extends Fragment {
 				}
 			});
 
-			//if(i == 0) {
-			gridLayout.addView(view, layoutParamsDouble);
-            /*}
-            else
-                gridLayout.addView(view);*/
+			if(configData.getInt(item.getSharedPrefDisplaySize(), 1) == 0) {
+				gridLayout.addView(view);
+			} else if(configData.getInt(item.getSharedPrefDisplaySize(), 1) == 1) {
+				gridLayout.addView(view, new GridLayout.LayoutParams(GridLayout.spec(GridLayout.UNDEFINED, 1), GridLayout.spec(GridLayout.UNDEFINED, 2)));
+			}
+
 		}
+	}
+
+	@Nullable
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+		gridView = inflater.inflate(R.layout.main_fragment, container, false);
+
 		return gridView;
 	}
 
 	public void onClickTile(View v) {
-		int tile_id = (int) ((View) v.getParent()).getTag();
+		int tag = (int) ((View) v.getParent()).getTag();
 
-		Intent intent = new Intent(getContext(), mTileLink[tile_id]);
+		Intent intent = new Intent(getContext(), moduleItems.get(tag).getActivityClass());
 		startActivity(intent);
+	}
+
+	private void readConfigData() {
+
+		moduleItems = new ArrayList<SettingsConfigItemsEnum>();
+		moduleItems.addAll(Arrays.asList(SettingsConfigItemsEnum.values()));
+
+		configData = getActivity().getSharedPreferences(getString(R.string.settings_config_file), Context.MODE_PRIVATE);
+
+		Iterator<SettingsConfigItemsEnum> iterator = moduleItems.iterator();
+		while(iterator.hasNext()) {
+
+			SettingsConfigItemsEnum item = iterator.next();
+
+			if(!configData.getBoolean(item.getSharedPrefEnabled(), false)) {
+				iterator.remove();
+			}
+		}
+
 	}
 }
