@@ -129,7 +129,7 @@ public final class MainMenuFragment extends Fragment {
 
 			SettingsConfigItemsEnum item = iterator.next();
 
-			if(!configData.getBoolean(item.getSharedPrefEnabled(), false)) {
+			if(!configData.getBoolean(item.getSharedPrefEnabled(), true)) {
 				iterator.remove();
 			}
 		}
