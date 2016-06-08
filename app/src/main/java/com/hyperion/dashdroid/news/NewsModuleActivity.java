@@ -112,7 +112,7 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 
 		if(currentSelectedItem.getFragment() != null && currentSelectedItem.getFragment() instanceof BaseFragment) {
 
-			((BaseFragment)currentSelectedItem.getFragment()).refresh();
+			((BaseFragment) currentSelectedItem.getFragment()).refresh();
 
 		}
 	}

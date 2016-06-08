@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
@@ -21,11 +20,13 @@ import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 public class RadioModuleActivity extends AbstractModuleActivity {
 
 	private static RadioModuleActivity instance;
+
 	public static RadioModuleActivity getInstance() {
 		return instance;
 	}
-    public final int ID_MENU_SEARCH = 1;
-    public final int ID_MENU_SETTINGS = 2;
+
+	public final int ID_MENU_SEARCH = 1;
+	public final int ID_MENU_SETTINGS = 2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +35,16 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 	}
 
 	public BaseSearchView getSearchView() {
-        return searchView;
-    }
+		return searchView;
+	}
 
-    private BaseSearchView searchView;
+	private BaseSearchView searchView;
 
 	@Override
 	public void addSpecificContent() {
 
 		getSupportActionBar().setTitle(R.string.dashboard_radio);
-        searchView = new RadioSearchView(this, ChannelSearchAsyncTask.class);
+		searchView = new RadioSearchView(this, ChannelSearchAsyncTask.class);
 
 		Fragment homeFragment = new RadioCategoryFragment();
 
@@ -53,9 +54,9 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 	@Override
 	public void addOptionMenuItems(Menu menu) {
 
-        menu.add(Menu.NONE, ID_MENU_SEARCH, Menu.NONE, "").setActionView(searchView).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        //menu.add(Menu.NONE, ID_MENU_SETTINGS, Menu.NONE, "").setIcon(R.drawable.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-    }
+		menu.add(Menu.NONE, ID_MENU_SEARCH, Menu.NONE, "").setActionView(searchView).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+		//menu.add(Menu.NONE, ID_MENU_SETTINGS, Menu.NONE, "").setIcon(R.drawable.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+	}
 
 	@Override
 	public void search() {
@@ -77,15 +78,16 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 	protected void refresh() {
 		if(currentSelectedItem.getFragment() != null && currentSelectedItem.getFragment() instanceof BaseFragment) {
 
-			((BaseFragment)currentSelectedItem.getFragment()).refresh();
+			((BaseFragment) currentSelectedItem.getFragment()).refresh();
 
 		}
 	}
 
 	/**
 	 * Overrides the standard fragment switching, s.t. the inner fragment is switched
+	 *
 	 * @param position
-     */
+	 */
 	@Override
 	protected void displayView(int position) {
 
@@ -112,7 +114,7 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 				refresh();
 				drawerLayout.closeDrawer(drawerList);
 
-			}else {
+			} else {
 
 				fragmentManager.beginTransaction().replace(R.id.radioList_container, slidingMenuItems.get(position).getFragment(), slidingMenuItems.get(position).getFragmentTag()).commit();
 				drawerList.setItemChecked(position, true);

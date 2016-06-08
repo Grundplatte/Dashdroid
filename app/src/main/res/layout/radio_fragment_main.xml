@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
 
     <FrameLayout
@@ -11,13 +11,13 @@
         android:id="@+id/radioList_container"/>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:id="@+id/playerLayout"
-        android:background="@color/colorMenuButtonNormal"
-        android:layout_alignParentBottom="true"
-        android:padding="8dp">
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:id="@+id/playerLayout"
+                    android:background="@color/colorMenuButtonNormal"
+                    android:layout_alignParentBottom="true"
+                    android:padding="8dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
             android:layout_toLeftOf="@+id/playStopButton"
             android:text=""
             android:textSize="20dp"
-            android:textAlignment="center" />
+            android:textAlignment="center"/>
 
 
         <TextView

@@ -8,25 +8,25 @@ import java.util.Vector;
  */
 public class Bookshelf {
 
-    private List<BooksItem> bookshelf;
+	private List<BooksItem> bookshelf;
 
-    Bookshelf(){
-        bookshelf = new Vector<BooksItem>(0);
-    }
+	Bookshelf() {
+		bookshelf = new Vector<BooksItem>(0);
+	}
 
-    void addBook(BooksItem item){
-        bookshelf.add(item);
-    }
+	void addBook(BooksItem item) {
+		bookshelf.add(item);
+	}
 
-    public BooksItem getBookItem(int location){
-        return bookshelf.get(location);
-    }
+	public BooksItem getBookItem(int location) {
+		return bookshelf.get(location);
+	}
 
-    public int getItemCount(){
-        return bookshelf.size();
-    }
+	public int getItemCount() {
+		return bookshelf.size();
+	}
 
-    public List<BooksItem> getBookList() {
-        return bookshelf;
-    }
+	public List<BooksItem> getBookList() {
+		return bookshelf;
+	}
 }
