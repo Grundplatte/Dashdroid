@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ListView;
 
 import com.hyperion.dashdroid.R;
@@ -44,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
 			SettingsItem item = new SettingsItem();
 			item.setConfigEnum(settingsConfigItems[i]);
 			item.setTitle(settingsConfigItems[i].getTitle());
-			item.setEnabled(configData.getBoolean(settingsConfigItems[i].getSharedPrefEnabled(), false));
+			item.setEnabled(configData.getBoolean(settingsConfigItems[i].getSharedPrefEnabled(), true));
 			item.setDisplaySize(configData.getInt(settingsConfigItems[i].getSharedPrefDisplaySize(), 1));
 
 			listItems.add(item);
