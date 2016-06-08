@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseFragment;
 
-public class RadioMainFragment extends BaseFragment{
+public class RadioMainFragment extends BaseFragment {
 
     public static final String TAG = "MainFragment";
     private View radioMainView;

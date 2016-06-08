@@ -3,7 +3,6 @@ package com.hyperion.dashdroid.radio;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.view.MenuItem;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseSearchView;
@@ -21,10 +20,10 @@ public class RadioSearchView extends BaseSearchView {
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        FragmentManager fragmentManager = ((Activity)context).getFragmentManager();
+        FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
 
         // TODO: maybe not the best solution
-        if(fragmentManager.getBackStackEntryCount() > 0) {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
 

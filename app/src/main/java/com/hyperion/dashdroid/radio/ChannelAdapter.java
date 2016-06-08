@@ -1,9 +1,7 @@
 package com.hyperion.dashdroid.radio;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -18,14 +16,14 @@ import java.util.ArrayList;
 /**
  * Created by Rainer on 12.05.2016.
  */
-public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder>{
+public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 
     private final int MAX_NAME_LENGTH = 30;
 
     private OnChannelItemClickListener listener;
     private ArrayList<RadioChannel> radioChannels;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView cardText;
         public View itemView;
@@ -41,6 +39,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         }
 
     }
+
     public ChannelAdapter(ArrayList<RadioChannel> radioChannels, OnChannelItemClickListener listener) {
         this.radioChannels = radioChannels;
         this.listener = listener;
@@ -56,7 +55,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(radioChannels.get((int)v.getTag()));
+                listener.onItemClick(radioChannels.get((int) v.getTag()));
             }
         });
 
@@ -66,8 +65,8 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         String name = radioChannels.get(position).getName();
-        if(name.length() >= MAX_NAME_LENGTH)
-            holder.cardText.setText(name.substring(0,MAX_NAME_LENGTH));
+        if (name.length() >= MAX_NAME_LENGTH)
+            holder.cardText.setText(name.substring(0, MAX_NAME_LENGTH));
         else
             holder.cardText.setText(name);
         holder.itemView.setTag(position);

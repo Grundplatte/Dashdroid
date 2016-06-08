@@ -3,16 +3,17 @@ package com.hyperion.dashdroid.radio.db;
 import android.provider.BaseColumns;
 
 public final class RadioDBContract {
-    public static final  int    DATABASE_VERSION = 1;
-    public static final  String DATABASE_NAME = "radio.db";
+    public static final int DATABASE_VERSION = 1;
+    public static final String DATABASE_NAME = "radio.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String INT_TYPE = " INTEGER";
     private static final String FLOAT_TYPE = " REAL";
     private static final String COMMA_SEP = ",";
 
-    private RadioDBContract() {}
+    private RadioDBContract() {
+    }
 
-    public  static abstract class RadioCategory implements BaseColumns {
+    public static abstract class RadioCategory implements BaseColumns {
         public static final String TABLE_NAME = "radiocategory";
         public static final String COLUMN_NAME_CATEGORY_ID = "categoryid";
         public static final String COLUMN_NAME_TITLE = "title";

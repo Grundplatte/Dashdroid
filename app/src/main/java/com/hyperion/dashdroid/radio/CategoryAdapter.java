@@ -1,7 +1,6 @@
 package com.hyperion.dashdroid.radio;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +12,18 @@ import com.hyperion.dashdroid.radio.data.RadioCategory;
 
 import java.util.ArrayList;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
     private CategoryItemClickedListener listener;
     private ArrayList<RadioCategory> radioChannelCategories;
     private int rootCategory;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView cardText;
 
         public View itemView;
+
         public ViewHolder(View itemView) {
             super(itemView);
             cardText = (TextView) itemView.findViewById(R.id.radioCardText);
@@ -48,18 +48,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rootCategory == -1){
-                    rootCategory = (int)v.getTag();
+                if (rootCategory == -1) {
+                    rootCategory = (int) v.getTag();
                     notifyDataSetChanged();
-                }
-                else {
-                    listener.onItemClicked(radioChannelCategories.get(rootCategory).getSubCategories().get((int)v.getTag()));
+                } else {
+                    listener.onItemClicked(radioChannelCategories.get(rootCategory).getSubCategories().get((int) v.getTag()));
                 }
             }
         });
 
-        ImageButton favButton = (ImageButton)card.findViewById(R.id.favButton);
-        if(favButton != null)
+        ImageButton favButton = (ImageButton) card.findViewById(R.id.favButton);
+        if (favButton != null)
             favButton.setVisibility(View.INVISIBLE);
 
         return new ViewHolder(card);
@@ -67,10 +66,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(rootCategory == -1) {
+        if (rootCategory == -1) {
             holder.cardText.setText(radioChannelCategories.get(position).getTitle());
-        }
-        else {
+        } else {
             holder.cardText.setText(radioChannelCategories.get(rootCategory).getSubCategories().get(position).getTitle());
         }
         holder.itemView.setTag(position);
@@ -78,7 +76,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        if(rootCategory == -1) {
+        if (rootCategory == -1) {
             return radioChannelCategories.size();
         }
         return radioChannelCategories.get(rootCategory).getSubCategories().size();

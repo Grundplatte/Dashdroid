@@ -5,38 +5,38 @@
 
 
     <FrameLayout
+        android:id="@+id/radioList_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
-        android:id="@+id/radioList_container"/>
+        android:layout_marginBottom="80dp" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+        android:id="@+id/playerLayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:id="@+id/playerLayout"
-        android:background="@drawable/player_background"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/player_background"
+        android:orientation="vertical"
         android:padding="8dp">
 
         <TextView
+            android:id="@+id/radioChannel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/radioChannel"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/radioProgressImageButton"
-            android:text="Please select a channel!"
-            android:textSize="20dp"
-            android:textAlignment="gravity"
             android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="false"
             android:layout_centerVertical="true"
-            android:gravity="center_horizontal" />
+            android:layout_toLeftOf="@+id/radioProgressImageButton"
+            android:gravity="center_horizontal"
+            android:text="Please select a channel!"
+            android:textAlignment="gravity"
+            android:textSize="20dp" />
 
         <com.hyperion.dashdroid.radio.widget.ProgressImageButton
+            android:id="@+id/radioProgressImageButton"
             android:layout_width="65dp"
             android:layout_height="65dp"
-            android:id="@+id/radioProgressImageButton"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:clickable="true">

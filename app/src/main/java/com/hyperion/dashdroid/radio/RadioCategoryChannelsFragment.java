@@ -19,7 +19,7 @@ import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 
 import java.util.ArrayList;
 
-public class RadioCategoryChannelsFragment extends BaseFragment implements ChannelAdapter.OnChannelItemClickListener{
+public class RadioCategoryChannelsFragment extends BaseFragment implements ChannelAdapter.OnChannelItemClickListener {
 
     private View radioListViewContainer;
     private RecyclerView radioList;
@@ -34,7 +34,7 @@ public class RadioCategoryChannelsFragment extends BaseFragment implements Chann
         radioListViewContainer = inflater.inflate(R.layout.radio_fragment_list, container, false);
         radioList = (RecyclerView) radioListViewContainer.findViewById(R.id.radioListView);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         radioList.setLayoutManager(gridLayoutManager);
 
         progressBar = (ProgressBar) radioListViewContainer.findViewById(R.id.progressBar);
@@ -47,7 +47,7 @@ public class RadioCategoryChannelsFragment extends BaseFragment implements Chann
 
     @Override
     public void refresh() {
-        RelativeLayout relativeLayout = (RelativeLayout)radioListViewContainer.findViewById(R.id.radioList);
+        RelativeLayout relativeLayout = (RelativeLayout) radioListViewContainer.findViewById(R.id.radioList);
 
         CategoryChannelAsyncTask dirbleAsyncTask = new CategoryChannelAsyncTask();
         dirbleAsyncTask.execute(categoryid);
@@ -59,18 +59,18 @@ public class RadioCategoryChannelsFragment extends BaseFragment implements Chann
         radioMainFragment.getRadioPlayer().playRadioChannel(channel);
     }
 
-    public class CategoryChannelAsyncTask extends AsyncTask<Object,Integer, Object> {
+    public class CategoryChannelAsyncTask extends AsyncTask<Object, Integer, Object> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if(progressBar != null)
+            if (progressBar != null)
                 progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected Object doInBackground(Object... params) {
-            return DirbleProvider.getInstance().getChannelsForCategory((int)params[0]);
+            return DirbleProvider.getInstance().getChannelsForCategory((int) params[0]);
         }
 
         @Override
@@ -78,7 +78,7 @@ public class RadioCategoryChannelsFragment extends BaseFragment implements Chann
             ChannelAdapter channelAdapter = new ChannelAdapter((ArrayList<RadioChannel>) o, RadioCategoryChannelsFragment.this);
             radioList.setAdapter(channelAdapter);
 
-            if(progressBar != null)
+            if (progressBar != null)
                 progressBar.setVisibility(View.GONE);
         }
     }
