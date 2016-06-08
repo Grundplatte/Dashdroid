@@ -25,7 +25,7 @@
         <activity android:name=".news.NewsModuleActivity"/>
         <activity android:name=".radio.RadioModuleActivity"/>
         <activity android:name=".books.BooksModuleActivity"/>
-        <activity android:name=".weather.WeatherModuleActivity"/>
+        <activity android:name=".books.DetailBooks"/>
         <activity android:name=".news.DetailNews"/>
         <activity android:name=".settings.SettingsActivity"/>
 

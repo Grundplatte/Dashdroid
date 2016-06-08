@@ -107,7 +107,7 @@ public class SlidingMenuListAdapter extends BaseAdapter {
 
 					LayoutInflater mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
-					view2 = mInflater.inflate(R.layout.drawer_list_item, null);
+					view2 = mInflater.inflate(R.layout.news_fragment_detail, null);
 
 					itemViewHolder = new ItemViewHolder();
 					itemViewHolder.textView = (TextView) view2.findViewById(R.id.list_item_title);

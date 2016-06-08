@@ -44,7 +44,6 @@ public class DetailNews extends Activity {
 		settings.setLoadWithOverviewMode(true);
 		settings.setUseWideViewPort(true);
 		settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-		settings.setBuiltInZoomControls(true);
 		webView.setWebViewClient(new NewsWebClient());
 
 		String lnk = feed.getItem(position).getLink();

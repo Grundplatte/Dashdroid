@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:minHeight="?android:attr/listPreferredItemHeightSmall"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:paddingLeft="40dp"
+        android:paddingLeft="20dp"
         android:text="ListItem"
         android:textColor="@android:color/white"
         android:gravity="center_vertical"

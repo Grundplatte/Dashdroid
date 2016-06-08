@@ -1,5 +1,6 @@
 package com.hyperion.dashdroid.books.recommendations;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseFragment;
+import com.hyperion.dashdroid.books.DetailBooks;
 
 /**
  * Created by Valdrin on 6/4/2016.
@@ -55,6 +57,8 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.e("Position: ", position + "");
+        Intent i = new Intent(getActivity(), DetailBooks.class);
+        startActivity(i);
         //TODO: implement the BooksDetailActivity
     }
 
