@@ -24,7 +24,6 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
 
     private ImageButton playStopButton;
     private TextView radioNameView;
-    private TextView radioStatus;
     private ProgressImageButton progressImageButton;
 
     private boolean hasAudioFocus;
@@ -32,7 +31,6 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
     public RadioPlayer(View radioView) {
         audioManager = (AudioManager) RadioModuleActivity.getInstance().getSystemService(Context.AUDIO_SERVICE);
         radioNameView = (TextView) radioView.findViewById(R.id.radioChannel);
-        radioStatus = (TextView) radioView.findViewById(R.id.radioStatus);
         progressImageButton = (ProgressImageButton) radioView.findViewById(R.id.radioProgressImageButton);
         playStopButton = (ImageButton) radioView.findViewById(R.id.playStopButton);
         playStopButton.setOnClickListener(this);
