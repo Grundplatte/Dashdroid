@@ -25,6 +25,7 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
     private ListView listView;
     private Bookshelf bookshelf;
     private BooksAdapter adapter;
+    private BookCategoriesEnum bookCategory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
         @Override
         protected Void doInBackground(Void... params) {
             BooksRequest booksRequest = new BooksRequest();
-            bookshelf = booksRequest.request();
+            bookshelf = booksRequest.request(bookCategory);
             return null;
         }
 
@@ -82,4 +83,11 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
         }
     }
 
+    public BookCategoriesEnum getBookCategory() {
+        return bookCategory;
+    }
+
+    public void setBookCategory(BookCategoriesEnum bookCategory) {
+        this.bookCategory = bookCategory;
+    }
 }

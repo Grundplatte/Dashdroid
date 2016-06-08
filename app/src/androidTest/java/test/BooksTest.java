@@ -2,6 +2,7 @@ package test;
 
 import android.util.Log;
 
+import com.hyperion.dashdroid.books.recommendations.BookCategoriesEnum;
 import com.hyperion.dashdroid.books.recommendations.BooksRequest;
 import com.hyperion.dashdroid.books.recommendations.Bookshelf;
 
@@ -14,7 +15,7 @@ public class BooksTest extends TestCase {
 
 	public void testBook() {
 		BooksRequest booksRequest = new BooksRequest();
-		Bookshelf bookshelf = booksRequest.request("9781118240670");
+		Bookshelf bookshelf = booksRequest.request(BookCategoriesEnum.SPORTS);
 		Log.e("Result", bookshelf.getItemCount() + "");
 	}
 

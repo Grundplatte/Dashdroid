@@ -17,9 +17,9 @@ public class BooksRequest {
     private Bookshelf bookshelf;
 
     //TODO: Method to test the request in Google Books Api
-    public Bookshelf request() {
+    public Bookshelf request(BookCategoriesEnum category) {
 
-        String url = "https://www.googleapis.com/books/v1/volumes?q=subject:Sports&printType=books&maxResults=20&startIndex=0";
+        String url = "https://www.googleapis.com/books/v1/volumes?q=subject:" + category.getUrlPart() + "&printType=books&maxResults=20&startIndex=0";
 
         SyncHttpClient client = new SyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {

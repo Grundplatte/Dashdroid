@@ -8,6 +8,7 @@ import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
 import com.hyperion.dashdroid.base.FragmentTagEnum;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
+import com.hyperion.dashdroid.books.recommendations.BookCategoriesEnum;
 import com.hyperion.dashdroid.books.recommendations.BooksFragment;
 
 /**
@@ -19,8 +20,16 @@ public class BooksModuleActivity extends AbstractModuleActivity {
 	public void addSpecificContent() {
 
 		getSupportActionBar().setTitle(R.string.dashboard_books);
-		BooksFragment booksFragment = new BooksFragment();
-		slidingMenuItems.add(new SlidingMenuItem("Home", SlidingMenuItem.ItemType.ITEM, booksFragment, FragmentTagEnum.BOOKS_HOME.getTag()));
+
+		BookCategoriesEnum[] categories = BookCategoriesEnum.values();
+		for(BookCategoriesEnum category : categories) {
+			BooksFragment bookFragment = new BooksFragment();
+			bookFragment.setBookCategory(category);
+
+			slidingMenuItems.add(new SlidingMenuItem(bookFragment.getBookCategory().getName(), SlidingMenuItem.ItemType.ITEM, bookFragment, bookFragment.getBookCategory().getUrlPart()));
+		}
+
+
 	}
 
 	@Override
