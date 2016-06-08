@@ -11,11 +11,12 @@ import android.widget.Toast;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
+import com.hyperion.dashdroid.radio.widget.ProgressImageButton;
 
 import java.io.IOException;
 
-public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFocusChangeListener{
-    private final String BUFFERING = "Buffering";
+public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFocusChangeListener {
+    private final int MAX_NAME_LENGTH = 30;
 
     private MediaPlayer mediaPlayer;
     private RadioChannel lastChannel;
@@ -23,48 +24,45 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
 
     private ImageButton playStopButton;
     private TextView radioNameView;
-    private TextView radioStatus;
+    private ProgressImageButton progressImageButton;
 
     private boolean hasAudioFocus;
 
     public RadioPlayer(View radioView) {
-        audioManager = (AudioManager)RadioModuleActivity.getInstance().getSystemService(Context.AUDIO_SERVICE);
-        radioNameView = (TextView)radioView.findViewById(R.id.radioChannel);
-        radioStatus = (TextView)radioView.findViewById(R.id.radioStatus);
-        playStopButton = (ImageButton)radioView.findViewById(R.id.playStopButton);
+        audioManager = (AudioManager) RadioModuleActivity.getInstance().getSystemService(Context.AUDIO_SERVICE);
+        radioNameView = (TextView) radioView.findViewById(R.id.radioChannel);
+        progressImageButton = (ProgressImageButton) radioView.findViewById(R.id.radioProgressImageButton);
+        playStopButton = (ImageButton) radioView.findViewById(R.id.playStopButton);
         playStopButton.setOnClickListener(this);
         mediaPlayer = null;
         hasAudioFocus = false;
     }
 
-    private void initMediaPlayer(RadioChannel channel)
-    {
-        if(mediaPlayer != null) {
+    private void initMediaPlayer(RadioChannel channel) {
+        if (mediaPlayer != null) {
             stopRadio();
         }
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            playRadioChannelIntern(channel);
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        playRadioChannelIntern(channel);
 
     }
 
     public void playRadioChannel(RadioChannel channel) {
         lastChannel = channel;
 
-        if (hasAudioFocus == false){
+        if (hasAudioFocus == false) {
             int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                 Log.d(getClass().getSimpleName(), "playRadioChannel: request granted");
                 initMediaPlayer(channel);
                 hasAudioFocus = true;
             }
-        }
-        else
+        } else
             initMediaPlayer(channel);
     }
 
-    private void playRadioChannelIntern(RadioChannel channel)
-    {
+    private void playRadioChannelIntern(RadioChannel channel) {
         if (channel.getRadioStreams().size() == 0) {
             Toast.makeText(RadioModuleActivity.getInstance(), "No streams found for selected Channel!", Toast.LENGTH_SHORT).show();
             return;
@@ -94,8 +92,8 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
-                    mediaPlayer.start();
-                    radioStatus.setText("Playing");
+                mediaPlayer.start();
+                progressImageButton.hideProgressbar();
             }
         });
         mediaPlayer.prepareAsync();
@@ -103,8 +101,8 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
     }
 
     public void stopRadio() {
-        if(mediaPlayer != null){
-            if(mediaPlayer.isPlaying())
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying())
                 mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
@@ -115,28 +113,27 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
 
     @Override
     public void onClick(View v) {
-        if(lastChannel == null){
+        if (lastChannel == null) {
 
-        }
-        else if(mediaPlayer != null){
+        } else if (mediaPlayer != null) {
             stopRadio();
-        }
-        else {
+        } else {
             playRadioChannel(lastChannel);
         }
     }
 
-    private void setPlayingInfo(String channelName)
-    {
+    private void setPlayingInfo(String channelName) {
         playStopButton.setBackgroundResource(R.drawable.ic_stop_circle_filled_black_48dp);
-        radioNameView.setText(channelName);
-        radioStatus.setText(BUFFERING);
+        if (channelName.length() >= MAX_NAME_LENGTH)
+            radioNameView.setText(channelName.substring(0, MAX_NAME_LENGTH));
+        else
+            radioNameView.setText(channelName);
+        progressImageButton.showProgressbar();
     }
 
-    private void setStoppedInfo()
-    {
+    private void setStoppedInfo() {
         playStopButton.setBackgroundResource(R.drawable.ic_play_circle_filled_black_48dp);
-        radioStatus.setText("Stopped");
+        progressImageButton.hideProgressbar();
     }
 
     @Override
@@ -160,14 +157,15 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
                 // Lost focus for a short time, but we have to stop
                 // playback. We don't release the media player because playback
                 // is likely to resume
-                if (mediaPlayer.isPlaying()) mediaPlayer.pause();
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.pause();
                 hasAudioFocus = false;
                 break;
 
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                 // Lost focus for a short time, but it's ok to keep playing
                 // at an attenuated level
-                if (mediaPlayer.isPlaying()) mediaPlayer.setVolume(0.1f, 0.1f);
+                if (mediaPlayer != null && mediaPlayer.isPlaying())
+                    mediaPlayer.setVolume(0.1f, 0.1f);
                 break;
         }
     }

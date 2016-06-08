@@ -4,16 +4,14 @@ import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
-import com.hyperion.dashdroid.radio.data.RadioCategory;
 import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 
 import java.util.ArrayList;
 
-public class ChannelSearchAsyncTask extends AsyncTask<Object,Integer, Object>{
+public class ChannelSearchAsyncTask extends AsyncTask<Object, Integer, Object> {
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
@@ -27,7 +25,7 @@ public class ChannelSearchAsyncTask extends AsyncTask<Object,Integer, Object>{
     protected void onPreExecute() {
         super.onPreExecute();
 
-        if(progressBar != null)
+        if (progressBar != null)
             progressBar.setVisibility(View.VISIBLE);
     }
 
@@ -38,10 +36,10 @@ public class ChannelSearchAsyncTask extends AsyncTask<Object,Integer, Object>{
 
     @Override
     protected void onPostExecute(Object o) {
-        ((ChannelAdapter)recyclerView.getAdapter()).setItems((ArrayList<RadioChannel>) o);
+        ((ChannelAdapter) recyclerView.getAdapter()).setItems((ArrayList<RadioChannel>) o);
         recyclerView.getAdapter().notifyDataSetChanged();
 
-        if(progressBar != null)
+        if (progressBar != null)
             progressBar.setVisibility(View.GONE);
     }
 }

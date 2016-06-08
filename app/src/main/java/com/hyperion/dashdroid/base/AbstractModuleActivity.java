@@ -107,7 +107,7 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+		if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
 			drawerLayout.closeDrawer(GravityCompat.START);
 		} else {
 			super.onBackPressed();
@@ -134,7 +134,7 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 				refresh();
 				drawerLayout.closeDrawer(drawerList);
 
-			}else {
+			} else {
 
 				fragmentManager.beginTransaction().replace(R.id.frame_container, slidingMenuItems.get(position).getFragment(), slidingMenuItems.get(position).getFragmentTag()).commit();
 				drawerList.setItemChecked(position, true);

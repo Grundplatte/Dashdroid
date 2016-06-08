@@ -1,7 +1,6 @@
 package com.hyperion.dashdroid.radio;
 
 import android.graphics.PorterDuff;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,16 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseFragment;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
-import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 
 import java.util.ArrayList;
 
-public class RadioSearchFragment extends BaseFragment implements ChannelAdapter.OnChannelItemClickListener{
+public class RadioSearchFragment extends BaseFragment implements ChannelAdapter.OnChannelItemClickListener {
 
     private View radioListViewContainer;
     private RecyclerView radioList;
@@ -31,7 +28,7 @@ public class RadioSearchFragment extends BaseFragment implements ChannelAdapter.
         radioList = (RecyclerView) radioListViewContainer.findViewById(R.id.radioListView);
 
         ChannelAdapter channelAdapter = new ChannelAdapter(new ArrayList<RadioChannel>(), RadioSearchFragment.this);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         radioList.setLayoutManager(gridLayoutManager);
         radioList.setAdapter(channelAdapter);
 

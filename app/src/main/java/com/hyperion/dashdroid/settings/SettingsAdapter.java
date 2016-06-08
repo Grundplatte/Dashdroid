@@ -56,8 +56,8 @@ public class SettingsAdapter extends BaseAdapter {
 
 		// Initialize the views in the layout
 		TextView txtTitle = (TextView) listItem.findViewById(R.id.title);
-		Switch enabledSwitch = (Switch)listItem.findViewById(R.id.enabledSwitch);
-		Switch sizeSwitch = (Switch)listItem.findViewById(R.id.sizeSwitch);
+		Switch enabledSwitch = (Switch) listItem.findViewById(R.id.enabledSwitch);
+		Switch sizeSwitch = (Switch) listItem.findViewById(R.id.sizeSwitch);
 
 		// Set the views in the layout
 		txtTitle.setText(items.get(pos).getTitle());

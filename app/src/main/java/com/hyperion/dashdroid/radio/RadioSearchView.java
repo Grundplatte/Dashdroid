@@ -20,10 +20,10 @@ public class RadioSearchView extends BaseSearchView {
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        FragmentManager fragmentManager = ((Activity)context).getFragmentManager();
+        FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
 
         // TODO: maybe not the best solution
-        if(fragmentManager.getBackStackEntryCount() > 0) {
+        if (fragmentManager.getBackStackEntryCount() > 0) {
             fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
 
@@ -31,6 +31,9 @@ public class RadioSearchView extends BaseSearchView {
         fragmentManager.beginTransaction().replace(R.id.radioList_container, new RadioSearchFragment()).commit();
         fragmentManager.executePendingTransactions();
         setView(((Activity) context).findViewById(R.id.radioList));
+
+        setIconified(true);
+        setIconified(true);
 
         return super.onQueryTextSubmit(query);
     }

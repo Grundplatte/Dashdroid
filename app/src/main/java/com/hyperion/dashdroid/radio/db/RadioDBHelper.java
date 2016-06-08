@@ -19,9 +19,6 @@ public class RadioDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(RadioDBContract.RadioCategory.SQL_DELETE_CATEGORIES);
-        db.execSQL(RadioDBContract.RadioChannel.SQL_DELETE_CHANNELS);
-        db.execSQL(RadioDBContract.RadioStream.SQL_DELETE_STREAMS);
-
-        onCreate(db);
+        db.execSQL(RadioDBContract.RadioCategory.SQL_CREATE_CATEGORIES);
     }
 }
