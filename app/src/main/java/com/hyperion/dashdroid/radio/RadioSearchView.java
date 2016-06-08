@@ -3,6 +3,7 @@ package com.hyperion.dashdroid.radio;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.view.MenuItem;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseSearchView;
@@ -31,6 +32,9 @@ public class RadioSearchView extends BaseSearchView {
         fragmentManager.beginTransaction().replace(R.id.radioList_container, new RadioSearchFragment()).commit();
         fragmentManager.executePendingTransactions();
         setView(((Activity) context).findViewById(R.id.radioList));
+
+        setIconified(true);
+        setIconified(true);
 
         return super.onQueryTextSubmit(query);
     }

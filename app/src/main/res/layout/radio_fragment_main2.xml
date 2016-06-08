@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:id="@+id/playerLayout"
-        android:background="@drawable/player_background"
+        android:background="@color/colorMenuButtonNormal"
         android:layout_alignParentBottom="true"
         android:padding="8dp">
 
@@ -23,25 +23,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/radioChannel"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/radioProgressImageButton"
-            android:text="Please select a channel!"
+            android:layout_toLeftOf="@+id/playStopButton"
+            android:text=""
             android:textSize="20dp"
-            android:textAlignment="gravity"
-            android:layout_alignParentBottom="false"
-            android:layout_alignParentTop="false"
-            android:layout_centerVertical="true"
-            android:gravity="center_horizontal" />
+            android:textAlignment="center" />
 
-        <com.hyperion.dashdroid.radio.widget.ProgressImageButton
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioStatus"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/playStopButton"
+            android:text=""
+            android:textSize="20dp"
+            />
+
+        <ImageButton
             android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:id="@+id/radioProgressImageButton"
+            android:layout_height="match_parent"
+            android:id="@+id/playStopButton"
+            android:background="@drawable/ic_play_circle_filled_black_48dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:clickable="true">
-
-        </com.hyperion.dashdroid.radio.widget.ProgressImageButton>
+            android:clickable="true"/>
 
 
     </RelativeLayout>

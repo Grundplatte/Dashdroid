@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -28,6 +29,7 @@ public class RadioCategoryFragment extends BaseFragment implements CategoryAdapt
     private View radioListViewContainer;
     private RecyclerView radioList;
     private ProgressBar progressBar;
+    private ImageButton favButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

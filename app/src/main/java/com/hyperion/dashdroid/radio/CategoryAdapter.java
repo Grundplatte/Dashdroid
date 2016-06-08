@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
@@ -56,6 +57,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 }
             }
         });
+
+        ImageButton favButton = (ImageButton)card.findViewById(R.id.favButton);
+        if(favButton != null)
+            favButton.setVisibility(View.INVISIBLE);
+
         return new ViewHolder(card);
     }
 

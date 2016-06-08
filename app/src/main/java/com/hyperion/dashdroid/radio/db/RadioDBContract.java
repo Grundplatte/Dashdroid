@@ -42,6 +42,7 @@ public final class RadioDBContract {
         public static final String COLUMN_NAME_SLUG = "slug";
         public static final String COLUMN_NAME_WEBSITE = "website";
         public static final String COLUMN_NAME_CATEGORY = "category";
+        public static final String COLUMN_NAME_FAVORITE = "favorite";
 
         public static final String SQL_CREATE_CHANNELS =
                 "CREATE TABLE " + RadioChannel.TABLE_NAME + " (" +
