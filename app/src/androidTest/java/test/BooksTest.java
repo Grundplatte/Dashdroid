@@ -12,10 +12,10 @@ import junit.framework.TestCase;
  */
 public class BooksTest extends TestCase {
 
-    public void testBook() {
-        BooksRequest booksRequest = new BooksRequest();
-        Bookshelf bookshelf = booksRequest.request("9781118240670");
-        Log.e("Result", bookshelf.getItemCount() + "");
-    }
+	public void testBook() {
+		BooksRequest booksRequest = new BooksRequest();
+		Bookshelf bookshelf = booksRequest.request("9781118240670");
+		Log.e("Result", bookshelf.getItemCount() + "");
+	}
 
 }

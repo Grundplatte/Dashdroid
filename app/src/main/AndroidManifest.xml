@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hyperion.dashdroid">
+          package="com.hyperion.dashdroid">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,16 +16,16 @@
 
         <activity android:name=".DashboardActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
-        <activity android:name=".news.NewsModuleActivity" />
-        <activity android:name=".radio.RadioModuleActivity" />
-        <activity android:name=".books.BooksModuleActivity" />
-        <activity android:name=".weather.WeatherModuleActivity" />
+        <activity android:name=".news.NewsModuleActivity"/>
+        <activity android:name=".radio.RadioModuleActivity"/>
+        <activity android:name=".books.BooksModuleActivity"/>
+        <activity android:name=".weather.WeatherModuleActivity"/>
         <activity android:name=".news.DetailNews"/>
         <activity android:name=".settings.SettingsActivity"/>
 

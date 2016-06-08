@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="2dp" >
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="2dp">
 
     <ImageView
         android:id="@+id/thumb"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:contentDescription="@string/app_name" />
+        android:contentDescription="@string/app_name"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/arrow"
         android:layout_toRightOf="@+id/thumb"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
@@ -30,7 +30,7 @@
             android:text="@string/title"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/date"
@@ -42,7 +42,7 @@
             android:padding="2dp"
             android:text="@string/date"
             android:textColor="@color/list_background"
-            android:textSize="10sp" />
+            android:textSize="10sp"/>
     </RelativeLayout>
 
     <ImageView
@@ -53,6 +53,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/next" />
+        android:src="@drawable/next"/>
 
 </RelativeLayout>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="2dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="2dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -13,7 +13,7 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/arrow"
         android:layout_toRightOf="@+id/thumb"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
@@ -25,7 +25,7 @@
             android:text="@string/title"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/sizeTxt"
@@ -38,7 +38,7 @@
             android:paddingLeft="5dp"
             android:text="@string/settings_size"
             android:textColor="@color/list_background"
-            android:textSize="10sp" />
+            android:textSize="10sp"/>
 
         <TextView
             android:id="@+id/enabledTxt"
@@ -51,7 +51,7 @@
             android:paddingRight="5dp"
             android:text="@string/settings_enable"
             android:textColor="@color/list_background"
-            android:textSize="10sp" />
+            android:textSize="10sp"/>
 
         <Switch
             android:id="@+id/enabledSwitch"

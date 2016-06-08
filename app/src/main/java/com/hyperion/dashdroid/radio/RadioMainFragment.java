@@ -10,29 +10,29 @@ import com.hyperion.dashdroid.base.BaseFragment;
 
 public class RadioMainFragment extends BaseFragment {
 
-    public static final String TAG = "MainFragment";
-    private View radioMainView;
-    private View radioPlayerView;
+	public static final String TAG = "MainFragment";
+	private View radioMainView;
+	private View radioPlayerView;
 
-    private RadioPlayer radioPlayer;
+	private RadioPlayer radioPlayer;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        radioMainView = inflater.inflate(R.layout.radio_fragment_main, container, false);
-        radioPlayerView = radioMainView.findViewById(R.id.playerLayout);
-        radioPlayer = new RadioPlayer(radioPlayerView);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		radioMainView = inflater.inflate(R.layout.radio_fragment_main, container, false);
+		radioPlayerView = radioMainView.findViewById(R.id.playerLayout);
+		radioPlayer = new RadioPlayer(radioPlayerView);
 
-        refresh();
+		refresh();
 
-        return radioMainView;
-    }
+		return radioMainView;
+	}
 
-    @Override
-    public void refresh() {
+	@Override
+	public void refresh() {
 
-    }
+	}
 
-    public RadioPlayer getRadioPlayer() {
-        return radioPlayer;
-    }
+	public RadioPlayer getRadioPlayer() {
+		return radioPlayer;
+	}
 }

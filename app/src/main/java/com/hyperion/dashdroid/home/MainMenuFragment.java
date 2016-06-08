@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,8 @@ public final class MainMenuFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		Log.d(getClass().getSimpleName(), "onResume()");
 
 		readConfigData();
 

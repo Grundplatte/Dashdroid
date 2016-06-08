@@ -14,63 +14,63 @@ import cz.msebera.android.httpclient.Header;
  */
 public class BooksRequest {
 
-    private final static String API_KEY = "AIzaSyBLtTspfnD20cYGdHyykK8-0iV5-ZaprGI";
-    private String googleApiURL = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
-    private Bookshelf bookshelf;
+	private final static String API_KEY = "AIzaSyBLtTspfnD20cYGdHyykK8-0iV5-ZaprGI";
+	private String googleApiURL = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
+	private Bookshelf bookshelf;
 
-    //TODO: Method to test the request in Google Books Api
-    public Bookshelf request(String newText){
+	//TODO: Method to test the request in Google Books Api
+	public Bookshelf request(String newText) {
 
-        if (newText.length() > 0){
+		if(newText.length() > 0) {
 
-            newText = newText.replace(" ", "+");
+			newText = newText.replace(" ", "+");
 //            String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
-            String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:0735619670";
+			String url = "https://www.googleapis.com/books/v1/volumes?q=isbn:0735619670";
 //            url = url + newText;
 
-            SyncHttpClient client = new SyncHttpClient();
-            client.get(url, new AsyncHttpResponseHandler() {
+			SyncHttpClient client = new SyncHttpClient();
+			client.get(url, new AsyncHttpResponseHandler() {
 
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    bookshelf = new Bookshelf();
-                    String json = new String(responseBody);
+				@Override
+				public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+					bookshelf = new Bookshelf();
+					String json = new String(responseBody);
 
-                    try {
-                        JSONObject object = new JSONObject(json);
-                        JSONArray array = object.getJSONArray("items");
+					try {
+						JSONObject object = new JSONObject(json);
+						JSONArray array = object.getJSONArray("items");
 
-                        for (int i = 0; i < array.length(); i++){
-                            BooksItem booksItem = new BooksItem();
-                            JSONObject item = array.getJSONObject(i);
+						for(int i = 0; i < array.length(); i++) {
+							BooksItem booksItem = new BooksItem();
+							JSONObject item = array.getJSONObject(i);
 
-                            JSONObject volumeInfo = item.getJSONObject("volumeInfo");
-                            String title = volumeInfo.getString("title");
-                            booksItem.setTitle(title);
+							JSONObject volumeInfo = item.getJSONObject("volumeInfo");
+							String title = volumeInfo.getString("title");
+							booksItem.setTitle(title);
 
-                            JSONArray authors = volumeInfo.getJSONArray("authors");
-                            String author = authors.getString(0);
-                            booksItem.setAuthor(author);
+							JSONArray authors = volumeInfo.getJSONArray("authors");
+							String author = authors.getString(0);
+							booksItem.setAuthor(author);
 
-                            JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
-                            String imageLink = imageLinks.getString("smallThumbnail");
-                            booksItem.setBookThumbnail(imageLink);
+							JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+							String imageLink = imageLinks.getString("smallThumbnail");
+							booksItem.setBookThumbnail(imageLink);
 
-                            bookshelf.addBook(booksItem);
-                        }
+							bookshelf.addBook(booksItem);
+						}
 
-                    } catch (JSONException e){
-                        e.printStackTrace();
-                    }
-                }
+					} catch(JSONException e) {
+						e.printStackTrace();
+					}
+				}
 
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+				@Override
+				public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
-                }
-            });
-        }
-        return  bookshelf;
-    }
+				}
+			});
+		}
+		return bookshelf;
+	}
 
 }

@@ -13,7 +13,7 @@ import com.hyperion.dashdroid.settings.SettingsActivity;
 
 public class DashboardActivity extends AppCompatActivity {
 
-	private final int MENU_SETTINGS_BUTTON_ID = 1;
+	private final int MENU_SETTINGS_BUTTON_ID = 101;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,5 +57,9 @@ public class DashboardActivity extends AppCompatActivity {
 			e.printStackTrace();
 		}
 
+	}
+
+	public int getMENU_SETTINGS_BUTTON_ID() {
+		return MENU_SETTINGS_BUTTON_ID;
 	}
 }
