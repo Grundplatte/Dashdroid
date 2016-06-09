@@ -18,10 +18,9 @@ public class RSSAdapter extends BaseAdapter {
 
 	private RSSFeed feed;
 	private LayoutInflater layoutInflater;
-	public ImageLoader imageLoader;
+	private ImageLoader imageLoader;
 
 	public RSSAdapter(RSSFragment fragment, RSSFeed feed) {
-
 		layoutInflater = (LayoutInflater) fragment.getActivity()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		imageLoader = new ImageLoader(fragment.getActivity().getApplicationContext());
@@ -45,20 +44,17 @@ public class RSSAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
-		// Inflate the item layout and set the views
-		View listItem = convertView;
 		int pos = position;
+
+		View listItem = convertView;
 		if(listItem == null) {
 			listItem = layoutInflater.inflate(R.layout.news_fragment_list_item, null);
 		}
 
-		// Initialize the views in the layout
 		ImageView iv = (ImageView) listItem.findViewById(R.id.thumb);
 		TextView tvTitle = (TextView) listItem.findViewById(R.id.title);
 		TextView tvDate = (TextView) listItem.findViewById(R.id.date);
 
-		// Set the views in the layout
 		imageLoader.DisplayImage(feed.getItem(pos).getImage(), iv);
 		tvTitle.setText(feed.getItem(pos).getTitle());
 		tvDate.setText(feed.getItem(pos).getDate());

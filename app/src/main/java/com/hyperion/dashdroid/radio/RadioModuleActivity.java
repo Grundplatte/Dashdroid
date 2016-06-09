@@ -53,16 +53,7 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 
     @Override
     public void addOptionMenuItems(Menu menu) {
-
         menu.add(Menu.NONE, ID_MENU_SEARCH, Menu.NONE, "").setActionView(searchView).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        //menu.add(Menu.NONE, ID_MENU_SETTINGS, Menu.NONE, "").setIcon(R.drawable.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-    }
-
-    @Override
-    public void search() {
-
-        Log.d(getClass().getSimpleName(), "search() method called...");
-
     }
 
 

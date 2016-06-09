@@ -1,5 +1,6 @@
 package com.hyperion.dashdroid.news.rss;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -50,7 +51,6 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 		setRetainInstance(true);
 
 		fileName = "Dashdroid.td";
-
 		feedFile = getActivity().getBaseContext().getFileStreamPath(fileName);
 		conMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
@@ -58,20 +58,19 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
 		View view = inflater.inflate(R.layout.news_fragment_feed_list, container, false);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 		progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.m_color_pressed_1), PorterDuff.Mode.MULTIPLY);
 		listView = (ListView) view.findViewById(R.id.modulesListView);
 		listView.setOnItemClickListener(this);
 		listView.setTextFilterEnabled(true);
+
 		refresh();
 		return view;
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Log.e("Position: ", position + "");
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("feed", feed);
 		Intent intent = new Intent(getActivity(), DetailNews.class);
@@ -80,14 +79,12 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 		startActivity(intent);
 	}
 
-	// Method to write the feed to the File
 	private void writeFeed(RSSFeed data) {
-
 		FileOutputStream fOut = null;
 		ObjectOutputStream osw = null;
 
 		try {
-			fOut = getActivity().openFileOutput(fileName, getActivity().MODE_PRIVATE);
+			fOut = getActivity().openFileOutput(fileName, Context.MODE_PRIVATE);
 			osw = new ObjectOutputStream(fOut);
 			osw.writeObject(data);
 			osw.flush();
@@ -102,19 +99,17 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 		}
 	}
 
-	// Method to read the feed from the File
-	private RSSFeed readFeed(String fName) {
-
+	private RSSFeed readFeed(String fileName) {
 		FileInputStream fIn = null;
 		ObjectInputStream isr = null;
 
 		RSSFeed _feed = null;
-		File feedFile = getActivity().getBaseContext().getFileStreamPath(fileName);
+		File feedFile = getActivity().getBaseContext().getFileStreamPath(this.fileName);
 		if(!feedFile.exists())
 			return null;
 
 		try {
-			fIn = getActivity().openFileInput(fName);
+			fIn = getActivity().openFileInput(fileName);
 			isr = new ObjectInputStream(fIn);
 
 			_feed = (RSSFeed) isr.readObject();
@@ -202,10 +197,6 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 			new AsyncLoadXMLFeed().execute();
 
 		}
-	}
-
-	public RSSFeed getFeed() {
-		return feed;
 	}
 
 	public RSSAdapter getAdapter() {

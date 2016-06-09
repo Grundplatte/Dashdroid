@@ -17,11 +17,11 @@ import com.hyperion.dashdroid.news.image.ImageLoader;
 /**
  * Created by Valdrin on 6/2/2016.
  */
-public class BooksAdapter extends BaseAdapter {
+class BooksAdapter extends BaseAdapter {
 
-    private Bookshelf bookshelf;
-    private LayoutInflater layoutInflater;
-    public ImageLoader imageLoader;
+    private final Bookshelf bookshelf;
+    private final LayoutInflater layoutInflater;
+    private final ImageLoader imageLoader;
 
     public BooksAdapter(BooksFragment fragment, Bookshelf bookshelf) {
         layoutInflater = (LayoutInflater) fragment.getActivity()

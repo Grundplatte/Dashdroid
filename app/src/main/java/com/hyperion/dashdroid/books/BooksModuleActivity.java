@@ -27,21 +27,10 @@ public class BooksModuleActivity extends AbstractModuleActivity {
 
 			slidingMenuItems.add(new SlidingMenuItem(bookFragment.getBookCategory().getName(), SlidingMenuItem.ItemType.ITEM, bookFragment, bookFragment.getBookCategory().getUrlPart()));
 		}
-
-
 	}
 
 	@Override
 	public void addOptionMenuItems(Menu menu) {
-
 		menu.add(0, 0, 0, "").setIcon(R.drawable.search).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-	}
-
-	@Override
-	public void refresh() {
-
-		Log.d(getClass().getSimpleName(), "refresh() method called...");
-
 	}
 }

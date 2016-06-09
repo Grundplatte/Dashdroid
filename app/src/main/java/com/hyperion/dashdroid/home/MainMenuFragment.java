@@ -26,8 +26,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-//todo https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView
-
 public final class MainMenuFragment extends Fragment {
 
 	private static MainMenuFragment instance = null;
@@ -45,8 +43,6 @@ public final class MainMenuFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		Log.d(getClass().getSimpleName(), "onResume()");
 
 		readConfigData();
 
@@ -103,13 +99,12 @@ public final class MainMenuFragment extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 		gridView = inflater.inflate(R.layout.main_fragment, container, false);
 
 		return gridView;
 	}
 
-	public void onClickTile(View v) {
+	private void onClickTile(View v) {
 		int tag = (int) ((View) v.getParent()).getTag();
 
 		Intent intent = new Intent(getContext(), moduleItems.get(tag).getActivityClass());

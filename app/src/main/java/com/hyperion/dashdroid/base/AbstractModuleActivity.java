@@ -27,10 +27,9 @@ import java.util.ArrayList;
 public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 	protected final int MENU_SEARCH_BUTTON_ID = 0;
-	protected final int MENU_SETTINGS_BUTTON_ID = 1;
 	protected final int MENU_REFRESH_BUTTON_ID = 2;
 
-	protected Menu menu;
+	private Menu menu;
 	protected DrawerLayout drawerLayout;
 	protected ListView drawerList;
 	private ActionBarDrawerToggle drawerToggle;
@@ -175,12 +174,6 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 				case MENU_REFRESH_BUTTON_ID:
 					refresh();
 					break;
-				case MENU_SEARCH_BUTTON_ID:
-					search();
-					break;
-				case MENU_SETTINGS_BUTTON_ID:
-					settings();
-					break;
 			}
 
 		}
@@ -189,25 +182,14 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 	}
 
 	protected void refresh() {
-		// Override if necessary
 		Log.d(getClass().getSimpleName(), "refresh() method called...");
-	}
-
-	protected void search() {
-		// Override if necessary
-		Log.d(getClass().getSimpleName(), "search() method called...");
-	}
-
-	protected void settings() {
-		// Override if necessary
-		Log.d(getClass().getSimpleName(), "settings() method called...");
 	}
 
 	public Menu getMenu() {
 		return menu;
 	}
 
-	public abstract void addSpecificContent();
+	protected abstract void addSpecificContent();
 
-	public abstract void addOptionMenuItems(Menu menu);
+	protected abstract void addOptionMenuItems(Menu menu);
 }

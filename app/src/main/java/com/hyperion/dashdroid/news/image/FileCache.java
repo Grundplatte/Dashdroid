@@ -7,7 +7,7 @@ import java.io.File;
 /**
  * Created by Valdrin on 12/05/2016.
  */
-public class FileCache {
+class FileCache {
 
 	private File cacheDir;
 

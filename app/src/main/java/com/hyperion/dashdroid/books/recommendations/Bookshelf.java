@@ -1,7 +1,5 @@
 package com.hyperion.dashdroid.books.recommendations;
 
-import android.util.Log;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;

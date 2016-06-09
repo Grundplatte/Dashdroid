@@ -17,14 +17,13 @@ import java.util.List;
 /**
  * Created by infinity on 06-Jun-16.
  */
-public class SettingsAdapter extends BaseAdapter {
+class SettingsAdapter extends BaseAdapter {
 
 	private List<SettingsItem> items;
 	private LayoutInflater layoutInflater;
 
 	public SettingsAdapter(Activity activity, List<SettingsItem> items) {
 		this.items = items;
-
 		layoutInflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
@@ -45,21 +44,17 @@ public class SettingsAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-
-		// Inflate the item layout and set the views
-		View listItem = convertView;
 		final int pos = position;
 
+		View listItem = convertView;
 		if(listItem == null) {
 			listItem = layoutInflater.inflate(R.layout.settings_fragment_list_item, null);
 		}
 
-		// Initialize the views in the layout
 		TextView txtTitle = (TextView) listItem.findViewById(R.id.title);
 		Switch enabledSwitch = (Switch) listItem.findViewById(R.id.enabledSwitch);
 		Switch sizeSwitch = (Switch) listItem.findViewById(R.id.sizeSwitch);
 
-		// Set the views in the layout
 		txtTitle.setText(items.get(pos).getTitle());
 		enabledSwitch.setChecked(items.get(pos).isEnabled());
 		sizeSwitch.setChecked(items.get(pos).getDisplaySize() == 0 ? false : true);

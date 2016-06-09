@@ -28,41 +28,32 @@ public class SettingsActivity extends AppCompatActivity {
 		setTitle(getResources().getString(R.string.action_settings));
 
 		settingsConfigItems = SettingsConfigItemsEnum.values();
-
 		readConfigData();
 	}
 
 	private void readConfigData() {
 
 		configData = getSharedPreferences(getString(R.string.settings_config_file), Context.MODE_PRIVATE);
-
 		List<SettingsItem> listItems = new ArrayList<>();
 
 		for(int i = 0; i < settingsConfigItems.length; i++) {
-
 			SettingsItem item = new SettingsItem();
 			item.setConfigEnum(settingsConfigItems[i]);
 			item.setTitle(settingsConfigItems[i].getTitle());
 			item.setEnabled(configData.getBoolean(settingsConfigItems[i].getSharedPrefEnabled(), true));
 			item.setDisplaySize(configData.getInt(settingsConfigItems[i].getSharedPrefDisplaySize(), 1));
-
 			listItems.add(item);
-
 		}
 
 		listAdapter = new SettingsAdapter(this, listItems);
-
 		listView = (ListView) findViewById(R.id.modulesListView);
 		listView.setAdapter(listAdapter);
-
 	}
 
 	private void writeConfigData() {
-
 		SharedPreferences.Editor editor = configData.edit();
 
 		for(int i = 0; i < listAdapter.getCount(); i++) {
-
 			SettingsItem item = (SettingsItem) listAdapter.getItem(i);
 
 			editor.putBoolean(item.getConfigEnum().getSharedPrefEnabled(), item.isEnabled());
@@ -70,13 +61,11 @@ public class SettingsActivity extends AppCompatActivity {
 		}
 
 		editor.commit();
-
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-
 		writeConfigData();
 	}
 }

@@ -71,7 +71,7 @@ public class BaseSearchView extends SearchView implements SearchView.OnQueryText
 		return true;
 	}
 
-	public void setView(View view) {
+	protected void setView(View view) {
 		this.view = view;
 	}
 }

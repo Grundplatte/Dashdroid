@@ -22,15 +22,12 @@ public class DashboardActivity extends AppCompatActivity {
 
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
 		fragmentTransaction.replace(R.id.mainFrameLayout, MainMenuFragment.getInstance()).commit();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		menu.add(0, MENU_SETTINGS_BUTTON_ID, MENU_SETTINGS_BUTTON_ID, "").setIcon(R.drawable.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
 		return true;
 	}
 
@@ -49,14 +46,12 @@ public class DashboardActivity extends AppCompatActivity {
 	}
 
 	private void showSettings() {
-
 		try {
 			Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
 			startActivity(intent);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public int getMENU_SETTINGS_BUTTON_ID() {

@@ -62,7 +62,7 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
         //TODO: implement the BooksDetailActivity
     }
 
-   public class GetBook extends AsyncTask<Void, Void, Void>{
+   private class GetBook extends AsyncTask<Void, Void, Void>{
 
         @Override
         protected void onPreExecute() {

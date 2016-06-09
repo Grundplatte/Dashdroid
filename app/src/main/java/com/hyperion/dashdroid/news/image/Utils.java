@@ -7,7 +7,7 @@ import java.io.OutputStream;
  * Created by Valdrin on 12/05/2016.
  */
 
-public class Utils {
+class Utils {
 	public static void CopyStream(InputStream is, OutputStream os) {
 		final int buffer_size = 1024;
 		try {

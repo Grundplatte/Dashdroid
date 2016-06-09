@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -51,6 +52,7 @@ public class DetailNews extends Activity {
 	}
 
 	private class NewsWebClient extends WebViewClient {
+
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
 			super.onPageStarted(view, url, favicon);
@@ -59,7 +61,7 @@ public class DetailNews extends Activity {
 		@Override
 		public void onPageFinished(WebView view, String url) {
 			super.onPageFinished(view, url);
-			progressBar.setVisibility(view.GONE);
+			progressBar.setVisibility(View.GONE);
 		}
 
 		@Override

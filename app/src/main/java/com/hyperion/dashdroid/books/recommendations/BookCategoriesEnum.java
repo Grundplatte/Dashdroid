@@ -13,7 +13,7 @@ public enum BookCategoriesEnum {
 	SCIENCE("Science"), SCIENCE_FICTION("Science Fiction"),
 	SPORTS("Sports"), THRILLER("Thriller"), TRAVEL("Travel");
 
-	private String name;
+	private final String name;
 
 	BookCategoriesEnum(String name) {
 		this.name = name;

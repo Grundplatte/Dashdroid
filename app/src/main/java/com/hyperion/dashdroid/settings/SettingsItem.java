@@ -3,7 +3,7 @@ package com.hyperion.dashdroid.settings;
 /**
  * Created by infinity on 06-Jun-16.
  */
-public class SettingsItem {
+class SettingsItem {
 
 	private SettingsConfigItemsEnum configEnum;
 	private String title;

@@ -1,9 +1,6 @@
 package com.hyperion.dashdroid.uitest;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import com.hyperion.dashdroid.DashboardActivity;
 import com.hyperion.dashdroid.books.BooksModuleActivity;
@@ -12,8 +9,6 @@ import com.hyperion.dashdroid.radio.RadioModuleActivity;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
 import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 import com.hyperion.dashdroid.settings.SettingsActivity;
-import com.hyperion.dashdroid.settings.SettingsAdapter;
-import com.hyperion.dashdroid.weather.WeatherModuleActivity;
 import com.robotium.solo.Solo;
 
 import java.util.ArrayList;
