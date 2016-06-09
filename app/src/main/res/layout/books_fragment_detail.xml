@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <ImageView
+                    android:id="@+id/bd_cover"
+                    android:layout_width="100dp"
+                    android:layout_height="160dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="top|right"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/android_book"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/bd_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignWithParentIfMissing="true"
+                    android:layout_toLeftOf="@+id/bd_cover"
+                    android:text="Android Development"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:id="@+id/bd_author"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bd_title"
+                    android:layout_marginTop="2dp"
+                    android:paddingBottom="8dp"
+                    android:text="Paul Deitel" />
+
+                <LinearLayout
+                    android:id="@+id/rating_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/bd_author">
+
+                    <RatingBar
+                        android:id="@+id/bd_rating"
+                        style="?android:attr/ratingBarStyleIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:numStars="5"
+                        android:paddingBottom="8dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/row_isbn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rating_layout"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/bd_isbn_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="6dp"
+                        android:text="ISBN" />
+
+                    <TextView
+                        android:id="@+id/bd_isbn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1234567890" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/row_format"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/row_isbn"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/bd_pages"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="6dp"
+                        android:text="566 pages" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content">-->
+            <!--android:layout_gravity="top|center_horizontal"-->
+            <!--android:layout_weight="1">-->
+
+            <!--<ImageView-->
+            <!--android:id="@+id/row_img"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:background="@drawable/android_book"-->
+            <!--android:scaleType="centerInside"-->
+            <!--/>-->
+
+            <!--</RelativeLayout>-->
+        </LinearLayout>
+
+        <View
+            android:id="@+id/header_div"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_green_1" />
+
+        <TextView
+            android:id="@+id/bd_series_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Series" />
+
+        <TextView
+            android:id="@+id/bd_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:text="Series name (1)\\nSeries name (2)" />
+
+        <TextView
+            android:id="@+id/bd_publishing_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Publishing" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bd_publishing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Publisher name, Jan 25, 2015" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bd_bookshelf_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bookshelf"/>
+
+        <TextView
+            android:id="@+id/bd_bookshelf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Default"/>
+
+        <TextView
+            android:id="@+id/bd_genre_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Genre"/>
+
+        <TextView
+            android:id="@+id/bd_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Computers/Certification Guides"/>
+
+
+        <TextView
+            android:id="@+id/bd_language_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Language"/>
+
+        <TextView
+            android:id="@+id/bd_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="English"/>
+
+        <View
+            android:id="@+id/header_div2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_green_1" />
+
+        <TextView
+            android:id="@+id/bd_description_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+        <TextView
+            android:id="@+id/bd_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I hereby nominate Lizard the humongous football player and Sylphide the mysterious
+                            ballerina as two of my favorite characters of 2012. Rarely have such elite and outsize personalities felt
+                            so true on the page--a joy to be with, worth rooting for. I hereby nominate Lizard the humongous football
+                            player and Sylphide the mysterious ballerina as two of my favorite characters of 2012. Rarely have such elite
+                            and outsize personalities felt so true on the page--a joy to be with, worth rooting for."
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    </LinearLayout>
+
+</ScrollView>
