@@ -14,7 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".DashboardActivity">
+        <activity
+            android:name=".DashboardActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -22,13 +24,28 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".news.NewsModuleActivity"/>
-        <activity android:name=".radio.RadioModuleActivity"/>
-        <activity android:name=".books.BooksModuleActivity"/>
-        <activity android:name=".books.DetailBooks"/>
-        <activity android:name=".news.DetailNews"/>
-        <activity android:name=".settings.SettingsActivity"/>
+        <activity
+            android:name=".news.NewsModuleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".radio.RadioModuleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".books.BooksModuleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".books.DetailBooks"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".news.DetailNews"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:screenOrientation="portrait" />
 
+        <provider
+            android:name=".radio.db.RadioContentProvider"
+            android:authorities="com.hyperion.dashdroid.radio.db.RadioContentProvider" />
     </application>
 
 </manifest>

@@ -1,10 +1,5 @@
 package com.hyperion.dashdroid.radio.data;
 
-import java.util.ArrayList;
-
-/**
- * Created by Rainer on 11.05.2016.
- */
 public class RadioCategory {
 
 	private int ID;
@@ -13,15 +8,12 @@ public class RadioCategory {
 	private String slug;
 	private int ancestry;
 
-	private ArrayList<RadioCategory> subCategories;
-
-	public RadioCategory(int ID, String title, String description, String slug, int ancestry, ArrayList<RadioCategory> subCategories) {
+	public RadioCategory(int ID, String title, String description, String slug, int ancestry) {
 		this.ID = ID;
 		this.title = title;
 		this.description = description;
 		this.slug = slug;
 		this.ancestry = ancestry;
-		this.subCategories = subCategories;
 	}
 
 	public int getID() {
@@ -42,9 +34,5 @@ public class RadioCategory {
 
 	public int getAncestry() {
 		return ancestry;
-	}
-
-	public ArrayList<RadioCategory> getSubCategories() {
-		return subCategories;
 	}
 }

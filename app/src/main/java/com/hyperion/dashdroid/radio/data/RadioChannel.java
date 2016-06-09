@@ -1,11 +1,25 @@
 package com.hyperion.dashdroid.radio.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
  * Data class for handling radio channels
  */
-public class RadioChannel {
+public class RadioChannel implements Parcelable {
+	public static final Creator<RadioChannel> CREATOR = new Creator<RadioChannel>() {
+		@Override
+		public RadioChannel createFromParcel(Parcel in) {
+			return new RadioChannel(in);
+		}
+
+		@Override
+		public RadioChannel[] newArray(int size) {
+			return new RadioChannel[size];
+		}
+	};
 	private int ID;
 	private String name;
 	private String country;
@@ -41,6 +55,17 @@ public class RadioChannel {
 		this.website = website;
 		this.radioStreams = radioStreams;
 		this.radioChannelCategories = radioChannelCategories;
+	}
+
+	protected RadioChannel(Parcel in) {
+		ID = in.readInt();
+		name = in.readString();
+		country = in.readString();
+		description = in.readString();
+		imageUrl = in.readString();
+		thumbUrl = in.readString();
+		slug = in.readString();
+		website = in.readString();
 	}
 
 	public int getID() {
@@ -82,5 +107,22 @@ public class RadioChannel {
 	@Override
 	public boolean equals(Object o) {
 		return this.getID() == ((RadioChannel) o).getID();
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(ID);
+		dest.writeString(name);
+		dest.writeString(country);
+		dest.writeString(description);
+		dest.writeString(imageUrl);
+		dest.writeString(thumbUrl);
+		dest.writeString(slug);
+		dest.writeString(website);
 	}
 }

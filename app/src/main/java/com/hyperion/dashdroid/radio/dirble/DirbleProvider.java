@@ -21,21 +21,20 @@ import java.util.ArrayList;
 
 public class DirbleProvider {
 
+	private static DirbleProvider instance = null;
 	private final String API_KEY = "token=17f3be7fbca8347d9b835f63a8";
 	private final String SEARCH_URL = "http://api.dirble.com/v2/search/";
-	private final String CATEGORIES_URL = "http://api.dirble.com/v2/categories/tree";
+	private final String CATEGORIES_URL = "http://api.dirble.com/v2/categories/";
 	private final String CATEGORY_STATIONS = "http://api.dirble.com/v2/category/<ID>/stations";
 
-	private static DirbleProvider instance = null;
+	private DirbleProvider() {
+	}
 
 	public static DirbleProvider getInstance() {
 		if(instance == null)
 			instance = new DirbleProvider();
 
 		return instance;
-	}
-
-	private DirbleProvider() {
 	}
 
 	public ArrayList<RadioChannel> search(String query) {
@@ -60,7 +59,7 @@ public class DirbleProvider {
 	}
 
 	// rewrite so that it tries to read the saved tree first
-	public ArrayList<RadioCategory> getCategoryTree() {
+	public ArrayList<RadioCategory> getCategories() {
 
 		try {
 			URL request = new URL(CATEGORIES_URL + "?" + API_KEY);
@@ -235,7 +234,6 @@ public class DirbleProvider {
 		String description = null;
 		String slug = null;
 		int ancestry = -1;
-		ArrayList<RadioCategory> subCategories = new ArrayList<>();
 
 		reader.beginObject();
 		while(reader.hasNext()) {
@@ -250,17 +248,11 @@ public class DirbleProvider {
 				slug = reader.nextString();
 			} else if(fieldName.equals("ancestry") && reader.peek() != JsonToken.NULL) {
 				ancestry = reader.nextInt();
-			} else if(fieldName.equals("children")) {
-				reader.beginArray();
-				while(reader.hasNext()) {
-					subCategories.add(readRadioCategory(reader));
-				}
-				reader.endArray();
 			} else
 				reader.skipValue();
 		}
 		reader.endObject();
 
-		return new RadioCategory(ID, title, description, slug, ancestry, subCategories);
+		return new RadioCategory(ID, title, description, slug, ancestry);
 	}
 }

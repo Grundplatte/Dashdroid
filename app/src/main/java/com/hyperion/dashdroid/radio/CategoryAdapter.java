@@ -16,7 +16,43 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     private CategoryItemClickedListener listener;
     private ArrayList<RadioCategory> radioChannelCategories;
-    private int rootCategory;
+
+    public CategoryAdapter(ArrayList<RadioCategory> radioChannelCategories, CategoryItemClickedListener listener) {
+        this.radioChannelCategories = radioChannelCategories;
+        this.listener = listener;
+    }
+
+    @Override
+    public CategoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View card = LayoutInflater.from(parent.getContext()).inflate(R.layout.radio_fragment_card, parent, false);
+        card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClicked(radioChannelCategories.get((int) v.getTag()));
+            }
+        });
+
+        ImageButton favButton = (ImageButton) card.findViewById(R.id.favButton);
+        if (favButton != null)
+            favButton.setVisibility(View.INVISIBLE);
+
+        return new ViewHolder(card);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.cardText.setText(radioChannelCategories.get(position).getTitle());
+        holder.itemView.setTag(position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return radioChannelCategories.size();
+    }
+
+    interface CategoryItemClickedListener {
+        void onItemClicked(RadioCategory category);
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -30,59 +66,5 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             this.itemView = itemView;
         }
 
-    }
-
-    public int getRootCategory() {
-        return rootCategory;
-    }
-
-    public CategoryAdapter(ArrayList<RadioCategory> radioChannelCategories, CategoryItemClickedListener listener) {
-        this.radioChannelCategories = radioChannelCategories;
-        this.rootCategory = -1;
-        this.listener = listener;
-    }
-
-    @Override
-    public CategoryAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View card = LayoutInflater.from(parent.getContext()).inflate(R.layout.radio_fragment_card, parent, false);
-        card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rootCategory == -1) {
-                    rootCategory = (int) v.getTag();
-                    notifyDataSetChanged();
-                } else {
-                    listener.onItemClicked(radioChannelCategories.get(rootCategory).getSubCategories().get((int) v.getTag()));
-                }
-            }
-        });
-
-        ImageButton favButton = (ImageButton) card.findViewById(R.id.favButton);
-        if (favButton != null)
-            favButton.setVisibility(View.INVISIBLE);
-
-        return new ViewHolder(card);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        if (rootCategory == -1) {
-            holder.cardText.setText(radioChannelCategories.get(position).getTitle());
-        } else {
-            holder.cardText.setText(radioChannelCategories.get(rootCategory).getSubCategories().get(position).getTitle());
-        }
-        holder.itemView.setTag(position);
-    }
-
-    @Override
-    public int getItemCount() {
-        if (rootCategory == -1) {
-            return radioChannelCategories.size();
-        }
-        return radioChannelCategories.get(rootCategory).getSubCategories().size();
-    }
-
-    interface CategoryItemClickedListener {
-        void onItemClicked(RadioCategory category);
     }
 }

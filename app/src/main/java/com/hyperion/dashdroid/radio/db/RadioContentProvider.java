@@ -11,6 +11,11 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.hyperion.dashdroid.radio.data.RadioCategory;
+import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
+
+import java.util.ArrayList;
+
 /**
  * Created by Rainer on 08.06.2016.
  */
@@ -19,18 +24,15 @@ public class RadioContentProvider extends ContentProvider{
     public static final String URL_CATEGORIES = "content://" + AUTHORITY + '/' + RadioDBContract.RadioCategory.TABLE_NAME;
     public static final String URL_CHANNELS = "content://" + AUTHORITY + '/' + RadioDBContract.RadioChannel.TABLE_NAME;
     public static final String URL_STREAMS = "content://" + AUTHORITY + '/' + RadioDBContract.RadioStream.TABLE_NAME;
-    public static final Uri URI_CATEGORIES = Uri.parse(URL_CATEGORIES);
-    public static final Uri URI_CHANNELS = Uri.parse(URL_CHANNELS);
-    public static final Uri URI_STREAMS = Uri.parse(URL_STREAMS);
-
     public static final int CATEGORIES = 1;
     public static final int CATEGORY_ID = 2;
     public static final int CHANNELS = 3;
     public static final int CHANNEL_ID = 4;
     public static final int STREAMS = 5;
     public static final int STREAM_ID = 6;
-
-
+    public static final Uri URI_CATEGORIES = Uri.parse(URL_CATEGORIES);
+    public static final Uri URI_CHANNELS = Uri.parse(URL_CHANNELS);
+    public static final Uri URI_STREAMS = Uri.parse(URL_STREAMS);
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
         uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioCategory.TABLE_NAME, CATEGORIES);
@@ -52,31 +54,79 @@ public class RadioContentProvider extends ContentProvider{
         return db!=null;
     }
 
+    private void loadCategoryData() {
+        ArrayList<RadioCategory> categories = DirbleProvider.getInstance().getCategories();
+
+        // write to db
+        for (RadioCategory category : categories) {
+
+            ContentValues values = new ContentValues();
+            values.put(RadioDBContract.RadioCategory.COLUMN_NAME_TITLE, category.getTitle());
+            values.put(RadioDBContract.RadioCategory.COLUMN_NAME_CATEGORY_ID, category.getID());
+            values.put(RadioDBContract.RadioCategory.COLUMN_NAME_DESCRIPTION, category.getDescription());
+            values.put(RadioDBContract.RadioCategory.COLUMN_NAME_ANCESTRY, category.getAncestry());
+            values.put(RadioDBContract.RadioCategory.COLUMN_NAME_SLUG, category.getSlug());
+            db.insert(RadioDBContract.RadioCategory.TABLE_NAME, "", values);
+        }
+    }
+
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor cursor;
+
         switch(uriMatcher.match(uri)){
             case CATEGORIES:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioCategory._ID;
+                }
                 cursor = db.query(RadioDBContract.RadioCategory.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+
+                if (!cursor.moveToFirst()) {
+                    // get data from dirble
+                    loadCategoryData();
+                    cursor = db.query(RadioDBContract.RadioCategory.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                }
                 break;
             case CATEGORY_ID:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioCategory._ID;
+                }
                 cursor = db.query(RadioDBContract.RadioCategory.TABLE_NAME, projection,
                         RadioDBContract.RadioCategory._ID + " = " + uri.getPathSegments().get(1) +
                         (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs, null, null, sortOrder);
+                if (!cursor.moveToFirst()) {
+                    // get data from dirble
+                    loadCategoryData();
+                    cursor = db.query(RadioDBContract.RadioCategory.TABLE_NAME, projection,
+                            RadioDBContract.RadioCategory._ID + " = " + uri.getPathSegments().get(1) +
+                                    (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs, null, null, sortOrder);
+                }
                 break;
             case CHANNELS:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioChannel._ID;
+                }
                 cursor = db.query(RadioDBContract.RadioChannel.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case CHANNEL_ID:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioChannel._ID;
+                }
                 cursor = db.query(RadioDBContract.RadioChannel.TABLE_NAME, projection,
                         RadioDBContract.RadioChannel._ID + " = " + uri.getPathSegments().get(1) +
                         (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs, null, null, sortOrder);
                 break;
             case STREAMS:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioStream._ID;
+                }
                 cursor = db.query(RadioDBContract.RadioStream.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case STREAM_ID:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioStream._ID;
+                }
                 cursor = db.query(RadioDBContract.RadioStream.TABLE_NAME, projection,
                         RadioDBContract.RadioStream._ID + " = " + uri.getPathSegments().get(1) +
                         (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs, null, null, sortOrder);

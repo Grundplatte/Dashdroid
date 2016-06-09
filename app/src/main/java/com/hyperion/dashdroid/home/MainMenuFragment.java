@@ -26,10 +26,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Rainer on 05.05.2016.
- */
-
 //todo https://github.com/codepath/android_guides/wiki/Using-the-RecyclerView
 
 public final class MainMenuFragment extends Fragment {
