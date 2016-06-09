@@ -13,10 +13,22 @@ import junit.framework.TestCase;
  */
 public class BooksTest extends TestCase {
 
-	public void testBook() {
-		BooksRequest booksRequest = new BooksRequest();
-		Bookshelf bookshelf = booksRequest.request(BookCategoriesEnum.SPORTS);
-		Log.e("Result", bookshelf.getItemCount() + "");
+	private BooksRequest booksRequest;
+
+	public BooksTest() {
+		booksRequest = new BooksRequest();
 	}
 
+	public void testBookRequest() {
+		Bookshelf bookshelf = booksRequest.fetchByCategory(BookCategoriesEnum.SPORTS);
+		assertTrue(bookshelf.getItemCount() > 0);
+	}
+
+	public void testBookCategories() {
+		BookCategoriesEnum[] categoriesEnum = BookCategoriesEnum.values();
+		for(BookCategoriesEnum categoryEnum : categoriesEnum) {
+			Bookshelf bookshelf = booksRequest.fetchByCategory(categoryEnum);
+			assertTrue("Failed to fetch books from category: " + categoryEnum.getName() + ".", (bookshelf.getItemCount() > 0));
+		}
+	}
 }

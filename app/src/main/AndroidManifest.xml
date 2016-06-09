@@ -37,7 +37,7 @@
             android:name=".books.DetailBooks"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".news.DetailNews"
+            android:name=".news.DetailNewsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".settings.SettingsActivity"

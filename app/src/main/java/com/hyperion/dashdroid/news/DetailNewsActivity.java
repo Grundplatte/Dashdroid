@@ -19,7 +19,7 @@ import com.hyperion.dashdroid.news.rss.RSSFeed;
 /**
  * Created by Valdrin on 5/19/2016.
  */
-public class DetailNews extends Activity {
+public class DetailNewsActivity extends Activity {
 
 	private RSSFeed feed;
 	private int position;

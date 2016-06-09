@@ -16,7 +16,7 @@ public class BooksRequest {
 
     private Bookshelf bookshelf;
 
-    public Bookshelf request(BookCategoriesEnum category) {
+    public Bookshelf fetchByCategory(BookCategoriesEnum category) {
 
         String url = "https://www.googleapis.com/books/v1/volumes?q=subject:" + category.getUrlPart() + "&printType=books&maxResults=20&startIndex=0";
 

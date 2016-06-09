@@ -73,7 +73,7 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
         @Override
         protected Void doInBackground(Void... params) {
             BooksRequest booksRequest = new BooksRequest();
-            bookshelf = booksRequest.request(bookCategory);
+            bookshelf = booksRequest.fetchByCategory(bookCategory);
             return null;
         }
 
