@@ -77,7 +77,7 @@ public class BooksAdapter extends BaseAdapter {
         holder.bookTitle.setText(bookshelf.getBookItem(pos).getTitle());
         holder.bookAuthor.setText(bookshelf.getBookItem(pos).getAuthor());
         holder.bookRating.setClickable(false);
-        holder.bookRating.setNumStars((int)bookshelf.getBookItem(pos).getRating());
+        holder.bookRating.setNumStars((int)bookshelf.getBookItem(pos).getRating().doubleValue());
         listItem.setTag(holder);
         return listItem;
     }

@@ -16,7 +16,6 @@ public class BooksRequest {
 
     private Bookshelf bookshelf;
 
-    //TODO: Method to test the request in Google Books Api
     public Bookshelf request(BookCategoriesEnum category) {
 
         String url = "https://www.googleapis.com/books/v1/volumes?q=subject:" + category.getUrlPart() + "&printType=books&maxResults=20&startIndex=0";
@@ -34,28 +33,45 @@ public class BooksRequest {
                     JSONArray array = object.getJSONArray("items");
 
                     for (int i = 0; i < array.length(); i++) {
-                        BooksItem booksItem = new BooksItem();
+                        BookItem book = new BookItem();
                         JSONObject item = array.getJSONObject(i);
 
-                        JSONObject volumeInfo = item.getJSONObject("volumeInfo");
-                        String title = volumeInfo.getString("title");
-                        booksItem.setTitle(title);
-
-                        JSONArray authors = volumeInfo.getJSONArray("authors");
-                        String author = authors.getString(0);
-                        booksItem.setAuthor(author);
-
-                        JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
-                        String imageLink = imageLinks.getString("smallThumbnail");
-                        booksItem.setBookThumbnail(imageLink);
-
-                        double rating = 0;
-                        if(volumeInfo.has("averageRating")) {
-                            rating = volumeInfo.getDouble("averageRating");
+                        JSONObject volumeInfo = null;
+                        if(item.has("volumeInfo")) {
+                            volumeInfo = item.getJSONObject("volumeInfo");
                         }
-                        booksItem.setRating(rating);
 
-                        bookshelf.addBook(booksItem);
+                        if(volumeInfo != null) {
+
+                            String title = "";
+
+                            if(volumeInfo.has("title")) {
+                                title = volumeInfo.getString("title");
+                            }
+                            book.setTitle(title);
+
+                            String author = "";
+                            if(volumeInfo.has("authors")) {
+                                JSONArray authors = volumeInfo.getJSONArray("authors");
+                                author = authors.getString(0);
+                            }
+                            book.setAuthor(author);
+
+                            String imageLink = "";
+                            if(volumeInfo.has("imageLinks")) {
+                                JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                                imageLink = imageLinks.getString("smallThumbnail");
+                            }
+                            book.setBookThumbnail(imageLink);
+
+                            Double rating = 0.0;
+                            if(volumeInfo.has("averageRating")) {
+                                rating = volumeInfo.getDouble("averageRating");
+                            }
+                            book.setRating(rating);
+
+                            bookshelf.addBook(book);
+                        }
                     }
 
                 } catch (JSONException e) {
@@ -68,6 +84,9 @@ public class BooksRequest {
 
             }
         });
+
+        bookshelf.sort();
+
         return bookshelf;
     }
 

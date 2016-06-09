@@ -1,5 +1,8 @@
 package com.hyperion.dashdroid.books.recommendations;
 
+import android.util.Log;
+
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -8,17 +11,17 @@ import java.util.Vector;
  */
 public class Bookshelf {
 
-	private List<BooksItem> bookshelf;
+	private List<BookItem> bookshelf;
 
 	Bookshelf() {
-		bookshelf = new Vector<BooksItem>(0);
+		bookshelf = new Vector<BookItem>(0);
 	}
 
-	void addBook(BooksItem item) {
+	void addBook(BookItem item) {
 		bookshelf.add(item);
 	}
 
-	public BooksItem getBookItem(int location) {
+	public BookItem getBookItem(int location) {
 		return bookshelf.get(location);
 	}
 
@@ -26,7 +29,11 @@ public class Bookshelf {
 		return bookshelf.size();
 	}
 
-	public List<BooksItem> getBookList() {
+	public List<BookItem> getBookList() {
 		return bookshelf;
+	}
+
+	public void sort() {
+		Collections.sort(bookshelf);
 	}
 }

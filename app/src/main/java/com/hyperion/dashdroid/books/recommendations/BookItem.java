@@ -3,14 +3,14 @@ package com.hyperion.dashdroid.books.recommendations;
 /**
  * Created by Valdrin on 6/4/2016.
  */
-public class BooksItem {
+public class BookItem implements Comparable<BookItem> {
 
     private String title;
     private String author;
     private String bookThumbnail;
     private String publish;
     private String description;
-    private double rating;
+    private Double rating;
 
     public String getTitle() {
         return title;
@@ -52,11 +52,23 @@ public class BooksItem {
         this.description = description;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public int compareTo(BookItem otherBook) {
+
+        if(otherBook != null && otherBook.getRating() != null) {
+
+            return this.rating.compareTo(otherBook.getRating());
+
+        }
+
+        return 0;
     }
 }

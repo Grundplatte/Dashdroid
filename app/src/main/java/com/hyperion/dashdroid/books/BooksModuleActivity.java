@@ -6,7 +6,6 @@ import android.view.MenuItem;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.AbstractModuleActivity;
-import com.hyperion.dashdroid.base.FragmentTagEnum;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 import com.hyperion.dashdroid.books.recommendations.BookCategoriesEnum;
 import com.hyperion.dashdroid.books.recommendations.BooksFragment;
@@ -35,9 +34,7 @@ public class BooksModuleActivity extends AbstractModuleActivity {
 	@Override
 	public void addOptionMenuItems(Menu menu) {
 
-		// TODO - Check if in every module necessary.
 		menu.add(0, 0, 0, "").setIcon(R.drawable.search).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		menu.add(0, 1, 1, "").setIcon(R.drawable.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
 	}
 
