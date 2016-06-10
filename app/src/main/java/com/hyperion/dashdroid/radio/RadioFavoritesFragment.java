@@ -50,7 +50,7 @@ public class RadioFavoritesFragment extends RadioChannelsFragment {
         protected Object doInBackground(Object... params) {
             ArrayList<RadioChannel> radioChannels = new ArrayList<>();
 
-            Cursor channels_c = getContext().getContentResolver().query(RadioContentProvider.URI_CHANNELS, null, null, null, null);
+            Cursor channels_c = getActivity().getContentResolver().query(RadioContentProvider.URI_CHANNELS, null, null, null, null);
             if (channels_c.moveToFirst()) {
                 do {
                     int channel_id = channels_c.getInt(channels_c.getColumnIndex(RadioDBContract.RadioChannel._ID));
