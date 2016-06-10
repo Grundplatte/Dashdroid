@@ -56,28 +56,22 @@ class BooksAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = new ViewHolder();
 
-        // Inflate the item layout and set the views
         View listItem = convertView;
         int pos = position;
         if (listItem == null){
             listItem = layoutInflater.inflate(R.layout.books_fragment_list_item, null);
         }
 
-        // Initialize the views in the layout
         holder.bookThumbnail = (ImageView) listItem.findViewById(R.id.book_thumb);
         holder.bookTitle = (TextView) listItem.findViewById(R.id.book_title);
         holder.bookAuthor = (TextView) listItem.findViewById(R.id.book_author);
         holder.bookRating = (RatingBar) listItem.findViewById(R.id.book_ratingBar);
-        holder.bookRating.getIndeterminateDrawable()
-                .setColorFilter(Color.parseColor("#ffffff00"),
-                        PorterDuff.Mode.MULTIPLY);
 
-        // Set the views in the layout
         imageLoader.DisplayImage(bookshelf.getBookItem(pos).getBookThumbnail(), holder.bookThumbnail);
         holder.bookTitle.setText(bookshelf.getBookItem(pos).getTitle());
         holder.bookAuthor.setText(bookshelf.getBookItem(pos).getAuthor());
         holder.bookRating.setClickable(false);
-        holder.bookRating.setNumStars((int)bookshelf.getBookItem(pos).getRating().doubleValue());
+        holder.bookRating.setRating(bookshelf.getBookItem(pos).getRating().floatValue());
         listItem.setTag(holder);
         return listItem;
     }

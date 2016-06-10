@@ -65,7 +65,7 @@ public class BookItem implements Comparable<BookItem> {
 
         if(otherBook != null && otherBook.getRating() != null) {
 
-            return this.rating.compareTo(otherBook.getRating());
+            return this.rating.compareTo(otherBook.getRating()) * -1;
 
         }
 
