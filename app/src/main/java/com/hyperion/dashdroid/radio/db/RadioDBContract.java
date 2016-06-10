@@ -43,7 +43,7 @@ public final class RadioDBContract {
         public static final String COLUMN_NAME_SLUG = "slug";
         public static final String COLUMN_NAME_WEBSITE = "website";
         public static final String COLUMN_NAME_CATEGORY = "category";
-        public static final String COLUMN_NAME_FAVORITE = "favorite";
+        public static final String COLUMN_NAME_DESCRIPTION = "description";
 
         public static final String SQL_CREATE_CHANNELS =
                 "CREATE TABLE " + RadioChannel.TABLE_NAME + " (" +
@@ -51,6 +51,7 @@ public final class RadioDBContract {
                         RadioChannel.COLUMN_NAME_CHANNEL_ID + INT_TYPE + COMMA_SEP +
                         RadioChannel.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
                         RadioChannel.COLUMN_NAME_COUNTRY + TEXT_TYPE + COMMA_SEP +
+                        RadioChannel.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
                         RadioChannel.COLUMN_NAME_IMAGEURL + TEXT_TYPE + COMMA_SEP +
                         RadioChannel.COLUMN_NAME_THUMBURL + TEXT_TYPE + COMMA_SEP +
                         RadioChannel.COLUMN_NAME_SLUG + TEXT_TYPE + COMMA_SEP +

@@ -46,9 +46,11 @@ public class RadioModuleActivity extends AbstractModuleActivity {
         getSupportActionBar().setTitle(R.string.dashboard_radio);
         searchView = new RadioSearchView(this, ChannelSearchAsyncTask.class);
 
-        Fragment homeFragment = new RadioCategoryFragment();
+        Fragment favoriteFragment = new RadioFavoritesFragment();
+        Fragment categoryFragment = new RadioCategoryFragment();
 
-        slidingMenuItems.add(new SlidingMenuItem("Genres", SlidingMenuItem.ItemType.ITEM, homeFragment, FragmentTagEnum.RADIO_HOME.getTag()));
+        slidingMenuItems.add(new SlidingMenuItem("Favorites", SlidingMenuItem.ItemType.ITEM, favoriteFragment, FragmentTagEnum.RADIO_HOME.getTag()));
+        slidingMenuItems.add(new SlidingMenuItem("Genres", SlidingMenuItem.ItemType.ITEM, categoryFragment, FragmentTagEnum.RADIO_CATEGORIES.getTag()));
     }
 
     @Override

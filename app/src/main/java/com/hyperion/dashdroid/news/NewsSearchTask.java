@@ -1,5 +1,6 @@
 package com.hyperion.dashdroid.news;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 
@@ -17,7 +18,7 @@ public class NewsSearchTask extends AsyncTask<Object, Object, Object> {
 
 	private RSSFeed feed;
 
-	public NewsSearchTask(View listView) {
+	public NewsSearchTask(Context context, View listView) {
 	}
 
 	@Override

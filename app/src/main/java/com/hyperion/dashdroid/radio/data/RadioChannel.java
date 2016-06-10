@@ -1,25 +1,11 @@
 package com.hyperion.dashdroid.radio.data;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.ArrayList;
 
 /**
  * Data class for handling radio channels
  */
-public class RadioChannel implements Parcelable {
-	public static final Creator<RadioChannel> CREATOR = new Creator<RadioChannel>() {
-		@Override
-		public RadioChannel createFromParcel(Parcel in) {
-			return new RadioChannel(in);
-		}
-
-		@Override
-		public RadioChannel[] newArray(int size) {
-			return new RadioChannel[size];
-		}
-	};
+public class RadioChannel {
 	private int ID;
 	private String name;
 	private String country;
@@ -28,8 +14,17 @@ public class RadioChannel implements Parcelable {
 	private String thumbUrl;
 	private String slug;
 	private String website;
+
+	public boolean isFavorited() {
+		return favorited;
+	}
+
+	public void setFavorited(boolean favorited) {
+		this.favorited = favorited;
+	}
+
+	private boolean favorited;
 	private ArrayList<RadioStream> radioStreams;
-	private ArrayList<RadioCategory> radioChannelCategories;
 
 	public RadioChannel(int ID) {
 		this.ID = ID;
@@ -41,7 +36,19 @@ public class RadioChannel implements Parcelable {
 		this.slug = null;
 		this.website = null;
 		this.radioStreams = null;
-		this.radioChannelCategories = null;
+	}
+
+	public RadioChannel(int ID, String name, String country, String description, String imageUrl, String thumbUrl, String slug, String website, ArrayList<RadioStream> radioStreams) {
+		this.ID = ID;
+		this.name = name;
+		this.country = country;
+		this.description = description;
+		this.imageUrl = imageUrl;
+		this.thumbUrl = thumbUrl;
+		this.slug = slug;
+		this.website = website;
+		this.radioStreams = radioStreams;
+		this.favorited = false;
 	}
 
 	public RadioChannel(int ID, String name, String country, String description, String imageUrl, String thumbUrl, String slug, String website, ArrayList<RadioStream> radioStreams, ArrayList<RadioCategory> radioChannelCategories) {
@@ -54,18 +61,7 @@ public class RadioChannel implements Parcelable {
 		this.slug = slug;
 		this.website = website;
 		this.radioStreams = radioStreams;
-		this.radioChannelCategories = radioChannelCategories;
-	}
-
-	protected RadioChannel(Parcel in) {
-		ID = in.readInt();
-		name = in.readString();
-		country = in.readString();
-		description = in.readString();
-		imageUrl = in.readString();
-		thumbUrl = in.readString();
-		slug = in.readString();
-		website = in.readString();
+		this.favorited = false;
 	}
 
 	public int getID() {
@@ -107,22 +103,5 @@ public class RadioChannel implements Parcelable {
 	@Override
 	public boolean equals(Object o) {
 		return this.getID() == ((RadioChannel) o).getID();
-	}
-
-	@Override
-	public int describeContents() {
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(ID);
-		dest.writeString(name);
-		dest.writeString(country);
-		dest.writeString(description);
-		dest.writeString(imageUrl);
-		dest.writeString(thumbUrl);
-		dest.writeString(slug);
-		dest.writeString(website);
 	}
 }

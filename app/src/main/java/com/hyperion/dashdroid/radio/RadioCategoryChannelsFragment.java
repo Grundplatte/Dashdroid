@@ -1,29 +1,21 @@
 package com.hyperion.dashdroid.radio;
 
-import android.graphics.PorterDuff;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
-import com.hyperion.dashdroid.R;
-import com.hyperion.dashdroid.base.BaseFragment;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
+import com.hyperion.dashdroid.radio.db.RadioContentProvider;
+import com.hyperion.dashdroid.radio.db.RadioDBContract;
 import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 
 import java.util.ArrayList;
 
-public class RadioCategoryChannelsFragment extends BaseFragment implements ChannelAdapter.OnChannelItemClickListener {
+public class RadioCategoryChannelsFragment extends RadioChannelsFragment {
 
-    private View radioListViewContainer;
-    private RecyclerView radioList;
-    private ProgressBar progressBar;
     private int categoryid;
 
     @Override
@@ -31,14 +23,7 @@ public class RadioCategoryChannelsFragment extends BaseFragment implements Chann
         Bundle bundle = getArguments();
         categoryid = bundle.getInt("rootCategory");
 
-        radioListViewContainer = inflater.inflate(R.layout.radio_fragment_list, container, false);
-        radioList = (RecyclerView) radioListViewContainer.findViewById(R.id.radioListView);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-        radioList.setLayoutManager(gridLayoutManager);
-
-        progressBar = (ProgressBar) radioListViewContainer.findViewById(R.id.progressBar);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.m_color_pressed_1), PorterDuff.Mode.MULTIPLY);
+        super.onCreateView(inflater, container, savedInstanceState);
 
         refresh();
 
@@ -47,16 +32,8 @@ public class RadioCategoryChannelsFragment extends BaseFragment implements Chann
 
     @Override
     public void refresh() {
-        RelativeLayout relativeLayout = (RelativeLayout) radioListViewContainer.findViewById(R.id.radioList);
-
         CategoryChannelAsyncTask dirbleAsyncTask = new CategoryChannelAsyncTask();
         dirbleAsyncTask.execute(categoryid);
-    }
-
-    @Override
-    public void onItemClick(RadioChannel channel) {
-        RadioMainFragment radioMainFragment = (RadioMainFragment) getFragmentManager().findFragmentByTag(RadioMainFragment.TAG);
-        radioMainFragment.getRadioPlayer().playRadioChannel(channel);
     }
 
     public class CategoryChannelAsyncTask extends AsyncTask<Object, Integer, Object> {
@@ -70,7 +47,16 @@ public class RadioCategoryChannelsFragment extends BaseFragment implements Chann
 
         @Override
         protected Object doInBackground(Object... params) {
-            return DirbleProvider.getInstance().getChannelsForCategory((int) params[0]);
+            ArrayList<RadioChannel> radioChannels = DirbleProvider.getInstance().getChannelsForCategory((int) params[0]);
+            for (int i = 0; i < radioChannels.size(); i++) {
+                String where = RadioDBContract.RadioChannel.COLUMN_NAME_CHANNEL_ID + '=' + radioChannels.get(i).getID();
+                Cursor c = getActivity().getContentResolver().query(RadioContentProvider.URI_CHANNELS, null, where, null, null);
+                if (c.moveToFirst()) {
+                    radioChannels.get(i).setFavorited(true);
+                }
+                c.close();
+            }
+            return radioChannels;
         }
 
         @Override

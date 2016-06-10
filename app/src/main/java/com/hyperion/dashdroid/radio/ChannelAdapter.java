@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
-import com.hyperion.dashdroid.radio.listener.FavoriteOnClickListener;
 
 import java.util.ArrayList;
 
@@ -58,12 +57,11 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
                 listener.onItemClick(radioChannels.get((int) v.getTag()));
             }
         });
-
         return new ViewHolder(card);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         String name = radioChannels.get(position).getName();
         if (name.length() >= MAX_NAME_LENGTH)
             holder.cardText.setText(name.substring(0, MAX_NAME_LENGTH));
@@ -72,21 +70,28 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         holder.itemView.setTag(position);
 
         holder.favButton.setClickable(true);
-        holder.favButton.setOnClickListener(new FavoriteOnClickListener(holder.favorited));
 
-        /*holder.favButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(holder.favorited){
-                        holder.favorited = false;
-                        holder.favButton.set
-                    }
-                    else{
-                        holder.favorited = true;
-                    }
+        if (radioChannels.get(position).isFavorited()) {
+            holder.favButton.setBackgroundResource(R.drawable.ic_star_black_48dp);
+        }
+
+        holder.favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioChannel channel = radioChannels.get((int) ((View) v.getParent().getParent()).getTag());
+                if (channel.isFavorited()) {
+                    v.setBackgroundResource(R.drawable.ic_star_border_black_48dp);
+                    // delete
+                    channel.setFavorited(false);
+                    listener.onUnFavorite(channel);
+                } else {
+                    v.setBackgroundResource(R.drawable.ic_star_black_48dp);
+                    // add
+                    channel.setFavorited(true);
+                    listener.onFavorite(channel);
                 }
-            });*/
-
+            }
+        });
     }
 
     @Override
@@ -96,5 +101,9 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
 
     interface OnChannelItemClickListener {
         void onItemClick(RadioChannel channel);
+
+        void onFavorite(RadioChannel channel);
+
+        void onUnFavorite(RadioChannel channel);
     }
 }

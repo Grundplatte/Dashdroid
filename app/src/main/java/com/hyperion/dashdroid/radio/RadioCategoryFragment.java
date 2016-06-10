@@ -101,8 +101,7 @@ public class RadioCategoryFragment extends BaseFragment implements CategoryAdapt
         @Override
         protected Object doInBackground(Object... params) {
             ArrayList<RadioCategory> radioCategories = new ArrayList<>();
-            //check if data allready in database // check timestamp
-            // if data is in db and timestamp is ok, get the data from the db, else get data from server
+
             String where = RadioDBContract.RadioCategory.COLUMN_NAME_ANCESTRY + "=" + rootCategory; // only root categories
             Cursor c = getContext().getContentResolver().query(RadioContentProvider.URI_CATEGORIES, null, where, null, null);
             if (c.moveToFirst()) {
@@ -111,7 +110,7 @@ public class RadioCategoryFragment extends BaseFragment implements CategoryAdapt
                 } while (c.moveToNext());
                 return radioCategories;
             } else
-                throw new IllegalStateException("Rip!");
+                throw new IllegalStateException("No Categories in Database, please update the application!");
         }
 
         @Override
