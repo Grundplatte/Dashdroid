@@ -1,6 +1,7 @@
 package com.hyperion.dashdroid.news.rss;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,15 @@ public class RSSAdapter extends BaseAdapter {
 	private ImageLoader imageLoader;
 
 	public RSSAdapter(RSSFragment fragment, RSSFeed feed) {
-		layoutInflater = (LayoutInflater) fragment.getActivity()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		imageLoader = new ImageLoader(fragment.getActivity().getApplicationContext());
+		try {
+			layoutInflater = (LayoutInflater) fragment.getActivity()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			imageLoader = new ImageLoader(fragment.getActivity().getApplicationContext());
+		}catch (NullPointerException e){
+			e.printStackTrace();
+			Log.e(getClass().getName(), "layoutInflater + imageloader = null");
+		}
+
 		this.feed = feed;
 	}
 

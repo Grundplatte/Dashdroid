@@ -9,7 +9,6 @@ import java.util.Vector;
  */
 public class RSSFeed implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	private List<RSSItem> itemList;
 
 	RSSFeed() {

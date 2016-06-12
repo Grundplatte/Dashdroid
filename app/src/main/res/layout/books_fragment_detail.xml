@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/light_green_1"
     android:fillViewport="true">
 
     <LinearLayout
@@ -25,9 +26,12 @@
                     android:id="@+id/bd_cover"
                     android:layout_width="100dp"
                     android:layout_height="160dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="3dp"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="top|right"
+                    android:adjustViewBounds="true"
                     android:scaleType="fitXY"
                     android:src="@drawable/android_book"
                     android:visibility="visible" />
@@ -40,8 +44,11 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignWithParentIfMissing="true"
                     android:layout_toLeftOf="@+id/bd_cover"
+                    android:paddingLeft="3dp"
                     android:text="Android Development"
-                    android:textStyle="italic" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:textStyle="italic|bold" />
 
                 <TextView
                     android:id="@+id/bd_author"
@@ -50,7 +57,9 @@
                     android:layout_below="@+id/bd_title"
                     android:layout_marginTop="2dp"
                     android:paddingBottom="8dp"
-                    android:text="Paul Deitel" />
+                    android:paddingLeft="3dp"
+                    android:text="Paul Deitel"
+                    android:textColor="@color/colorPrimary" />
 
                 <LinearLayout
                     android:id="@+id/rating_layout"
@@ -64,7 +73,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:numStars="5"
-                        android:paddingBottom="8dp" />
+                        android:paddingBottom="8dp"
+                        android:paddingLeft="3dp" />
 
                 </LinearLayout>
 
@@ -77,10 +87,12 @@
 
                     <TextView
                         android:id="@+id/bd_isbn_label"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingRight="6dp"
-                        android:text="ISBN" />
+                        android:paddingLeft="3dp"
+                        android:paddingRight="5dp"
+                        android:text="@string/books_detail_isbn"
+                        android:textColor="@color/colorPrimary" />
 
                     <TextView
                         android:id="@+id/bd_isbn"
@@ -98,60 +110,40 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/bd_pages_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="3dp"
+                        android:paddingRight="5dp"
+                        android:text="@string/books_detail_nopages"
+                        android:textColor="@color/colorPrimary" />
+
+                    <TextView
                         android:id="@+id/bd_pages"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingRight="6dp"
-                        android:text="566 pages" />
+                        android:text="566" />
 
                 </LinearLayout>
 
             </RelativeLayout>
 
-            <!--<RelativeLayout-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content">-->
-            <!--android:layout_gravity="top|center_horizontal"-->
-            <!--android:layout_weight="1">-->
-
-            <!--<ImageView-->
-            <!--android:id="@+id/row_img"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:adjustViewBounds="true"-->
-            <!--android:background="@drawable/android_book"-->
-            <!--android:scaleType="centerInside"-->
-            <!--/>-->
-
-            <!--</RelativeLayout>-->
         </LinearLayout>
 
         <View
             android:id="@+id/header_div"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/light_green_1" />
-
-        <TextView
-            android:id="@+id/bd_series_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Series" />
-
-        <TextView
-            android:id="@+id/bd_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="false"
-            android:text="Series name (1)\\nSeries name (2)" />
+            android:background="@color/cardview_dark_background" />
 
         <TextView
             android:id="@+id/bd_publishing_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Publishing" />
+            android:paddingLeft="3dp"
+            android:text="@string/books_detail_publishing"
+            android:textColor="@color/colorPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -162,70 +154,95 @@
                 android:id="@+id/bd_publishing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Publisher name, Jan 25, 2015" />
+                android:paddingLeft="13dp"
+                android:text="Publisher name" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/bd_publishedDate_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3dp"
+            android:text="@string/books_detail_publishedDate"
+            android:textColor="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/bd_publishedDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="13dp"
+            android:singleLine="false"
+            android:text="12.12.2012" />
 
         <TextView
             android:id="@+id/bd_bookshelf_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bookshelf"/>
+            android:paddingLeft="3dp"
+            android:text="@string/books_detail_bookshelf"
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/bd_bookshelf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Default"/>
+            android:paddingLeft="13dp"
+            android:text="Default" />
 
         <TextView
             android:id="@+id/bd_genre_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Genre"/>
+            android:paddingLeft="3dp"
+            android:text="@string/books_detail_genre"
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/bd_genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Computers/Certification Guides"/>
+            android:paddingLeft="13dp"
+            android:text="Computers/Certification Guides" />
 
 
         <TextView
             android:id="@+id/bd_language_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Language"/>
+            android:paddingLeft="3dp"
+            android:text="@string/books_detail_language"
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/bd_language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="English"/>
+            android:paddingLeft="13dp"
+            android:text="English" />
 
         <View
             android:id="@+id/header_div2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/light_green_1" />
+            android:background="@color/cardview_dark_background" />
 
         <TextView
             android:id="@+id/bd_description_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:paddingLeft="3dp"
+            android:text="@string/books_detail_description"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/colorPrimary" />
 
         <TextView
             android:id="@+id/bd_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="I hereby nominate Lizard the humongous football player and Sylphide the mysterious
-                            ballerina as two of my favorite characters of 2012. Rarely have such elite and outsize personalities felt
-                            so true on the page--a joy to be with, worth rooting for. I hereby nominate Lizard the humongous football
-                            player and Sylphide the mysterious ballerina as two of my favorite characters of 2012. Rarely have such elite
-                            and outsize personalities felt so true on the page--a joy to be with, worth rooting for."
-            android:textAppearance="?android:attr/textAppearanceMedium"/>
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </LinearLayout>
 

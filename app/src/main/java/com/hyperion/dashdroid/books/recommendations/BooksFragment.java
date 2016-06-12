@@ -56,10 +56,12 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Log.e("Position: ", position + "");
-        Intent i = new Intent(getActivity(), DetailBooks.class);
-        startActivity(i);
-        //TODO: implement the BooksDetailActivity
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("bookshelf", bookshelf);
+        Intent intent = new Intent(getActivity(), DetailBooks.class);
+        intent.putExtras(bundle);
+        intent.putExtra("pos", position);
+        startActivity(intent);
     }
 
    private class GetBook extends AsyncTask<Void, Void, Void>{

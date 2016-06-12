@@ -1,8 +1,7 @@
 package com.hyperion.dashdroid.books.recommendations;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +19,20 @@ import com.hyperion.dashdroid.news.image.ImageLoader;
 class BooksAdapter extends BaseAdapter {
 
     private final Bookshelf bookshelf;
-    private final LayoutInflater layoutInflater;
-    private final ImageLoader imageLoader;
+    private LayoutInflater layoutInflater;
+    private ImageLoader imageLoader;
 
     public BooksAdapter(BooksFragment fragment, Bookshelf bookshelf) {
-        layoutInflater = (LayoutInflater) fragment.getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        imageLoader = new ImageLoader(fragment.getActivity().getApplicationContext());
+        try {
+            layoutInflater = (LayoutInflater) fragment.getActivity()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            imageLoader = new ImageLoader(fragment.getActivity().getApplicationContext());
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            Log.e("BooksAdapter:", "layoutInflater, imageLoader = null");
+        }
+
+
         this.bookshelf = bookshelf;
     }
 

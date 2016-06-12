@@ -29,8 +29,17 @@
 
     <!-- Books module -->
     <string name="books_sliding_menu_item_1">Home</string>
+    <string name="books_detail_isbn">ISBN</string>
+    <string name="books_detail_nopages">Number of pages</string>
+    <string name="books_detail_publishedDate">Published date</string>
+    <string name="books_detail_publishing">Publishing</string>
+    <string name="books_detail_bookshelf">Bookshelf</string>
+    <string name="books_detail_genre">Genre</string>
+    <string name="books_detail_language">Language</string>
+    <string name="books_detail_description">Description</string>
 
     <!-- Weather module -->
     <string name="weather_sliding_menu_item_1">Home</string>
+    
 
 </resources>

@@ -44,7 +44,6 @@ public class BooksRequest {
                         if(volumeInfo != null) {
 
                             String title = "";
-
                             if(volumeInfo.has("title")) {
                                 title = volumeInfo.getString("title");
                             }
@@ -69,6 +68,45 @@ public class BooksRequest {
                                 rating = volumeInfo.getDouble("averageRating");
                             }
                             book.setRating(rating);
+
+                            //TODO: isbn
+
+                            int pageCount = 0;
+                            if (volumeInfo.has("pageCount")){
+                                pageCount = volumeInfo.getInt("pageCount");
+                            }
+                            book.setPages(pageCount);
+
+                            String publishing = "";
+                            if (volumeInfo.has("publisher")){
+                                publishing = volumeInfo.getString("publisher");
+                            }
+                            book.setPublishing(publishing);
+
+                            String publishedDate = "";
+                            if (volumeInfo.has("publishedDate")){
+                                publishedDate = volumeInfo.getString("publishedDate");
+                            }
+                            book.setPublishedDate(publishedDate);
+
+                            String categorie = "";
+                            if (volumeInfo.has("categories")){
+                                JSONArray categories = volumeInfo.getJSONArray("categories");
+                                categorie = categories.getString(0);
+                            }
+                            book.setGenre(categorie);
+
+                            String language = "";
+                            if (volumeInfo.has("language")){
+                                language = volumeInfo.getString("language");
+                            }
+                            book.setLanguage(language);
+
+                            String description = "";
+                            if (volumeInfo.has("description")){
+                                description = volumeInfo.getString("description");
+                            }
+                            book.setDescription(description);
 
                             bookshelf.addBook(book);
                         }
