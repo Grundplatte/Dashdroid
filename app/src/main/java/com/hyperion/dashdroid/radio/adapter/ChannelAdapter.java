@@ -1,5 +1,6 @@
-package com.hyperion.dashdroid.radio;
+package com.hyperion.dashdroid.radio.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
+import com.hyperion.dashdroid.radio.listener.ChannelOnClickListener;
+import com.hyperion.dashdroid.radio.listener.ChannelOnFavoriteListener;
 
 import java.util.ArrayList;
 
@@ -16,10 +19,12 @@ import java.util.ArrayList;
  * Created by Rainer on 12.05.2016.
  */
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
-
     private final int MAX_NAME_LENGTH = 30;
 
-    private OnChannelItemClickListener listener;
+    private Context context;
+
+    private ChannelOnClickListener click_listener;
+    private ChannelOnFavoriteListener fav_listener;
     private ArrayList<RadioChannel> radioChannels;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -39,9 +44,12 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
 
     }
 
-    public ChannelAdapter(ArrayList<RadioChannel> radioChannels, OnChannelItemClickListener listener) {
+    public ChannelAdapter(Context context, ArrayList<RadioChannel> radioChannels) {
         this.radioChannels = radioChannels;
-        this.listener = listener;
+        this.context = context;
+
+        this.click_listener = new ChannelOnClickListener(context);
+        this.fav_listener = new ChannelOnFavoriteListener(context);
     }
 
     public void setItems(ArrayList<RadioChannel> radioChannels) {
@@ -54,7 +62,7 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(radioChannels.get((int) v.getTag()));
+                click_listener.onItemClick(radioChannels.get((int) v.getTag()));
             }
         });
         return new ViewHolder(card);
@@ -83,12 +91,12 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
                     v.setBackgroundResource(R.drawable.ic_star_border_black_48dp);
                     // delete
                     channel.setFavorited(false);
-                    listener.onUnFavorite(channel);
+                    fav_listener.onUnFavorite(channel);
                 } else {
                     v.setBackgroundResource(R.drawable.ic_star_black_48dp);
                     // add
                     channel.setFavorited(true);
-                    listener.onFavorite(channel);
+                    fav_listener.onFavorite(channel);
                 }
             }
         });
@@ -99,9 +107,11 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         return radioChannels.size();
     }
 
-    interface OnChannelItemClickListener {
+    public interface OnChannelItemClickListener {
         void onItemClick(RadioChannel channel);
+    }
 
+    public interface OnChannelFavoriteListener {
         void onFavorite(RadioChannel channel);
 
         void onUnFavorite(RadioChannel channel);

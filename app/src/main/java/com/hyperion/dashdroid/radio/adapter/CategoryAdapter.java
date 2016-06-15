@@ -1,5 +1,6 @@
-package com.hyperion.dashdroid.radio;
+package com.hyperion.dashdroid.radio.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,17 +10,21 @@ import android.widget.TextView;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.radio.data.RadioCategory;
+import com.hyperion.dashdroid.radio.listener.CategoryOnClickListener;
 
 import java.util.ArrayList;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+    private Context context;
 
-    private CategoryItemClickedListener listener;
+    private CategoryOnClickListener listener;
     private ArrayList<RadioCategory> radioChannelCategories;
 
-    public CategoryAdapter(ArrayList<RadioCategory> radioChannelCategories, CategoryItemClickedListener listener) {
+    public CategoryAdapter(Context context, ArrayList<RadioCategory> radioChannelCategories) {
         this.radioChannelCategories = radioChannelCategories;
-        this.listener = listener;
+        this.context = context;
+
+        this.listener = new CategoryOnClickListener(context);
     }
 
     @Override
@@ -28,7 +33,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClicked(radioChannelCategories.get((int) v.getTag()));
+                listener.onItemClick(radioChannelCategories.get((int) v.getTag()));
             }
         });
 
@@ -50,8 +55,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return radioChannelCategories.size();
     }
 
-    interface CategoryItemClickedListener {
-        void onItemClicked(RadioCategory category);
+    public interface OnCategoryItemClickListener {
+        void onItemClick(RadioCategory category);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

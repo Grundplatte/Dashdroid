@@ -13,6 +13,9 @@ import com.hyperion.dashdroid.base.BaseFragment;
 import com.hyperion.dashdroid.base.BaseSearchView;
 import com.hyperion.dashdroid.base.FragmentTagEnum;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
+import com.hyperion.dashdroid.radio.async.CategoryAsyncTask;
+import com.hyperion.dashdroid.radio.async.ChannelSearchAsyncTask;
+import com.hyperion.dashdroid.radio.async.FavoriteChannelsAsyncTask;
 
 /**
  * Created by infinity on 05-May-16.
@@ -46,8 +49,8 @@ public class RadioModuleActivity extends AbstractModuleActivity {
         getSupportActionBar().setTitle(R.string.dashboard_radio);
         searchView = new RadioSearchView(this, ChannelSearchAsyncTask.class);
 
-        Fragment favoriteFragment = new RadioFavoritesFragment();
-        Fragment categoryFragment = new RadioCategoryFragment();
+        Fragment favoriteFragment = RadioListFragment.makeInstance(FavoriteChannelsAsyncTask.class);
+        Fragment categoryFragment = RadioListFragment.makeInstance(CategoryAsyncTask.class);
 
         slidingMenuItems.add(new SlidingMenuItem("Favorites", SlidingMenuItem.ItemType.ITEM, favoriteFragment, FragmentTagEnum.RADIO_HOME.getTag()));
         slidingMenuItems.add(new SlidingMenuItem("Genres", SlidingMenuItem.ItemType.ITEM, categoryFragment, FragmentTagEnum.RADIO_CATEGORIES.getTag()));
@@ -84,7 +87,6 @@ public class RadioModuleActivity extends AbstractModuleActivity {
     @Override
     protected void displayView(int position) {
 
-        // TODO: maybe not the best solution
         if (getFragmentManager().getBackStackEntryCount() > 0)
             getFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
