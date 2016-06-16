@@ -15,9 +15,6 @@ import com.hyperion.dashdroid.radio.listener.ChannelOnFavoriteListener;
 
 import java.util.ArrayList;
 
-/**
- * Created by Rainer on 12.05.2016.
- */
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
     private final int MAX_NAME_LENGTH = 30;
 

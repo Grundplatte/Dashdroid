@@ -11,9 +11,6 @@ import com.hyperion.dashdroid.radio.db.RadioContentProvider;
 import com.hyperion.dashdroid.radio.db.RadioDBContract;
 import com.hyperion.dashdroid.radio.dirble.DirbleHelper;
 
-/**
- * Created by Rainer on 08.06.2016.
- */
 public class ChannelOnFavoriteListener implements ChannelAdapter.OnChannelFavoriteListener {
     private Context context;
 

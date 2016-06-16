@@ -23,6 +23,7 @@ public class CategoryAsyncTask extends DirbleAsyncTask {
         ArrayList<RadioCategory> radioCategories = new ArrayList<>();
 
         String where = RadioDBContract.RadioCategory.COLUMN_NAME_ANCESTRY + "=" + params[0]; // only root categories
+
         Cursor c = context.getContentResolver().query(RadioContentProvider.URI_CATEGORIES, null, where, null, null);
         if (c.moveToFirst()) {
             do {

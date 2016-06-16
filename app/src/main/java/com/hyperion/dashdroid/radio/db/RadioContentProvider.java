@@ -12,27 +12,37 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.hyperion.dashdroid.radio.data.RadioCategory;
+import com.hyperion.dashdroid.radio.data.RadioContinent;
+import com.hyperion.dashdroid.radio.data.RadioCountry;
 import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 
 import java.util.ArrayList;
 
-/**
- * Created by Rainer on 08.06.2016.
- */
 public class RadioContentProvider extends ContentProvider{
     private static final String AUTHORITY = "com.hyperion.dashdroid.radio.db.RadioContentProvider";
     public static final String URL_CATEGORIES = "content://" + AUTHORITY + '/' + RadioDBContract.RadioCategory.TABLE_NAME;
     public static final String URL_CHANNELS = "content://" + AUTHORITY + '/' + RadioDBContract.RadioChannel.TABLE_NAME;
     public static final String URL_STREAMS = "content://" + AUTHORITY + '/' + RadioDBContract.RadioStream.TABLE_NAME;
+    public static final String URL_CONTINENTS = "content://" + AUTHORITY + '/' + RadioDBContract.RadioContinent.TABLE_NAME;
+    public static final String URL_COUNTRIES = "content://" + AUTHORITY + '/' + RadioDBContract.RadioCountry.TABLE_NAME;
+    public static final String URL_LASTCHANNEL = "content://" + AUTHORITY + '/' + RadioDBContract.RadioLastChannel.TABLE_NAME;
     public static final int CATEGORIES = 1;
     public static final int CATEGORY_ID = 2;
     public static final int CHANNELS = 3;
     public static final int CHANNEL_ID = 4;
     public static final int STREAMS = 5;
     public static final int STREAM_ID = 6;
+    public static final int CONTINENTS = 7;
+    public static final int CONTINENT_ID = 8;
+    public static final int COUNTRIES = 9;
+    public static final int COUNTRY_ID = 10;
+    public static final int LASTCHANNEL = 11;
     public static final Uri URI_CATEGORIES = Uri.parse(URL_CATEGORIES);
     public static final Uri URI_CHANNELS = Uri.parse(URL_CHANNELS);
     public static final Uri URI_STREAMS = Uri.parse(URL_STREAMS);
+    public static final Uri URI_CONTINENTS = Uri.parse(URL_CONTINENTS);
+    public static final Uri URI_COUNTRIES = Uri.parse(URL_COUNTRIES);
+    public static final Uri URI_LASTCHANNEL = Uri.parse(URL_LASTCHANNEL);
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
         uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioCategory.TABLE_NAME, CATEGORIES);
@@ -41,6 +51,11 @@ public class RadioContentProvider extends ContentProvider{
         uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioChannel.TABLE_NAME + "/#", CHANNEL_ID);
         uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioStream.TABLE_NAME, STREAMS);
         uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioStream.TABLE_NAME + "/#", STREAM_ID);
+        uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioContinent.TABLE_NAME, CONTINENTS);
+        uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioContinent.TABLE_NAME + "/#", CONTINENT_ID);
+        uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioCountry.TABLE_NAME, COUNTRIES);
+        uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioCountry.TABLE_NAME + "/#", COUNTRY_ID);
+        uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioLastChannel.TABLE_NAME, LASTCHANNEL);
     }
 
     private RadioDBHelper dbHelper;
@@ -70,6 +85,35 @@ public class RadioContentProvider extends ContentProvider{
         }
     }
 
+    private void loadContinentData() {
+        ArrayList<RadioContinent> continents = DirbleProvider.getInstance().getContinents();
+
+        // write to db
+        for (RadioContinent continent : continents) {
+
+            ContentValues values = new ContentValues();
+            values.put(RadioDBContract.RadioContinent.COLUMN_NAME_CONTINENT_ID, continent.getID());
+            values.put(RadioDBContract.RadioContinent.COLUMN_NAME_NAME, continent.getName());
+            values.put(RadioDBContract.RadioContinent.COLUMN_NAME_SLUG, continent.getSlug());
+            db.insert(RadioDBContract.RadioContinent.TABLE_NAME, "", values);
+        }
+    }
+
+    private void loadCountryData() {
+        ArrayList<RadioCountry> countries = DirbleProvider.getInstance().getCountries();
+
+        // write to db
+        for (RadioCountry country : countries) {
+
+            ContentValues values = new ContentValues();
+            values.put(RadioDBContract.RadioCountry.COLUMN_NAME_NAME, country.getName());
+            values.put(RadioDBContract.RadioCountry.COLUMN_NAME_COUNTRY_CODE, country.getCountry_code());
+            values.put(RadioDBContract.RadioCountry.COLUMN_NAME_REGION, country.getRegion());
+            values.put(RadioDBContract.RadioCountry.COLUMN_NAME_SUBREGION, country.getSubregion());
+            db.insert(RadioDBContract.RadioCountry.TABLE_NAME, "", values);
+        }
+    }
+
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
@@ -78,7 +122,7 @@ public class RadioContentProvider extends ContentProvider{
         switch(uriMatcher.match(uri)){
             case CATEGORIES:
                 if (sortOrder == null || sortOrder == "") {
-                    sortOrder = RadioDBContract.RadioCategory._ID;
+                    sortOrder = RadioDBContract.RadioCategory.COLUMN_NAME_TITLE;
                 }
                 cursor = db.query(RadioDBContract.RadioCategory.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 
@@ -90,7 +134,7 @@ public class RadioContentProvider extends ContentProvider{
                 break;
             case CATEGORY_ID:
                 if (sortOrder == null || sortOrder == "") {
-                    sortOrder = RadioDBContract.RadioCategory._ID;
+                    sortOrder = RadioDBContract.RadioCategory.COLUMN_NAME_TITLE;
                 }
                 cursor = db.query(RadioDBContract.RadioCategory.TABLE_NAME, projection,
                         RadioDBContract.RadioCategory._ID + " = " + uri.getPathSegments().get(1) +
@@ -105,13 +149,13 @@ public class RadioContentProvider extends ContentProvider{
                 break;
             case CHANNELS:
                 if (sortOrder == null || sortOrder == "") {
-                    sortOrder = RadioDBContract.RadioChannel._ID;
+                    sortOrder = RadioDBContract.RadioChannel.COLUMN_NAME_NAME;
                 }
                 cursor = db.query(RadioDBContract.RadioChannel.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case CHANNEL_ID:
                 if (sortOrder == null || sortOrder == "") {
-                    sortOrder = RadioDBContract.RadioChannel._ID;
+                    sortOrder = RadioDBContract.RadioChannel.COLUMN_NAME_NAME;
                 }
                 cursor = db.query(RadioDBContract.RadioChannel.TABLE_NAME, projection,
                         RadioDBContract.RadioChannel._ID + " = " + uri.getPathSegments().get(1) +
@@ -119,17 +163,74 @@ public class RadioContentProvider extends ContentProvider{
                 break;
             case STREAMS:
                 if (sortOrder == null || sortOrder == "") {
-                    sortOrder = RadioDBContract.RadioStream._ID;
+                    sortOrder = RadioDBContract.RadioStream.COLUMN_NAME_BITRATE;
                 }
                 cursor = db.query(RadioDBContract.RadioStream.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case STREAM_ID:
                 if (sortOrder == null || sortOrder == "") {
-                    sortOrder = RadioDBContract.RadioStream._ID;
+                    sortOrder = RadioDBContract.RadioStream.COLUMN_NAME_BITRATE;
                 }
                 cursor = db.query(RadioDBContract.RadioStream.TABLE_NAME, projection,
                         RadioDBContract.RadioStream._ID + " = " + uri.getPathSegments().get(1) +
                         (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs, null, null, sortOrder);
+                break;
+            case CONTINENTS:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioContinent.COLUMN_NAME_NAME;
+                }
+                cursor = db.query(RadioDBContract.RadioContinent.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+
+                if (!cursor.moveToFirst()) {
+                    // get data from dirble
+                    loadContinentData();
+                    cursor = db.query(RadioDBContract.RadioContinent.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                }
+                break;
+            case CONTINENT_ID:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioContinent.COLUMN_NAME_NAME;
+                }
+                cursor = db.query(RadioDBContract.RadioContinent.TABLE_NAME, projection,
+                        RadioDBContract.RadioContinent._ID + " = " + uri.getPathSegments().get(1) +
+                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs, null, null, sortOrder);
+                if (!cursor.moveToFirst()) {
+                    // get data from dirble
+                    loadContinentData();
+                    cursor = db.query(RadioDBContract.RadioContinent.TABLE_NAME, projection,
+                            RadioDBContract.RadioContinent._ID + " = " + uri.getPathSegments().get(1) +
+                                    (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs, null, null, sortOrder);
+                }
+                break;
+            case COUNTRIES:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioCountry.COLUMN_NAME_NAME;
+                }
+                cursor = db.query(RadioDBContract.RadioCountry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+
+                if (!cursor.moveToFirst()) {
+                    // get data from dirble
+                    loadCountryData();
+                    cursor = db.query(RadioDBContract.RadioCountry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                }
+                break;
+            case COUNTRY_ID:
+                if (sortOrder == null || sortOrder == "") {
+                    sortOrder = RadioDBContract.RadioCountry.COLUMN_NAME_NAME;
+                }
+                cursor = db.query(RadioDBContract.RadioCountry.TABLE_NAME, projection,
+                        RadioDBContract.RadioCountry._ID + " = " + uri.getPathSegments().get(1) +
+                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs, null, null, sortOrder);
+                if (!cursor.moveToFirst()) {
+                    // get data from dirble
+                    loadCountryData();
+                    cursor = db.query(RadioDBContract.RadioCountry.TABLE_NAME, projection,
+                            RadioDBContract.RadioCountry._ID + " = " + uri.getPathSegments().get(1) +
+                                    (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs, null, null, sortOrder);
+                }
+                break;
+            case LASTCHANNEL:
+                cursor = db.query(RadioDBContract.RadioLastChannel.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             default:
                 throw new SQLException("Table not known: " + uri);
@@ -155,6 +256,16 @@ public class RadioContentProvider extends ContentProvider{
                 return "vnd.android.cursor.dir/vnd.hyperion.dashdroid.radio.data.streams";
             case STREAM_ID:
                 return "vnd.android.cursor.item/vnd.hyperion.dashdroid.radio.data.streams";
+            case CONTINENTS:
+                return "vnd.android.cursor.item/vnd.hyperion.dashdroid.radio.data.continents";
+            case CONTINENT_ID:
+                return "vnd.android.cursor.item/vnd.hyperion.dashdroid.radio.data.continents";
+            case COUNTRIES:
+                return "vnd.android.cursor.item/vnd.hyperion.dashdroid.radio.data.countries";
+            case COUNTRY_ID:
+                return "vnd.android.cursor.item/vnd.hyperion.dashdroid.radio.data.countries";
+            case LASTCHANNEL:
+                return "vnd.android.cursor.item/vnd.hyperion.dashdroid.radio.data.lastchannel";
             default:
                 throw new SQLException("Table not known: " + uri);
         }
@@ -196,6 +307,36 @@ public class RadioContentProvider extends ContentProvider{
                     return _uri;
                 }
                 break;
+            case CONTINENTS:
+            case CONTINENT_ID:
+                rowID = db.insert(RadioDBContract.RadioContinent.TABLE_NAME, "", values);
+
+                if (rowID >= 0) {
+                    Uri _uri = ContentUris.withAppendedId(URI_CONTINENTS, rowID);
+                    getContext().getContentResolver().notifyChange(_uri, null);
+                    return _uri;
+                }
+                break;
+            case COUNTRIES:
+            case COUNTRY_ID:
+                rowID = db.insert(RadioDBContract.RadioCountry.TABLE_NAME, "", values);
+
+                if (rowID >= 0) {
+                    Uri _uri = ContentUris.withAppendedId(URI_COUNTRIES, rowID);
+                    getContext().getContentResolver().notifyChange(_uri, null);
+                    return _uri;
+                }
+                break;
+            case LASTCHANNEL:
+                db.execSQL(RadioDBContract.RadioLastChannel.SQL_DELETE_CHANNELS);
+                rowID = db.insert(RadioDBContract.RadioCountry.TABLE_NAME, "", values);
+
+                if (rowID >= 0) {
+                    Uri _uri = ContentUris.withAppendedId(URI_COUNTRIES, rowID);
+                    getContext().getContentResolver().notifyChange(_uri, null);
+                    return _uri;
+                }
+                break;
             default:
                 throw new SQLException("Table not known: " + uri);
         }
@@ -214,7 +355,7 @@ public class RadioContentProvider extends ContentProvider{
             case CATEGORY_ID:
                 count = db.delete(RadioDBContract.RadioCategory.TABLE_NAME,
                         RadioDBContract.RadioCategory._ID + " = " + uri.getPathSegments().get(1) +
-                        (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
                 break;
             case CHANNELS:
                 count = db.delete(RadioDBContract.RadioChannel.TABLE_NAME, selection, selectionArgs);
@@ -230,6 +371,22 @@ public class RadioContentProvider extends ContentProvider{
             case STREAM_ID:
                 count = db.delete(RadioDBContract.RadioStream.TABLE_NAME,
                         RadioDBContract.RadioStream._ID + " = " + uri.getPathSegments().get(1) +
+                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                break;
+            case CONTINENTS:
+                count = db.delete(RadioDBContract.RadioContinent.TABLE_NAME, selection, selectionArgs);
+                break;
+            case CONTINENT_ID:
+                count = db.delete(RadioDBContract.RadioContinent.TABLE_NAME,
+                        RadioDBContract.RadioContinent._ID + " = " + uri.getPathSegments().get(1) +
+                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                break;
+            case COUNTRIES:
+                count = db.delete(RadioDBContract.RadioCountry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case COUNTRY_ID:
+                count = db.delete(RadioDBContract.RadioCountry.TABLE_NAME,
+                        RadioDBContract.RadioCountry._ID + " = " + uri.getPathSegments().get(1) +
                                 (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
                 break;
             default:
@@ -267,6 +424,27 @@ public class RadioContentProvider extends ContentProvider{
             case STREAM_ID:
                 count = db.update(RadioDBContract.RadioStream.TABLE_NAME, values,
                         RadioDBContract.RadioStream._ID + " = " + uri.getPathSegments().get(1) +
+                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                break;
+            case CONTINENTS:
+                count = db.update(RadioDBContract.RadioContinent.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case CONTINENT_ID:
+                count = db.update(RadioDBContract.RadioContinent.TABLE_NAME, values,
+                        RadioDBContract.RadioContinent._ID + " = " + uri.getPathSegments().get(1) +
+                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                break;
+            case COUNTRIES:
+                count = db.update(RadioDBContract.RadioCountry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case COUNTRY_ID:
+                count = db.update(RadioDBContract.RadioCountry.TABLE_NAME, values,
+                        RadioDBContract.RadioCountry._ID + " = " + uri.getPathSegments().get(1) +
+                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                break;
+            case LASTCHANNEL:
+                count = db.update(RadioDBContract.RadioLastChannel.TABLE_NAME, values,
+                        RadioDBContract.RadioLastChannel._ID + " = " + uri.getPathSegments().get(1) +
                                 (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
                 break;
             default:

@@ -30,6 +30,8 @@ public class RadioListFragment extends BaseFragment {
     private RecyclerView radioList;
     private ProgressBar progressBar;
     private int rootCategory = -1;
+    private String continentName = null;
+    private String countryCode = null;
 
     public static RadioListFragment makeInstance(Class<?> asyncClass) {
         RadioListFragment frag = new RadioListFragment();
@@ -40,8 +42,11 @@ public class RadioListFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        if (bundle != null)
+        if (bundle != null) {
             rootCategory = bundle.getInt("rootCategory");
+            continentName = bundle.getString("continentName");
+            countryCode = bundle.getString("countryCode");
+        }
 
         radioListViewContainer = inflater.inflate(R.layout.radio_fragment_list, container, false);
         radioList = (RecyclerView) radioListViewContainer.findViewById(R.id.radioListView);
@@ -67,7 +72,7 @@ public class RadioListFragment extends BaseFragment {
             task = (AsyncTask) constructor.newInstance(getActivity(), radioListViewContainer);
 
             if ((task instanceof ChannelSearchAsyncTask) == false)
-                task.execute(rootCategory);
+                task.execute(rootCategory, continentName, countryCode);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

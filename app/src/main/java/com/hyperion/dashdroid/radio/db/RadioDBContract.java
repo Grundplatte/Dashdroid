@@ -61,6 +61,34 @@ public final class RadioDBContract {
         public static final String SQL_DELETE_CHANNELS = "DROP TABLE IF EXISTS " + RadioChannel.TABLE_NAME;
     }
 
+    public static abstract class RadioLastChannel implements BaseColumns {
+        public static final String TABLE_NAME = "lastchannel";
+        public static final String COLUMN_NAME_CHANNEL_ID = "channelid";
+        public static final String COLUMN_NAME_NAME = "name";
+        public static final String COLUMN_NAME_COUNTRY = "country";
+        public static final String COLUMN_NAME_IMAGEURL = "imageurl";
+        public static final String COLUMN_NAME_THUMBURL = "thumburl";
+        public static final String COLUMN_NAME_SLUG = "slug";
+        public static final String COLUMN_NAME_WEBSITE = "website";
+        public static final String COLUMN_NAME_CATEGORY = "category";
+        public static final String COLUMN_NAME_DESCRIPTION = "description";
+
+        public static final String SQL_CREATE_CHANNELS =
+                "CREATE TABLE " + RadioLastChannel.TABLE_NAME + " (" +
+                        RadioLastChannel._ID + " INTEGER PRIMARY KEY," +
+                        RadioLastChannel.COLUMN_NAME_CHANNEL_ID + INT_TYPE + COMMA_SEP +
+                        RadioLastChannel.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
+                        RadioLastChannel.COLUMN_NAME_COUNTRY + TEXT_TYPE + COMMA_SEP +
+                        RadioLastChannel.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
+                        RadioLastChannel.COLUMN_NAME_IMAGEURL + TEXT_TYPE + COMMA_SEP +
+                        RadioLastChannel.COLUMN_NAME_THUMBURL + TEXT_TYPE + COMMA_SEP +
+                        RadioLastChannel.COLUMN_NAME_SLUG + TEXT_TYPE + COMMA_SEP +
+                        RadioLastChannel.COLUMN_NAME_WEBSITE + TEXT_TYPE + COMMA_SEP +
+                        RadioLastChannel.COLUMN_NAME_CATEGORY + INT_TYPE + ")";
+
+        public static final String SQL_DELETE_CHANNELS = "DROP TABLE IF EXISTS " + RadioLastChannel.TABLE_NAME;
+    }
+
     public static abstract class RadioStream implements BaseColumns {
         public static final String TABLE_NAME = "radiostream";
         public static final String COLUMN_NAME_STREAM = "stream";
@@ -79,5 +107,39 @@ public final class RadioDBContract {
                         RadioStream.COLUMN_NAME_CHANNEL + INT_TYPE + ")";
 
         public static final String SQL_DELETE_STREAMS = "DROP TABLE IF EXISTS " + RadioStream.TABLE_NAME;
+    }
+
+    public static abstract class RadioContinent implements BaseColumns {
+        public static final String TABLE_NAME = "radiocontinent";
+        public static final String COLUMN_NAME_CONTINENT_ID = "continentid";
+        public static final String COLUMN_NAME_NAME = "name";
+        public static final String COLUMN_NAME_SLUG = "slug";
+
+        public static final String SQL_CREATE_CONTINENTS =
+                "CREATE TABLE " + RadioContinent.TABLE_NAME + " (" +
+                        RadioContinent._ID + " INTEGER PRIMARY KEY," +
+                        RadioContinent.COLUMN_NAME_CONTINENT_ID + INT_TYPE + COMMA_SEP +
+                        RadioContinent.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
+                        RadioContinent.COLUMN_NAME_SLUG + TEXT_TYPE + ")";
+
+        public static final String SQL_DELETE_CONTINENTS = "DROP TABLE IF EXISTS " + RadioContinent.TABLE_NAME;
+    }
+
+    public static abstract class RadioCountry implements BaseColumns {
+        public static final String TABLE_NAME = "radiocountry";
+        public static final String COLUMN_NAME_NAME = "name";
+        public static final String COLUMN_NAME_COUNTRY_CODE = "country_code";
+        public static final String COLUMN_NAME_REGION = "region";
+        public static final String COLUMN_NAME_SUBREGION = "subregion";
+
+        public static final String SQL_CREATE_COUNTRIES =
+                "CREATE TABLE " + RadioCountry.TABLE_NAME + " (" +
+                        RadioCountry._ID + " INTEGER PRIMARY KEY," +
+                        RadioCountry.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
+                        RadioCountry.COLUMN_NAME_COUNTRY_CODE + TEXT_TYPE + COMMA_SEP +
+                        RadioCountry.COLUMN_NAME_REGION + TEXT_TYPE + COMMA_SEP +
+                        RadioCountry.COLUMN_NAME_SUBREGION + TEXT_TYPE + ")";
+
+        public static final String SQL_DELETE_COUNTRIES = "DROP TABLE IF EXISTS " + RadioCountry.TABLE_NAME;
     }
 }

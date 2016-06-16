@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFocusChangeListener {
     private final int MAX_NAME_LENGTH = 30;
+    private Context context;
 
     private MediaPlayer mediaPlayer;
     private RadioChannel lastChannel;
@@ -28,7 +29,8 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
 
     private boolean hasAudioFocus;
 
-    public RadioPlayer(View radioView) {
+    public RadioPlayer(Context context, View radioView) {
+        this.context = context;
         audioManager = (AudioManager) RadioModuleActivity.getInstance().getSystemService(Context.AUDIO_SERVICE);
         radioNameView = (TextView) radioView.findViewById(R.id.radioChannel);
         progressImageButton = (ProgressImageButton) radioView.findViewById(R.id.radioProgressImageButton);
@@ -36,6 +38,8 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
         playStopButton.setOnClickListener(this);
         mediaPlayer = null;
         hasAudioFocus = false;
+        // load lastchannel from db
+
     }
 
     private void initMediaPlayer(RadioChannel channel) {
@@ -45,11 +49,13 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         playRadioChannelIntern(channel);
-
     }
 
     public void playRadioChannel(RadioChannel channel) {
         lastChannel = channel;
+        // save last channel to db
+        //context.getContentResolver().insert(RadioContentProvider.URI_LASTCHANNEL, DirbleHelper.getValuesForChannel(channel));
+
 
         if (hasAudioFocus == false) {
             int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
@@ -141,9 +147,10 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
         switch (focusChange) {
             case AudioManager.AUDIOFOCUS_GAIN:
                 // resume playback
-                if (mediaPlayer == null) initMediaPlayer(lastChannel);
-                else if (!mediaPlayer.isPlaying()) mediaPlayer.start();
-                mediaPlayer.setVolume(1.0f, 1.0f);
+                if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
+                    mediaPlayer.start();
+                    mediaPlayer.setVolume(1.0f, 1.0f);
+                }
                 hasAudioFocus = true;
                 break;
 

@@ -15,11 +15,10 @@ import com.hyperion.dashdroid.base.FragmentTagEnum;
 import com.hyperion.dashdroid.base.slidingmenu.SlidingMenuItem;
 import com.hyperion.dashdroid.radio.async.CategoryAsyncTask;
 import com.hyperion.dashdroid.radio.async.ChannelSearchAsyncTask;
+import com.hyperion.dashdroid.radio.async.ContinentAsyncTask;
 import com.hyperion.dashdroid.radio.async.FavoriteChannelsAsyncTask;
+import com.hyperion.dashdroid.radio.async.PopularChannelAsyncTask;
 
-/**
- * Created by infinity on 05-May-16.
- */
 public class RadioModuleActivity extends AbstractModuleActivity {
 
     private static RadioModuleActivity instance;
@@ -51,9 +50,13 @@ public class RadioModuleActivity extends AbstractModuleActivity {
 
         Fragment favoriteFragment = RadioListFragment.makeInstance(FavoriteChannelsAsyncTask.class);
         Fragment categoryFragment = RadioListFragment.makeInstance(CategoryAsyncTask.class);
+        Fragment popularChannelFragment = RadioListFragment.makeInstance(PopularChannelAsyncTask.class);
+        Fragment countryFragment = RadioListFragment.makeInstance(ContinentAsyncTask.class);
 
         slidingMenuItems.add(new SlidingMenuItem("Favorites", SlidingMenuItem.ItemType.ITEM, favoriteFragment, FragmentTagEnum.RADIO_HOME.getTag()));
         slidingMenuItems.add(new SlidingMenuItem("Genres", SlidingMenuItem.ItemType.ITEM, categoryFragment, FragmentTagEnum.RADIO_CATEGORIES.getTag()));
+        slidingMenuItems.add(new SlidingMenuItem("Popular", SlidingMenuItem.ItemType.ITEM, popularChannelFragment, FragmentTagEnum.RADIO_POPULAR.getTag()));
+        slidingMenuItems.add(new SlidingMenuItem("Countries", SlidingMenuItem.ItemType.ITEM, countryFragment, FragmentTagEnum.RADIO_COUNTRIES.getTag()));
     }
 
     @Override

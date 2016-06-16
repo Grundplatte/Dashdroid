@@ -14,9 +14,7 @@ import com.hyperion.dashdroid.radio.async.CategoryAsyncTask;
 import com.hyperion.dashdroid.radio.async.CategoryChannelsAsyncTask;
 import com.hyperion.dashdroid.radio.data.RadioCategory;
 
-/**
- * Created by makuuus on 15.06.16.
- */
+
 public class CategoryOnClickListener implements CategoryAdapter.OnCategoryItemClickListener {
 
     private Context context;

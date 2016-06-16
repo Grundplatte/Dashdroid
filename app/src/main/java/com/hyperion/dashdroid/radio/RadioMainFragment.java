@@ -20,7 +20,7 @@ public class RadioMainFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		radioMainView = inflater.inflate(R.layout.radio_fragment_main, container, false);
 		radioPlayerView = radioMainView.findViewById(R.id.playerLayout);
-		radioPlayer = new RadioPlayer(radioPlayerView);
+		radioPlayer = new RadioPlayer(getActivity(), radioPlayerView);
 
 		refresh();
 

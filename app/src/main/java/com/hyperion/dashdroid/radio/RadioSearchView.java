@@ -8,9 +8,6 @@ import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseSearchView;
 import com.hyperion.dashdroid.radio.async.ChannelSearchAsyncTask;
 
-/**
- * Created by Markus on 01.06.2016.
- */
 public class RadioSearchView extends BaseSearchView {
     private Context context;
 

@@ -12,16 +12,16 @@ import com.hyperion.dashdroid.radio.dirble.DirbleProvider;
 
 import java.util.ArrayList;
 
-public class CategoryChannelsAsyncTask extends DirbleAsyncTask {
+public class PopularChannelAsyncTask extends DirbleAsyncTask {
 
-    public CategoryChannelsAsyncTask(Context context, View baseView) {
+
+    public PopularChannelAsyncTask(Context context, View baseView) {
         super(context, baseView);
     }
 
     @Override
     protected Object doInBackground(Object... params) {
-
-        ArrayList<RadioChannel> radioChannels = DirbleProvider.getInstance().getChannelsForCategory((int) params[0]);
+        ArrayList<RadioChannel> radioChannels = DirbleProvider.getInstance().getPopularChannels();
         for (int i = 0; i < radioChannels.size(); i++) {
             String where = RadioDBContract.RadioChannel.COLUMN_NAME_CHANNEL_ID + '=' + radioChannels.get(i).getID();
             Cursor c = context.getContentResolver().query(RadioContentProvider.URI_CHANNELS, null, where, null, null);
