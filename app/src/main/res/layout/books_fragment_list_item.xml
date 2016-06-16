@@ -9,8 +9,7 @@
         android:id="@+id/book_thumb"
         android:layout_width="50dp"
         android:layout_height="80dp"
-        android:contentDescription="@string/app_name"
-        android:background="@drawable/android_book"/>
+        android:contentDescription="@string/app_name" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
