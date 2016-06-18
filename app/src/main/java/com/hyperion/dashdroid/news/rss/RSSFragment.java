@@ -93,6 +93,8 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 				fOut.close();
 			} catch(IOException e) {
 				e.printStackTrace();
+			} catch (NullPointerException e){
+				e.printStackTrace();
 			}
 		}
 	}

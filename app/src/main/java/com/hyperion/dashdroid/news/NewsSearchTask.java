@@ -37,9 +37,7 @@ public class NewsSearchTask extends AsyncTask<Object, Object, Object> {
 			if(!item.getTitle().toLowerCase().contains(query) && !item.getDescription().toLowerCase().contains(query)) {
 				iterator.remove();
 			}
-
 		}
-
 		return feed;
 	}
 

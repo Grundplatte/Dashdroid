@@ -37,73 +37,85 @@ public class BooksRequest {
                         JSONObject item = array.getJSONObject(i);
 
                         JSONObject volumeInfo = null;
-                        if(item.has("volumeInfo")) {
+                        if (item.has("volumeInfo")) {
                             volumeInfo = item.getJSONObject("volumeInfo");
                         }
 
-                        if(volumeInfo != null) {
+                        if (volumeInfo != null) {
 
                             String title = "";
-                            if(volumeInfo.has("title")) {
+                            if (volumeInfo.has("title")) {
                                 title = volumeInfo.getString("title");
                             }
                             book.setTitle(title);
 
                             String author = "";
-                            if(volumeInfo.has("authors")) {
+                            if (volumeInfo.has("authors")) {
                                 JSONArray authors = volumeInfo.getJSONArray("authors");
                                 author = authors.getString(0);
                             }
                             book.setAuthor(author);
 
                             String imageLink = "";
-                            if(volumeInfo.has("imageLinks")) {
+                            if (volumeInfo.has("imageLinks")) {
                                 JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
                                 imageLink = imageLinks.getString("smallThumbnail");
                             }
                             book.setBookThumbnail(imageLink);
 
                             Double rating = 0.0;
-                            if(volumeInfo.has("averageRating")) {
+                            if (volumeInfo.has("averageRating")) {
                                 rating = volumeInfo.getDouble("averageRating");
                             }
                             book.setRating(rating);
 
-                            //TODO: isbn
+                            String isbn = "";
+                            if (volumeInfo.has("industryIdentifiers")) {
+                                JSONArray isbn10 = volumeInfo.getJSONArray("industryIdentifiers");
+                                for (int index = 0; index < isbn10.length(); index++) {
+                                    JSONObject isbns = isbn10.getJSONObject(index);
+                                    if (isbns.has("identifier")) {
+                                        if (isbns.getString("type").equals("ISBN_10")) {
+                                            isbn = isbns.getString("identifier");
+                                        }
+                                    }
+                                }
+                            }
+                            book.setIsbn10(isbn);
 
                             int pageCount = 0;
-                            if (volumeInfo.has("pageCount")){
+                            if (volumeInfo.has("pageCount")) {
                                 pageCount = volumeInfo.getInt("pageCount");
                             }
                             book.setPages(pageCount);
 
                             String publishing = "";
-                            if (volumeInfo.has("publisher")){
+                            if (volumeInfo.has("publisher")) {
                                 publishing = volumeInfo.getString("publisher");
                             }
                             book.setPublishing(publishing);
 
                             String publishedDate = "";
-                            if (volumeInfo.has("publishedDate")){
+                            if (volumeInfo.has("publishedDate")) {
                                 publishedDate = volumeInfo.getString("publishedDate");
                             }
                             book.setPublishedDate(publishedDate);
 
                             String categorie = "";
-                            if (volumeInfo.has("categories")){
+                            if (volumeInfo.has("categories")) {
                                 JSONArray categories = volumeInfo.getJSONArray("categories");
                                 categorie = categories.getString(0);
                             }
                             book.setGenre(categorie);
 
                             String language = "";
-                            if (volumeInfo.has("language")){
+                            if (volumeInfo.has("language")) {
                                 language = volumeInfo.getString("language");
                             }
                             book.setLanguage(language);
 
                             String description = "";
-                            if (volumeInfo.has("description")){
+                            if (volumeInfo.has("description")) {
                                 description = volumeInfo.getString("description");
                             }
                             book.setDescription(description);

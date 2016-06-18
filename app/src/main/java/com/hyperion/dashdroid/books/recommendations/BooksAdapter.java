@@ -16,9 +16,9 @@ import com.hyperion.dashdroid.news.image.ImageLoader;
 /**
  * Created by Valdrin on 6/2/2016.
  */
-class BooksAdapter extends BaseAdapter {
+public class BooksAdapter extends BaseAdapter {
 
-    private final Bookshelf bookshelf;
+    private Bookshelf bookshelf;
     private LayoutInflater layoutInflater;
     private ImageLoader imageLoader;
 
@@ -80,5 +80,9 @@ class BooksAdapter extends BaseAdapter {
         holder.bookRating.setRating(bookshelf.getBookItem(pos).getRating().floatValue());
         listItem.setTag(holder);
         return listItem;
+    }
+
+    public void setBookshelf(Bookshelf bookshelf) {
+        this.bookshelf = bookshelf;
     }
 }

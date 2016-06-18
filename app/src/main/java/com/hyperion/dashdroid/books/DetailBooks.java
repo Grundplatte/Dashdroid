@@ -37,6 +37,8 @@ public class DetailBooks extends Activity {
         book_rating.setRating(bookshelf.getBookItem(position).getRating().floatValue());
         ImageView book_cover = (ImageView) findViewById(R.id.bd_cover);
         imageLoader.DisplayImage(bookshelf.getBookItem(position).getBookThumbnail(), book_cover);
+        TextView isbn10 = (TextView) findViewById(R.id.bd_isbn);
+        isbn10.setText(bookshelf.getBookItem(position).getIsbn10());
         TextView book_pages = (TextView) findViewById(R.id.bd_pages);
         book_pages.setText(bookshelf.getBookItem(position).getPages() + "");
         TextView book_publishing = (TextView) findViewById(R.id.bd_publishing);

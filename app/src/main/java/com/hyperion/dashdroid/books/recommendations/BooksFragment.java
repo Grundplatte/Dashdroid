@@ -1,7 +1,11 @@
 package com.hyperion.dashdroid.books.recommendations;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,10 +32,13 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
     private Bookshelf bookshelf;
     private BooksAdapter adapter;
     private BookCategoriesEnum bookCategory;
+    private ConnectivityManager conMgr;
+    private AlertDialog alert;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        conMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
     @Nullable
@@ -45,13 +52,17 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
         listView = (ListView) view.findViewById(R.id.books_listView);
         listView.setOnItemClickListener(this);
         listView.setTextFilterEnabled(true);
-        new GetBook().execute();
+
+        if (conMgr.getActiveNetworkInfo() == null){
+            lossInternetConnection();
+        } else {
+            new GetBook().execute();
+        }
         return view;
     }
 
     @Override
     public void refresh() {
-
     }
 
     @Override
@@ -64,7 +75,7 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
         startActivity(intent);
     }
 
-   private class GetBook extends AsyncTask<Void, Void, Void>{
+    private class GetBook extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -95,5 +106,28 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
 
     public void setBookCategory(BookCategoriesEnum bookCategory) {
         this.bookCategory = bookCategory;
+    }
+
+    public void lossInternetConnection() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(
+                "Unable to reach server, \nPlease check your connectivity.")
+                .setTitle("Dashdroid")
+                .setCancelable(false)
+                .setPositiveButton("Exit",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int id) {
+                                getActivity().finish();
+                            }
+                        });
+
+        alert = builder.create();
+        alert.show();
+    }
+
+    public BooksAdapter getAdapter() {
+        return adapter;
     }
 }
