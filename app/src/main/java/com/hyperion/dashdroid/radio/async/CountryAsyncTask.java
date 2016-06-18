@@ -3,7 +3,6 @@ package com.hyperion.dashdroid.radio.async;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.View;
 
 import com.hyperion.dashdroid.radio.adapter.CountryAdapter;
@@ -27,16 +26,18 @@ public class CountryAsyncTask extends DirbleAsyncTask {
         if (params[1].equals("Northern America") || params[1].equals("South America"))  // shitty provider
             params[1] = "Americas";
         String where = RadioDBContract.RadioCountry.COLUMN_NAME_REGION + "='" + params[1] + "'"; // only countries for selected continent
-        Log.d(getClass().getSimpleName(), "Async Country where: " + where);
 
         Cursor c = context.getContentResolver().query(RadioContentProvider.URI_COUNTRIES, null, where, null, null);
         if (c.moveToFirst()) {
             do {
                 radioCountries.add(DirbleHelper.buildRadioCountry(c));
             } while (c.moveToNext());
+            c.close();
             return radioCountries;
-        } else
+        } else {
+            c.close();
             throw new IllegalStateException("No Countries in Database, please update the application!");
+        }
     }
 
     @Override

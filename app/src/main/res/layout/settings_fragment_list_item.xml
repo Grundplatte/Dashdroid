@@ -58,14 +58,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/enabledTxt"
-            android:layout_alignEnd="@+id/enabledTxt"/>
+            android:layout_alignEnd="@+id/enabledTxt"
+            android:thumbTint="@color/colorMenuButtonPressed"
+            android:trackTint="@color/colorMenuButtonNormal" />
 
         <Switch
             android:id="@+id/sizeSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/enabledSwitch"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentEnd="true"
+            android:thumbTint="@color/colorMenuButtonPressed"
+            android:trackTint="@color/colorMenuButtonNormal" />
 
     </RelativeLayout>
 

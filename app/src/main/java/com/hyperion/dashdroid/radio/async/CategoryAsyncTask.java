@@ -29,9 +29,12 @@ public class CategoryAsyncTask extends DirbleAsyncTask {
             do {
                 radioCategories.add(DirbleHelper.buildRadioCategory(c));
             } while (c.moveToNext());
+            c.close();
             return radioCategories;
-        } else
+        } else {
+            c.close();
             throw new IllegalStateException("No Categories in Database, please update the application!");
+        }
     }
 
     @Override

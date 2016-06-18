@@ -27,9 +27,12 @@ public class ContinentAsyncTask extends DirbleAsyncTask {
             do {
                 radioContinents.add(DirbleHelper.buildRadioContinent(c));
             } while (c.moveToNext());
+            c.close();
             return radioContinents;
-        } else
+        } else {
+            c.close();
             throw new IllegalStateException("No Continents in Database, please update the application!");
+        }
     }
 
     @Override

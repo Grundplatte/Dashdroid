@@ -34,8 +34,11 @@ public class ChannelOnFavoriteListener implements ChannelAdapter.OnChannelFavori
         if (c.moveToFirst()) {
             String stream_where = RadioDBContract.RadioStream.COLUMN_NAME_CHANNEL + '=' + c.getInt(c.getColumnIndex(RadioDBContract.RadioChannel._ID));
             context.getContentResolver().delete(RadioContentProvider.URI_STREAMS, stream_where, null);
-        } else
+            c.close();
+        } else {
+            c.close();
             throw new IllegalStateException("No channels to delete");
+        }
 
         context.getContentResolver().delete(RadioContentProvider.URI_CHANNELS, channel_where, null);
 

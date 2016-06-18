@@ -16,7 +16,8 @@ public class RadioDBHelper extends SQLiteOpenHelper {
         db.execSQL(RadioDBContract.RadioStream.SQL_CREATE_STREAMS);
         db.execSQL(RadioDBContract.RadioContinent.SQL_CREATE_CONTINENTS);
         db.execSQL(RadioDBContract.RadioCountry.SQL_CREATE_COUNTRIES);
-        db.execSQL(RadioDBContract.RadioLastChannel.SQL_CREATE_CHANNELS);
+        db.execSQL(RadioDBContract.RadioLastChannel.SQL_CREATE_LASTCHANNEL);
+        db.execSQL(RadioDBContract.RadioLastChannelStream.SQL_CREATE_LASTCHANNELSTREAM);
     }
 
     @Override

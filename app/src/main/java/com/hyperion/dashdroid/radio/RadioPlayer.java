@@ -1,8 +1,10 @@
 package com.hyperion.dashdroid.radio;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -11,6 +13,9 @@ import android.widget.Toast;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.radio.data.RadioChannel;
+import com.hyperion.dashdroid.radio.data.RadioStream;
+import com.hyperion.dashdroid.radio.db.RadioContentProvider;
+import com.hyperion.dashdroid.radio.dirble.DirbleHelper;
 import com.hyperion.dashdroid.radio.widget.ProgressImageButton;
 
 import java.io.IOException;
@@ -38,7 +43,24 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
         playStopButton.setOnClickListener(this);
         mediaPlayer = null;
         hasAudioFocus = false;
+
         // load lastchannel from db
+        RadioChannel lastChannel = null;
+        Cursor lastChannel_c = context.getContentResolver().query(RadioContentProvider.URI_LASTCHANNEL, null, null, null, null);
+        if (lastChannel_c.moveToFirst()) {
+            Cursor lastChannelStream_c = context.getContentResolver().query(RadioContentProvider.URI_LASTCHANNELSTREAM, null, null, null, null);
+            if (lastChannelStream_c.moveToFirst()) {
+                lastChannel = DirbleHelper.buildRadioChannel(lastChannel_c, lastChannelStream_c);
+            }
+            lastChannelStream_c.close();
+            lastChannel_c.close();
+            playRadioChannel(lastChannel);
+            stopRadio();
+        } else {
+            // no lastchannel
+            lastChannel_c.close();
+        }
+
 
     }
 
@@ -53,8 +75,13 @@ public class RadioPlayer implements View.OnClickListener, AudioManager.OnAudioFo
 
     public void playRadioChannel(RadioChannel channel) {
         lastChannel = channel;
+
         // save last channel to db
-        //context.getContentResolver().insert(RadioContentProvider.URI_LASTCHANNEL, DirbleHelper.getValuesForChannel(channel));
+        context.getContentResolver().delete(RadioContentProvider.URI_LASTCHANNEL, null, null);
+        Uri uri = context.getContentResolver().insert(RadioContentProvider.URI_LASTCHANNEL, DirbleHelper.getValuesForChannel(channel));
+        for (RadioStream stream : channel.getRadioStreams()) {
+            context.getContentResolver().insert(RadioContentProvider.URI_LASTCHANNELSTREAM, DirbleHelper.getValuesForStream(stream, uri.getLastPathSegment()));
+        }
 
 
         if (hasAudioFocus == false) {

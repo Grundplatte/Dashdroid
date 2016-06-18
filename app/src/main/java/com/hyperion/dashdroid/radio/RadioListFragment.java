@@ -14,10 +14,13 @@ import android.widget.ProgressBar;
 
 import com.hyperion.dashdroid.R;
 import com.hyperion.dashdroid.base.BaseFragment;
+import com.hyperion.dashdroid.radio.adapter.ChannelAdapter;
 import com.hyperion.dashdroid.radio.async.ChannelSearchAsyncTask;
+import com.hyperion.dashdroid.radio.data.RadioChannel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 public class RadioListFragment extends BaseFragment {
 
@@ -53,9 +56,11 @@ public class RadioListFragment extends BaseFragment {
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         radioList.setLayoutManager(gridLayoutManager);
+        radioList.setAdapter(new ChannelAdapter(getActivity(), new ArrayList<RadioChannel>()));
 
         progressBar = (ProgressBar) radioListViewContainer.findViewById(R.id.progressBar);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getActivity(), R.color.m_color_pressed_1), PorterDuff.Mode.MULTIPLY);
+
 
         refresh();
 

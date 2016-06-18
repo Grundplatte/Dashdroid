@@ -73,7 +73,7 @@ public final class RadioDBContract {
         public static final String COLUMN_NAME_CATEGORY = "category";
         public static final String COLUMN_NAME_DESCRIPTION = "description";
 
-        public static final String SQL_CREATE_CHANNELS =
+        public static final String SQL_CREATE_LASTCHANNEL =
                 "CREATE TABLE " + RadioLastChannel.TABLE_NAME + " (" +
                         RadioLastChannel._ID + " INTEGER PRIMARY KEY," +
                         RadioLastChannel.COLUMN_NAME_CHANNEL_ID + INT_TYPE + COMMA_SEP +
@@ -86,7 +86,7 @@ public final class RadioDBContract {
                         RadioLastChannel.COLUMN_NAME_WEBSITE + TEXT_TYPE + COMMA_SEP +
                         RadioLastChannel.COLUMN_NAME_CATEGORY + INT_TYPE + ")";
 
-        public static final String SQL_DELETE_CHANNELS = "DROP TABLE IF EXISTS " + RadioLastChannel.TABLE_NAME;
+        public static final String SQL_DELETE_LASTCHANNEL = "DROP TABLE IF EXISTS " + RadioLastChannel.TABLE_NAME;
     }
 
     public static abstract class RadioStream implements BaseColumns {
@@ -107,6 +107,26 @@ public final class RadioDBContract {
                         RadioStream.COLUMN_NAME_CHANNEL + INT_TYPE + ")";
 
         public static final String SQL_DELETE_STREAMS = "DROP TABLE IF EXISTS " + RadioStream.TABLE_NAME;
+    }
+
+    public static abstract class RadioLastChannelStream implements BaseColumns {
+        public static final String TABLE_NAME = "lastchannelstream";
+        public static final String COLUMN_NAME_STREAM = "stream";
+        public static final String COLUMN_NAME_BITRATE = "bitrate";
+        public static final String COLUMN_NAME_CONTENTTYPE = "contenttype";
+        public static final String COLUMN_NAME_STATUS = "status";
+        public static final String COLUMN_NAME_CHANNEL = "channel";
+
+        public static final String SQL_CREATE_LASTCHANNELSTREAM =
+                "CREATE TABLE " + RadioLastChannelStream.TABLE_NAME + " (" +
+                        RadioLastChannelStream._ID + " INTEGER PRIMARY KEY," +
+                        RadioLastChannelStream.COLUMN_NAME_STREAM + TEXT_TYPE + COMMA_SEP +
+                        RadioLastChannelStream.COLUMN_NAME_BITRATE + INT_TYPE + COMMA_SEP +
+                        RadioLastChannelStream.COLUMN_NAME_CONTENTTYPE + TEXT_TYPE + COMMA_SEP +
+                        RadioLastChannelStream.COLUMN_NAME_STATUS + INT_TYPE + COMMA_SEP +
+                        RadioLastChannelStream.COLUMN_NAME_CHANNEL + INT_TYPE + ")";
+
+        public static final String SQL_DELETE_LASTCHANNELSTREAM = "DROP TABLE IF EXISTS " + RadioLastChannelStream.TABLE_NAME;
     }
 
     public static abstract class RadioContinent implements BaseColumns {

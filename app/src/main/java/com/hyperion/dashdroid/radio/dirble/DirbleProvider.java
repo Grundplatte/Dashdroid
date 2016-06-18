@@ -63,10 +63,9 @@ public class DirbleProvider {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<RadioChannel>();
 	}
 
-	// rewrite so that it tries to read the saved tree first
 	public ArrayList<RadioCategory> getCategories() {
 
 		try {
@@ -86,7 +85,7 @@ public class DirbleProvider {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<RadioCategory>();
 	}
 
 	public ArrayList<RadioChannel> getChannelsForCategory(int categoryID) {
@@ -109,7 +108,7 @@ public class DirbleProvider {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<RadioChannel>();
 	}
 
 	public ArrayList<RadioChannel> getChannelsForCountry(String countryCode) {
@@ -132,7 +131,7 @@ public class DirbleProvider {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<RadioChannel>();
 	}
 
 	public ArrayList<RadioChannel> getPopularChannels() {
@@ -154,7 +153,7 @@ public class DirbleProvider {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<RadioChannel>();
 	}
 
 	public ArrayList<RadioContinent> getContinents() {
@@ -176,7 +175,7 @@ public class DirbleProvider {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<RadioContinent>();
 	}
 
 	public ArrayList<RadioCountry> getCountries() {
@@ -198,7 +197,7 @@ public class DirbleProvider {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return new ArrayList<RadioCountry>();
 	}
 
 	private ArrayList<RadioCategory> readCategoryArray(JsonReader reader) throws IOException {

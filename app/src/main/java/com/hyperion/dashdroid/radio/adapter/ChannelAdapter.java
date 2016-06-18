@@ -1,6 +1,7 @@
 package com.hyperion.dashdroid.radio.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +78,13 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         holder.favButton.setClickable(true);
 
         if (radioChannels.get(position).isFavorited()) {
-            holder.favButton.setBackgroundResource(R.drawable.ic_star_black_48dp);
+            Drawable starFilled = context.getResources().getDrawable(R.drawable.ic_star_black_48dp);
+            starFilled.setAlpha(0x99);
+            holder.favButton.setBackground(starFilled);
+        } else {
+            Drawable star = context.getResources().getDrawable(R.drawable.ic_star_border_black_48dp);
+            star.setAlpha(0x99);
+            holder.favButton.setBackground(star);
         }
 
         holder.favButton.setOnClickListener(new View.OnClickListener() {
@@ -85,12 +92,16 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
             public void onClick(View v) {
                 RadioChannel channel = radioChannels.get((int) ((View) v.getParent().getParent()).getTag());
                 if (channel.isFavorited()) {
-                    v.setBackgroundResource(R.drawable.ic_star_border_black_48dp);
+                    Drawable star = context.getResources().getDrawable(R.drawable.ic_star_border_black_48dp);
+                    star.setAlpha(0x99);
+                    v.setBackground(star);
                     // delete
                     channel.setFavorited(false);
                     fav_listener.onUnFavorite(channel);
                 } else {
-                    v.setBackgroundResource(R.drawable.ic_star_black_48dp);
+                    Drawable starFilled = context.getResources().getDrawable(R.drawable.ic_star_black_48dp);
+                    starFilled.setAlpha(0x99);
+                    v.setBackground(starFilled);
                     // add
                     channel.setFavorited(true);
                     fav_listener.onFavorite(channel);

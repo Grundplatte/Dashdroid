@@ -22,6 +22,7 @@ public class CategoryChannelsAsyncTask extends DirbleAsyncTask {
     protected Object doInBackground(Object... params) {
 
         ArrayList<RadioChannel> radioChannels = DirbleProvider.getInstance().getChannelsForCategory((int) params[0]);
+
         for (int i = 0; i < radioChannels.size(); i++) {
             String where = RadioDBContract.RadioChannel.COLUMN_NAME_CHANNEL_ID + '=' + radioChannels.get(i).getID();
             Cursor c = context.getContentResolver().query(RadioContentProvider.URI_CHANNELS, null, where, null, null);

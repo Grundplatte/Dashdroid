@@ -26,6 +26,7 @@ public class RadioContentProvider extends ContentProvider{
     public static final String URL_CONTINENTS = "content://" + AUTHORITY + '/' + RadioDBContract.RadioContinent.TABLE_NAME;
     public static final String URL_COUNTRIES = "content://" + AUTHORITY + '/' + RadioDBContract.RadioCountry.TABLE_NAME;
     public static final String URL_LASTCHANNEL = "content://" + AUTHORITY + '/' + RadioDBContract.RadioLastChannel.TABLE_NAME;
+    public static final String URL_LASTCHANNELSTREM = "content://" + AUTHORITY + '/' + RadioDBContract.RadioLastChannelStream.TABLE_NAME;
     public static final int CATEGORIES = 1;
     public static final int CATEGORY_ID = 2;
     public static final int CHANNELS = 3;
@@ -37,12 +38,14 @@ public class RadioContentProvider extends ContentProvider{
     public static final int COUNTRIES = 9;
     public static final int COUNTRY_ID = 10;
     public static final int LASTCHANNEL = 11;
+    public static final int LASTCHANNELSTREAM = 12;
     public static final Uri URI_CATEGORIES = Uri.parse(URL_CATEGORIES);
     public static final Uri URI_CHANNELS = Uri.parse(URL_CHANNELS);
     public static final Uri URI_STREAMS = Uri.parse(URL_STREAMS);
     public static final Uri URI_CONTINENTS = Uri.parse(URL_CONTINENTS);
     public static final Uri URI_COUNTRIES = Uri.parse(URL_COUNTRIES);
     public static final Uri URI_LASTCHANNEL = Uri.parse(URL_LASTCHANNEL);
+    public static final Uri URI_LASTCHANNELSTREAM = Uri.parse(URL_LASTCHANNELSTREM);
     private static final UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
         uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioCategory.TABLE_NAME, CATEGORIES);
@@ -56,6 +59,7 @@ public class RadioContentProvider extends ContentProvider{
         uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioCountry.TABLE_NAME, COUNTRIES);
         uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioCountry.TABLE_NAME + "/#", COUNTRY_ID);
         uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioLastChannel.TABLE_NAME, LASTCHANNEL);
+        uriMatcher.addURI(AUTHORITY, RadioDBContract.RadioLastChannelStream.TABLE_NAME, LASTCHANNELSTREAM);
     }
 
     private RadioDBHelper dbHelper;
@@ -230,7 +234,10 @@ public class RadioContentProvider extends ContentProvider{
                 }
                 break;
             case LASTCHANNEL:
-                cursor = db.query(RadioDBContract.RadioLastChannel.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                cursor = db.query(RadioDBContract.RadioLastChannel.TABLE_NAME, projection, "_id=1", null, null, null, null);
+                break;
+            case LASTCHANNELSTREAM:
+                cursor = db.query(RadioDBContract.RadioLastChannelStream.TABLE_NAME, projection, "_id=1", null, null, null, null);
                 break;
             default:
                 throw new SQLException("Table not known: " + uri);
@@ -266,6 +273,8 @@ public class RadioContentProvider extends ContentProvider{
                 return "vnd.android.cursor.item/vnd.hyperion.dashdroid.radio.data.countries";
             case LASTCHANNEL:
                 return "vnd.android.cursor.item/vnd.hyperion.dashdroid.radio.data.lastchannel";
+            case LASTCHANNELSTREAM:
+                return "vnd.android.cursor.item/vnd.hyperion.dashdroid.radio.data.lastchannelstream";
             default:
                 throw new SQLException("Table not known: " + uri);
         }
@@ -328,11 +337,19 @@ public class RadioContentProvider extends ContentProvider{
                 }
                 break;
             case LASTCHANNEL:
-                db.execSQL(RadioDBContract.RadioLastChannel.SQL_DELETE_CHANNELS);
-                rowID = db.insert(RadioDBContract.RadioCountry.TABLE_NAME, "", values);
+                rowID = db.insert(RadioDBContract.RadioLastChannel.TABLE_NAME, "", values);
 
                 if (rowID >= 0) {
-                    Uri _uri = ContentUris.withAppendedId(URI_COUNTRIES, rowID);
+                    Uri _uri = ContentUris.withAppendedId(URI_CHANNELS, rowID);
+                    getContext().getContentResolver().notifyChange(_uri, null);
+                    return _uri;
+                }
+                break;
+            case LASTCHANNELSTREAM:
+                rowID = db.insert(RadioDBContract.RadioLastChannelStream.TABLE_NAME, "", values);
+
+                if (rowID >= 0) {
+                    Uri _uri = ContentUris.withAppendedId(URI_CHANNELS, rowID);
                     getContext().getContentResolver().notifyChange(_uri, null);
                     return _uri;
                 }
@@ -389,6 +406,12 @@ public class RadioContentProvider extends ContentProvider{
                         RadioDBContract.RadioCountry._ID + " = " + uri.getPathSegments().get(1) +
                                 (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
                 break;
+            case LASTCHANNEL:
+                count = db.delete(RadioDBContract.RadioLastChannel.TABLE_NAME, "_id=1", null);
+                break;
+            case LASTCHANNELSTREAM:
+                count = db.delete(RadioDBContract.RadioLastChannelStream.TABLE_NAME, "_id=1", null);
+                break;
             default:
                 throw new SQLException("Table not known: " + uri);
         }
@@ -443,9 +466,10 @@ public class RadioContentProvider extends ContentProvider{
                                 (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
                 break;
             case LASTCHANNEL:
-                count = db.update(RadioDBContract.RadioLastChannel.TABLE_NAME, values,
-                        RadioDBContract.RadioLastChannel._ID + " = " + uri.getPathSegments().get(1) +
-                                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                count = db.update(RadioDBContract.RadioLastChannel.TABLE_NAME, values, "_id=1", null);
+                break;
+            case LASTCHANNELSTREAM:
+                count = db.update(RadioDBContract.RadioLastChannelStream.TABLE_NAME, values, "_id=1", null);
                 break;
             default:
                 throw new SQLException("Table not known: " + uri);
