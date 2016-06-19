@@ -130,4 +130,8 @@ public class BooksFragment extends BaseFragment implements AdapterView.OnItemCli
     public BooksAdapter getAdapter() {
         return adapter;
     }
+
+    public void setBookshelf(Bookshelf bookshelf) {
+        this.bookshelf = bookshelf;
+    }
 }

@@ -42,6 +42,7 @@ public class BooksSearchTask extends AsyncTask<Object, Object, Object> {
 
     @Override
     protected void onPostExecute(Object o) {
+        ((BooksFragment) BooksModuleActivity.getCurrentSelectedItem().getFragment()).setBookshelf((Bookshelf) o);
         ((BooksFragment) BooksModuleActivity.getCurrentSelectedItem().getFragment()).getAdapter().setBookshelf((Bookshelf) o);
         ((BooksFragment) BooksModuleActivity.getCurrentSelectedItem().getFragment()).getAdapter().notifyDataSetChanged();
     }

@@ -43,6 +43,7 @@ public class NewsSearchTask extends AsyncTask<Object, Object, Object> {
 
 	@Override
 	protected void onPostExecute(Object o) {
+		((RSSFragment) NewsModuleActivity.getCurrentSelectedItem().getFragment()).setFeed((RSSFeed) o);
 		((RSSFragment) NewsModuleActivity.getCurrentSelectedItem().getFragment()).getAdapter().setFeed((RSSFeed) o);
 		((RSSFragment) NewsModuleActivity.getCurrentSelectedItem().getFragment()).getAdapter().notifyDataSetChanged();
 	}

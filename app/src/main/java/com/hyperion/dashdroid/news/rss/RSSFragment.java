@@ -202,4 +202,8 @@ public class RSSFragment extends BaseFragment implements AdapterView.OnItemClick
 	public RSSAdapter getAdapter() {
 		return adapter;
 	}
+
+	public void setFeed(RSSFeed feed) {
+		this.feed = feed;
+	}
 }
