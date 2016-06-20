@@ -176,21 +176,6 @@
             android:text="12.12.2012" />
 
         <TextView
-            android:id="@+id/bd_bookshelf_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="3dp"
-            android:text="@string/books_detail_bookshelf"
-            android:textColor="@color/colorPrimary" />
-
-        <TextView
-            android:id="@+id/bd_bookshelf"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="13dp"
-            android:text="Default" />
-
-        <TextView
             android:id="@+id/bd_genre_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
