@@ -18,7 +18,7 @@ public class BooksRequest {
 
     public Bookshelf fetchByCategory(BookCategoriesEnum category) {
 
-        String url = "https://www.googleapis.com/books/v1/volumes?q=subject:" + category.getUrlPart() + "&printType=books&maxResults=20&startIndex=0";
+        String url = "https://www.googleapis.com/books/v1/volumes?q=subject:" + category.getUrlPart() + "&printType=books&maxResults=40&startIndex=0";
 
         SyncHttpClient client = new SyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {
