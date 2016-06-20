@@ -98,22 +98,14 @@ public class NewsModuleActivity extends AbstractModuleActivity {
 
 	@Override
 	public void addOptionMenuItems(Menu menu) {
-
 		menu.add(0, MENU_REFRESH_BUTTON_ID, MENU_REFRESH_BUTTON_ID, "").setIcon(R.drawable.refresh).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		//menu.add(0, MENU_SEARCH_BUTTON_ID, MENU_SEARCH_BUTTON_ID, "").setIcon(R.drawable.search).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		menu.add(Menu.NONE, MENU_SEARCH_BUTTON_ID, Menu.NONE, "").setActionView(searchView).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-		//menu.add(0, MENU_SETTINGS_BUTTON_ID, MENU_SETTINGS_BUTTON_ID, "").setIcon(R.drawable.settings).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
 	}
 
 	@Override
 	public void refresh() {
-
 		if(currentSelectedItem.getFragment() != null && currentSelectedItem.getFragment() instanceof BaseFragment) {
-
-			((BaseFragment)currentSelectedItem.getFragment()).refresh();
-
+			((BaseFragment) currentSelectedItem.getFragment()).refresh();
 		}
 	}
 

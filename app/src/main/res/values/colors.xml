@@ -25,4 +25,6 @@
 
     <color name="list_divider">#324a18</color>
     <color name="list_background">#19250c</color>
+
+    <color name="settings_category_bg_color">#5c5c5c</color>
 </resources>

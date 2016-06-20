@@ -1,5 +1,6 @@
 package com.hyperion.dashdroid.news;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 
@@ -17,14 +18,14 @@ public class NewsSearchTask extends AsyncTask<Object, Object, Object> {
 
 	private RSSFeed feed;
 
-	public NewsSearchTask(View listView){
+	public NewsSearchTask(Context context, View listView) {
 	}
 
 	@Override
 	protected Object doInBackground(Object... params) {
 
 		DOMParser myParser = new DOMParser();
-		feed = myParser.parseXml(((RSSFragment)NewsModuleActivity.getCurrentSelectedItem().getFragment()).getRssFeedUrl().getUrl());
+		feed = myParser.parseXml(((RSSFragment) NewsModuleActivity.getCurrentSelectedItem().getFragment()).getRssFeedUrl().getUrl());
 
 		String query = ((String) params[0]).trim().toLowerCase();
 
@@ -33,18 +34,17 @@ public class NewsSearchTask extends AsyncTask<Object, Object, Object> {
 
 			RSSItem item = iterator.next();
 
-			if (!item.getTitle().toLowerCase().contains(query) && !item.getDescription().toLowerCase().contains(query)){
+			if(!item.getTitle().toLowerCase().contains(query) && !item.getDescription().toLowerCase().contains(query)) {
 				iterator.remove();
 			}
-
 		}
-
 		return feed;
 	}
 
 	@Override
 	protected void onPostExecute(Object o) {
-		((RSSFragment)NewsModuleActivity.getCurrentSelectedItem().getFragment()).getAdapter().setFeed((RSSFeed)o);
-		((RSSFragment)NewsModuleActivity.getCurrentSelectedItem().getFragment()).getAdapter().notifyDataSetChanged();
+		((RSSFragment) NewsModuleActivity.getCurrentSelectedItem().getFragment()).setFeed((RSSFeed) o);
+		((RSSFragment) NewsModuleActivity.getCurrentSelectedItem().getFragment()).getAdapter().setFeed((RSSFeed) o);
+		((RSSFragment) NewsModuleActivity.getCurrentSelectedItem().getFragment()).getAdapter().notifyDataSetChanged();
 	}
 }

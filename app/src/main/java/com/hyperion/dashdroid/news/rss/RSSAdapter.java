@@ -1,6 +1,7 @@
 package com.hyperion.dashdroid.news.rss;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,58 +17,60 @@ import com.hyperion.dashdroid.news.image.ImageLoader;
  */
 public class RSSAdapter extends BaseAdapter {
 
-    private RSSFeed feed;
-    private LayoutInflater layoutInflater;
-    public ImageLoader imageLoader;
+	private RSSFeed feed;
+	private LayoutInflater layoutInflater;
+	private ImageLoader imageLoader;
 
-    public RSSAdapter(RSSFragment fragment, RSSFeed feed) {
+	public RSSAdapter(RSSFragment fragment, RSSFeed feed) {
+		try {
+			layoutInflater = (LayoutInflater) fragment.getActivity()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			imageLoader = new ImageLoader(fragment.getActivity().getApplicationContext());
+		}catch (NullPointerException e){
+			e.printStackTrace();
+			Log.e(getClass().getName(), "layoutInflater + imageloader = null");
+		}
 
-        layoutInflater = (LayoutInflater) fragment.getActivity()
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        imageLoader = new ImageLoader(fragment.getActivity().getApplicationContext());
-        this.feed = feed;
-    }
+		this.feed = feed;
+	}
 
-    @Override
-    public int getCount() {
-        return feed.getItemCount();
-    }
+	@Override
+	public int getCount() {
+		return feed.getItemCount();
+	}
 
-    @Override
-    public Object getItem(int position) {
-        return position;
-    }
+	@Override
+	public Object getItem(int position) {
+		return position;
+	}
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+	@Override
+	public long getItemId(int position) {
+		return position;
+	}
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		int pos = position;
 
-        // Inflate the item layout and set the views
-        View listItem = convertView;
-        int pos = position;
-        if (listItem == null) {
-            listItem = layoutInflater.inflate(R.layout.list_item, null);
-        }
+		View listItem = convertView;
+		if(listItem == null) {
+			listItem = layoutInflater.inflate(R.layout.news_fragment_list_item, null);
+		}
 
-        // Initialize the views in the layout
-        ImageView iv = (ImageView) listItem.findViewById(R.id.thumb);
-        TextView tvTitle = (TextView) listItem.findViewById(R.id.title);
-        TextView tvDate = (TextView) listItem.findViewById(R.id.date);
+		ImageView iv = (ImageView) listItem.findViewById(R.id.thumb);
+		TextView tvTitle = (TextView) listItem.findViewById(R.id.title);
+		TextView tvDate = (TextView) listItem.findViewById(R.id.date);
 
-        // Set the views in the layout
-        imageLoader.DisplayImage(feed.getItem(pos).getImage(), iv);
-        tvTitle.setText(feed.getItem(pos).getTitle());
-        tvDate.setText(feed.getItem(pos).getDate());
+		imageLoader.DisplayImage(feed.getItem(pos).getImage(), iv);
+		tvTitle.setText(feed.getItem(pos).getTitle());
+		tvDate.setText(feed.getItem(pos).getDate());
 
-        return listItem;
-    }
+		return listItem;
+	}
 
-    public void setFeed(RSSFeed feed) {
-        this.feed = feed;
-    }
+	public void setFeed(RSSFeed feed) {
+		this.feed = feed;
+	}
 
 }

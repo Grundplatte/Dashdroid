@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
 
 import com.hyperion.dashdroid.R;
@@ -19,12 +18,14 @@ import java.lang.reflect.InvocationTargetException;
 public class BaseSearchView extends SearchView implements SearchView.OnQueryTextListener {
 
 	private View view;
+	private Context context;
 	private Class<?> asyncTaskClass;
 
 	public BaseSearchView(Context context, Class<?> asyncTaskClass) {
 		super(context);
 		this.view = null;
 		this.asyncTaskClass = asyncTaskClass;
+		this.context = context;
 
 		setBackgroundColor(Color.WHITE);
 
@@ -44,8 +45,8 @@ public class BaseSearchView extends SearchView implements SearchView.OnQueryText
 
 		try {
 
-			constructor = asyncTaskClass.getConstructor(View.class);
-			task = (AsyncTask) constructor.newInstance(view);
+			constructor = asyncTaskClass.getConstructor(Context.class, View.class);
+			task = (AsyncTask) constructor.newInstance(context, view);
 
 		} catch(NoSuchMethodException e) {
 			e.printStackTrace();
@@ -72,7 +73,7 @@ public class BaseSearchView extends SearchView implements SearchView.OnQueryText
 		return true;
 	}
 
-	public void setView(View view) {
+	protected void setView(View view) {
 		this.view = view;
 	}
 }

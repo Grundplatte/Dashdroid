@@ -26,16 +26,14 @@ import java.util.ArrayList;
  */
 public abstract class AbstractModuleActivity extends AppCompatActivity {
 
-	protected final int MENU_SEARCH_BUTTON_ID = 0;
-	protected final int MENU_SETTINGS_BUTTON_ID = 1;
-	protected final int MENU_REFRESH_BUTTON_ID = 2;
-
-	protected Menu menu;
-	private DrawerLayout drawerLayout;
-	private ListView drawerList;
-	private ActionBarDrawerToggle drawerToggle;
-	protected ArrayList<SlidingMenuItem> slidingMenuItems;
 	protected static SlidingMenuItem currentSelectedItem;
+	protected final int MENU_SEARCH_BUTTON_ID = 0;
+	protected final int MENU_REFRESH_BUTTON_ID = 2;
+	protected DrawerLayout drawerLayout;
+	protected ListView drawerList;
+	protected ArrayList<SlidingMenuItem> slidingMenuItems;
+	private Menu menu;
+	private ActionBarDrawerToggle drawerToggle;
 	private SlidingMenuListAdapter adapter;
 
 	@Override
@@ -49,14 +47,11 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerList = (ListView) findViewById(R.id.list_slidermenu);
-
 		drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
 				displayView(position);
-
 			}
 		});
 
@@ -70,16 +65,12 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
-
 				invalidateOptionsMenu();
-
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
-
 				invalidateOptionsMenu();
-
 			}
 		};
 
@@ -107,7 +98,7 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+		if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
 			drawerLayout.closeDrawer(GravityCompat.START);
 		} else {
 			super.onBackPressed();
@@ -120,23 +111,20 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 		drawerToggle.onConfigurationChanged(newConfig);
 	}
 
-	private void displayView(int position) {
+	protected void displayView(int position) {
 
-		if(slidingMenuItems != null && slidingMenuItems.size() > position &&
-				slidingMenuItems.get(position).getType() == SlidingMenuItem.ItemType.ITEM && slidingMenuItems.get(position).getFragment() != null) {
+		if(slidingMenuItems.size() > position && slidingMenuItems.get(position).getType() ==
+				SlidingMenuItem.ItemType.ITEM && slidingMenuItems.get(position).getFragment() != null) {
 
 			FragmentManager fragmentManager = getFragmentManager();
-
 			Fragment oldFragment = fragmentManager.findFragmentByTag(slidingMenuItems.get(position).getFragmentTag());
 
 			if(oldFragment != null && oldFragment.isVisible()) {
-
 				refresh();
 				drawerLayout.closeDrawer(drawerList);
-
-			}else {
-
-				fragmentManager.beginTransaction().replace(R.id.frame_container, slidingMenuItems.get(position).getFragment(), slidingMenuItems.get(position).getFragmentTag()).commit();
+			} else {
+				fragmentManager.beginTransaction().replace(R.id.frame_container, slidingMenuItems.
+						get(position).getFragment(), slidingMenuItems.get(position).getFragmentTag()).commit();
 				drawerList.setItemChecked(position, true);
 				drawerList.setSelection(position);
 				getSupportActionBar().setSubtitle(slidingMenuItems.get(position).getTitle());
@@ -144,17 +132,13 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 				currentSelectedItem = slidingMenuItems.get(position);
 			}
-
 		} else {
-
 			Log.e(getClass().getSimpleName(), "Error in creating fragment");
-
 		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
 		this.menu = menu;
 		addOptionMenuItems(this.menu);
 
@@ -163,51 +147,29 @@ public abstract class AbstractModuleActivity extends AppCompatActivity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 		if(drawerToggle.onOptionsItemSelected(item)) {
-
 			return true;
-
 		} else {
-
 			switch(item.getItemId()) {
 
 				case MENU_REFRESH_BUTTON_ID:
 					refresh();
 					break;
-				case MENU_SEARCH_BUTTON_ID:
-					search();
-					break;
-				case MENU_SETTINGS_BUTTON_ID:
-					settings();
-					break;
 			}
-
 		}
 
 		return super.onOptionsItemSelected(item);
 	}
 
 	protected void refresh() {
-		// Override if necessary
 		Log.d(getClass().getSimpleName(), "refresh() method called...");
-	}
-
-	protected void search() {
-		// Override if necessary
-		Log.d(getClass().getSimpleName(), "search() method called...");
-	}
-
-	protected void settings() {
-		// Override if necessary
-		Log.d(getClass().getSimpleName(), "settings() method called...");
 	}
 
 	public Menu getMenu() {
 		return menu;
 	}
 
-	public abstract void addSpecificContent();
+	protected abstract void addSpecificContent();
 
-	public abstract void addOptionMenuItems(Menu menu);
+	protected abstract void addOptionMenuItems(Menu menu);
 }
